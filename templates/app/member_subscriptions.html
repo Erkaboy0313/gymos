@@ -1,0 +1,398 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Member Subscriptions{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .subs-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .subs-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .subs-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .subs-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .subs-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .toolbar-card,
+  .section-card {
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .toolbar-card {
+    padding: var(--space-3);
+  }
+
+  .filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .filter-form__search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .filter-form .form-control,
+  .filter-form .form-select {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .filter-form .form-select {
+    min-width: 150px;
+  }
+
+  .filter-form .btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 16px;
+    white-space: nowrap;
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .subs-table-wrap {
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .subs-table {
+    width: 100%;
+    min-width: 1120px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .subs-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .subs-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+
+  .subs-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .subs-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .member-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .member-link:hover {
+    color: var(--primary);
+  }
+
+  .cell-subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .plan-name {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .status-badge {
+    min-width: 74px;
+    justify-content: center;
+  }
+
+  .subs-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  @media (max-width: 991.98px) {
+    .subs-header {
+      align-items: stretch;
+    }
+
+    .subs-header__actions {
+      width: 100%;
+    }
+
+    .section-card__header,
+    .toolbar-card {
+      padding: var(--space-3);
+    }
+
+    .filter-form {
+      flex-wrap: wrap;
+    }
+
+    .filter-form__search {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .toolbar-card,
+    .section-card,
+    .subs-table-wrap {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .filter-form {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+
+    .filter-form > * {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .subs-table {
+      min-width: 860px;
+    }
+
+    .subs-table thead th,
+    .subs-table tbody td {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .subs-table thead th:nth-child(1),
+    .subs-table tbody td:nth-child(1),
+    .subs-table thead th:nth-child(5),
+    .subs-table tbody td:nth-child(5),
+    .subs-table thead th:nth-child(6),
+    .subs-table tbody td:nth-child(6) {
+      white-space: nowrap;
+    }
+
+    .status-badge {
+      min-width: 60px;
+    }
+  }
+</style>
+
+<div class="subs-page">
+  <div class="subs-header">
+    <div>
+      <h2 class="subs-header__title">{% trans "Member Subscriptions" %}</h2>
+      <div class="subs-header__subtitle">{% trans "Sales and subscription history" %}</div>
+    </div>
+
+    <div class="subs-header__actions">
+      <a href="/api/dashboard/app/gyms/{{ gym_id }}/" class="back-link">← {% trans "Overview" %}</a>
+    </div>
+  </div>
+
+  <div class="toolbar-card">
+    <form method="get" class="filter-form">
+      <input
+        name="q"
+        value="{{ q }}"
+        placeholder="{% trans 'Search member or phone' %}"
+        class="form-control filter-form__search"
+        autofocus
+      >
+
+      <select name="status" class="form-select">
+        <option value="all" {% if status == "all" %}selected{% endif %}>{% trans "All statuses" %}</option>
+        <option value="active" {% if status == "active" %}selected{% endif %}>{% trans "Active" %}</option>
+        <option value="expired" {% if status == "expired" %}selected{% endif %}>{% trans "Expired" %}</option>
+        <option value="future" {% if status == "future" %}selected{% endif %}>{% trans "Future" %}</option>
+      </select>
+
+      {% if is_admin_role and has_multiple_branch %}
+        <select name="branch" class="form-select">
+          <option value="">{% trans "All branches" %}</option>
+          {% for b in branches %}
+            <option value="{{ b.id }}" {% if selected_branch_id == b.id %}selected{% endif %}>{{ b.name }}</option>
+          {% endfor %}
+        </select>
+      {% endif %}
+
+      <select name="plan" class="form-select">
+        <option value="">{% trans "All plans" %}</option>
+        {% for p in plans %}
+          <option value="{{ p.id }}" {% if selected_plan_id == p.id %}selected{% endif %}>{{ p.name }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Filtering...' %}">{% trans "Filter" %}</button>
+    </form>
+  </div>
+
+  <div class="section-card">
+    <div class="section-card__header">
+      <div>
+        <h3 class="section-card__title">{% trans "Subscription history" %}</h3>
+        <div class="section-card__subtitle">{% trans "Recent member plan sales and status overview." %}</div>
+      </div>
+    </div>
+
+    <div class="subs-table-wrap">
+      <table class="subs-table">
+        <thead>
+          <tr>
+            <th>{% trans "Sold at" %}</th>
+            <th>{% trans "Member" %}</th>
+            <th>{% trans "Branch" %}</th>
+            <th>{% trans "Plan" %}</th>
+            <th>{% trans "Start" %}</th>
+            <th>{% trans "End" %}</th>
+            <th>{% trans "Price" %}</th>
+            <th>{% trans "Status" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+            <tr>
+              <td style="white-space: nowrap;">{{ r.created_at|date:"Y-m-d H:i" }}</td>
+
+              <td>
+                <a href="/api/users/app/gyms/{{ gym_id }}/members/{{ r.member.id }}/" class="member-link">
+                  {{ r.member.full_name }}
+                </a>
+                <div class="cell-subtitle">{{ r.member.phone }}</div>
+              </td>
+
+              <td>{{ r.member.branch.name|default:"—" }}</td>
+
+              <td>
+                <div class="plan-name">{{ r.plan.name }}</div>
+              </td>
+
+              <td>{{ r.start_at }}</td>
+              <td>{{ r.end_at }}</td>
+              <td>{{ r.price_snapshot }}</td>
+
+              <td>
+                {% if r.ui_status == "active" %}
+                  <span class="badge badge-soft-success status-badge">{% trans "Active" %}</span>
+                {% elif r.ui_status == "expired" %}
+                  <span class="badge badge-soft-danger status-badge">{% trans "Expired" %}</span>
+                {% else %}
+                  <span class="badge badge-soft-warning status-badge">{% trans "Future" %}</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="8" class="table-empty-state">
+                <div class="empty-state">
+                  <div class="empty-state__title">{% trans "No subscriptions found." %}</div>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

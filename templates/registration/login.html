@@ -1,0 +1,271 @@
+<!doctype html>
+{% load static i18n %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GymOS Login</title>
+  <style>
+    :root {
+      --bg-main: #f6f8fb;
+      --bg-card: #ffffff;
+      --bg-elevated: #f8fafc;
+
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-muted: #6b7280;
+      --text-on-primary: #ffffff;
+
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-soft: rgba(79, 70, 229, 0.10);
+
+      --border: #e5e7eb;
+      --border-strong: #d1d5db;
+      --danger: #dc2626;
+      --danger-soft: rgba(220, 38, 38, 0.08);
+      --danger-border: rgba(220, 38, 38, 0.18);
+
+      --shadow-sm: 0 10px 30px rgba(17, 24, 39, 0.08);
+      --shadow-lg: 0 24px 60px rgba(17, 24, 39, 0.14);
+
+      --radius-md: 12px;
+      --radius-lg: 18px;
+
+      --focus-ring: 0 0 0 4px rgba(79, 70, 229, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top, rgba(79, 70, 229, 0.08), transparent 30%),
+        var(--bg-main);
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text-primary);
+    }
+
+    .auth-shell {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .auth-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .auth-card::before {
+      content: "";
+      position: absolute;
+      top: -90px;
+      right: -70px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      pointer-events: none;
+    }
+
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* .auth-brand__mark {
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: var(--text-on-primary);
+      font-size: 16px;
+      font-weight: 800;
+      box-shadow: 0 14px 30px rgba(79, 70, 229, 0.22);
+      flex-shrink: 0;
+    } */
+
+    .logo{
+      height: 50px;
+    }
+
+    .auth-brand__title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text-primary);
+    }
+
+    .auth-brand__subtitle {
+      margin-top: 4px;
+      font-size: 13px;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    .auth-error {
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--danger-border);
+      background: var(--danger-soft);
+      color: var(--danger);
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-form {
+      position: relative;
+      z-index: 1;
+    }
+
+    .field-group + .field-group {
+      margin-top: 14px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .field-input {
+      width: 100%;
+      min-height: 46px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 15px;
+      outline: none;
+      transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
+    }
+
+    .field-input::placeholder {
+      color: #9ca3af;
+    }
+
+    .field-input:focus {
+      border-color: rgba(79, 70, 229, 0.35);
+      box-shadow: var(--focus-ring);
+      background: #fff;
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 46px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: var(--text-on-primary);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 12px 24px rgba(79, 70, 229, 0.18);
+      transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(79, 70, 229, 0.24);
+    }
+
+    .submit-btn:focus {
+      outline: none;
+      box-shadow: var(--focus-ring), 0 16px 28px rgba(79, 70, 229, 0.20);
+    }
+
+    .auth-footnote {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    .raw-errors {
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+
+      .auth-card {
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+
+      .auth-brand__title {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <img src="{% static 'img/logo_1.png' %}" class="logo" alt="">
+        <div>
+          <h1 class="auth-brand__title">{% trans "GymOS Admin" %}</h1>
+          <!-- <div class="auth-brand__subtitle">{% trans "Sign in to manage members, subscriptions, and access control." %}</div> -->
+        </div>
+      </div>
+
+      <div class="raw-errors">{{ form.errors }}</div>
+      {% if form.errors %}
+        <div class="auth-error">{% trans "Invalid username or password." %}</div>
+      {% endif %}
+
+      <form method="post" class="auth-form">
+        {% csrf_token %}
+
+        <div class="field-group">
+          <label class="field-label" for="id_username">{% trans "Username" %}</label>
+          <input id="id_username" class="field-input" type="text" name="username" placeholder="{% trans 'Enter username' %}" required autofocus>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="id_password">{% trans "Password" %}</label>
+          <input id="id_password" class="field-input" type="password" name="password" placeholder="{% trans 'Enter password' %}" required>
+        </div>
+
+        <button type="submit" class="submit-btn">{% trans "Login" %}</button>
+      </form>
+
+      <div class="auth-footnote">{% trans "Secure access for authorized staff only." %}</div>
+    </div>
+  </div>
+</body>
+</html>

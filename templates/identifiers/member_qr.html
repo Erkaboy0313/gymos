@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+{% load static i18n %}
+<html>
+<head>
+  <title>GymOS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg-main:#f6f8fb;
+      --bg-card:rgba(255,255,255,.88);
+      --bg-surface:#f8fafc;
+      --bg-elevated:#ffffff;
+
+      --text-primary:#111827;
+      --text-secondary:#4b5563;
+      --text-muted:#6b7280;
+
+      --border:#e5e7eb;
+      --border-strong:#d1d5db;
+
+      --primary:#4f46e5;
+      --primary-hover:#4338ca;
+      --primary-soft:rgba(79,70,229,.10);
+
+      --success:#16a34a;
+      --success-soft:rgba(22,163,74,.10);
+      --success-border:rgba(22,163,74,.18);
+
+      --danger:#dc2626;
+      --danger-soft:rgba(220,38,38,.08);
+      --danger-border:rgba(220,38,38,.18);
+
+      --shadow-sm:0 10px 30px rgba(17,24,39,.08);
+      --shadow-lg:0 24px 60px rgba(17,24,39,.12);
+
+      --radius-md:14px;
+      --radius-lg:22px;
+
+      --focus-ring:0 0 0 4px rgba(79,70,229,.12);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top, rgba(79,70,229,.10), transparent 30%),
+        var(--bg-main);
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text-primary);
+      display:flex;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:520px;
+      min-width:0;
+    }
+
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .logo{
+      height:40px;
+    }
+
+    .title{
+      font-weight:800;
+      font-size:18px;
+      line-height:1.1;
+      color:var(--text-primary);
+    }
+
+    .sub{
+      font-size:13px;
+      color:var(--text-muted);
+      margin-top:4px;
+      line-height:1.35;
+    }
+
+    .card{
+      min-width:0;
+      background:var(--bg-card);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,.7);
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-lg);
+      padding:18px;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .row-between{
+      justify-content:space-between;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      width:100%;
+      min-height:44px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:var(--bg-elevated);
+      color:var(--text-primary);
+      font-weight:700;
+      font-size:14px;
+      cursor:pointer;
+      text-align:left;
+      box-shadow:var(--shadow-sm);
+      transition:background-color .16s ease,border-color .16s ease,transform .16s ease;
+    }
+
+    .btn:hover{
+      border-color:var(--border-strong);
+      background:#fff;
+      transform:translateY(-1px);
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary-hover));
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 14px 26px rgba(79,70,229,.20);
+    }
+
+    .btn.primary:hover{
+      background:linear-gradient(135deg,var(--primary-hover),var(--primary-hover));
+    }
+
+    .btn.small{
+      width:auto;
+      min-height:38px;
+      padding:8px 12px;
+      border-radius:12px;
+      font-size:13px;
+      text-align:center;
+    }
+
+    .gym-btn{
+      justify-content:space-between;
+      text-align:left;
+      padding-inline:14px;
+    }
+
+    .gym-btn__name{
+      font-weight:700;
+      color:inherit;
+    }
+
+    .gym-btn__meta{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--text-muted);
+      font-weight:500;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      border:1px solid var(--border);
+      color:var(--text-muted);
+      background:var(--bg-card);
+      white-space:nowrap;
+      box-shadow:var(--shadow-sm);
+    }
+
+    .dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:#9ca3af;
+    }
+
+    .pill.ok{
+      background:var(--success-soft);
+      color:var(--success);
+      border-color:var(--success-border);
+    }
+
+    .pill.ok .dot{background:var(--success)}
+
+    .pill.bad{
+      background:var(--danger-soft);
+      color:var(--danger);
+      border-color:var(--danger-border);
+    }
+
+    .pill.bad .dot{background:var(--danger)}
+
+    .status{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:var(--bg-surface);
+      color:var(--text-secondary);
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .status.err{
+      border-color:var(--danger-border);
+      background:var(--danger-soft);
+      color:var(--danger);
+    }
+
+    .status.ok{
+      border-color:var(--success-border);
+      background:var(--success-soft);
+      color:var(--success);
+    }
+
+    input{
+      width:100%;
+      min-height:44px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:var(--bg-elevated);
+      color:var(--text-primary);
+      font-size:15px;
+      outline:none;
+      transition:border-color .16s ease, box-shadow .16s ease;
+    }
+
+    input::placeholder{color:#9ca3af}
+
+    input:focus{
+      border-color:rgba(79,70,229,.35);
+      box-shadow:var(--focus-ring);
+    }
+
+    .grid{
+      display:grid;
+      gap:10px;
+    }
+
+    .qrwrap{
+      margin-top:14px;
+      padding:16px;
+      border-radius:18px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow-sm);
+      overflow:hidden;
+    }
+
+    .qrwrap canvas{
+      max-width:100%;
+      height:auto !important;
+    }
+
+    .muted{
+      color:var(--text-muted);
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .sectionTitle{
+      font-weight:800;
+      margin:0 0 8px;
+      font-size:14px;
+      color:var(--text-primary);
+      line-height:1.25;
+    }
+
+    .link{
+      color:var(--primary);
+      text-decoration:none;
+      font-weight:700;
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .link:hover{
+      color:var(--primary-hover);
+    }
+
+    .divider{
+      height:1px;
+      background:var(--border);
+      margin:12px 0;
+    }
+
+    .token-box{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .token-box input{
+      flex:1;
+      min-width:0;
+    }
+
+    @media (max-width: 560px){
+      body{
+        padding:14px;
+      }
+
+      .card{
+        padding:14px;
+        border-radius:18px;
+      }
+
+      .top{
+        align-items:flex-start;
+      }
+
+      .title{
+        font-size:17px;
+      }
+
+      .row-mobile-stack{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .row-mobile-stack > *{
+        width:100%;
+      }
+
+      .token-box{
+        flex-direction:column;
+        align-items:stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="logo">
+        <img src="{% static 'img/logo_1.png' %}" class="logo" alt="">
+      </div>
+      <div>
+        <div class="title">GymOS</div>
+        <div class="sub" id="subtitle">{% trans "Loading…" %}</div>
+      </div>
+    </div>
+    <div id="pill" class="pill"><span class="dot"></span><span id="pillText">{% trans "Starting" %}</span></div>
+  </div>
+
+  <div class="card">
+    <div id="screen-loading" class="status">{% trans "Authenticating…" %}</div>
+
+    <div id="screen-gyms" style="display:none;">
+      <div class="row row-between">
+        <div class="sectionTitle" style="margin:0;">{% trans "Choose your gym" %}</div>
+        <a class="link" id="toggleLink">{% trans "+ Link another gym" %}</a>
+      </div>
+
+      <div id="gymsList" class="grid" style="margin-top:10px;"></div>
+
+      <div id="linkBox" style="display:none; margin-top:12px;">
+        <div class="divider"></div>
+        <div class="sectionTitle">{% trans "Link by phone" %}</div>
+        <div class="muted">{% trans "Use the phone number registered in the gym." %}</div>
+        <div class="row row-mobile-stack" style="margin-top:10px;">
+          <input id="phoneInput" placeholder="+998901234567" inputmode="tel" />
+          <button id="linkBtn" class="btn primary">{% trans "Link gym" %}</button>
+        </div>
+        <div id="linkStatus" class="status" style="display:none;"></div>
+      </div>
+
+      <div id="emptyHint" class="status err" style="display:none; margin-top:12px;">
+        {% trans "No gyms linked yet. Link your phone to continue." %}
+      </div>
+    </div>
+
+    <div id="screen-qr" style="display:none;">
+      <div class="row row-between">
+        <div>
+          <div class="sectionTitle" id="selectedGymName" style="margin:0;"></div>
+          <div class="muted">{% trans "Your QR refreshes automatically" %}</div>
+        </div>
+        <button id="backBtn" class="btn small">{% trans "Change" %}</button>
+      </div>
+
+      <div class="qrwrap">
+        <canvas id="qr"></canvas>
+      </div>
+
+      {% if DEBUG %}
+        <div class="status" style="margin-top:12px;">
+          <div class="muted" style="margin-bottom:6px;">{% trans "DEV token" %}</div>
+          <div class="token-box">
+            <input id="tokenBox" readonly>
+            <button id="copyBtn" class="btn small" type="button">{% trans "Copy" %}</button>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="row row-between" style="margin-top:12px;">
+        <div class="muted">{% trans "Refresh:" %} <span id="refreshIn">30</span>s</div>
+        <div class="muted">{% trans "Keep screen bright" %}</div>
+      </div>
+
+      <div id="qrStatus" class="status" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const T = {
+    loading: "{% trans 'Loading…' %}",
+    starting: "{% trans 'Starting' %}",
+    authenticating: "{% trans 'Authenticating…' %}",
+    authenticated: "{% trans 'Authenticated' %}",
+    ready: "{% trans 'Ready' %}",
+    selectGym: "{% trans 'Select gym' %}",
+    notLinked: "{% trans 'Not linked' %}",
+    qrReady: "{% trans 'QR ready' %}",
+    blocked: "{% trans 'Blocked' %}",
+    failedQR: "{% trans 'Failed to load QR' %}",
+    linking: "{% trans 'Linking…' %}",
+    enterPhone: "{% trans 'Enter phone number.' %}",
+    linkFailed: "{% trans 'Link failed' %}",
+    linkedSuccess: "{% trans 'Linked successfully.' %}",
+    gymsLinkedOther: "{% trans 'Some gyms are linked to another Telegram. Contact admin.' %}",
+    openQR: "{% trans 'Open QR for this gym' %}",
+    error: "{% trans 'Error' %}",
+    unknown: "{% trans 'unknown' %}"
+  };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+  let memberSession = null;
+  let gyms = [];
+  let selectedGymId = null;
+  let selectedGymName = "";
+  let qrTimer = null;
+  let tickTimer = null;
+  let tick = 30;
+
+  const el = (id) => document.getElementById(id);
+
+  function show(which){
+    ["screen-loading","screen-gyms","screen-qr"].forEach(x => el(x).style.display="none");
+    el(which).style.display="block";
+  }
+
+  function setPill(state, text){
+    const p = el("pill");
+    const t = el("pillText");
+    t.innerText = text;
+    p.classList.remove("ok","bad");
+    if (state === "ok") p.classList.add("ok");
+    if (state === "bad") p.classList.add("bad");
+  }
+
+  function getTelegramInitData() {
+    if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) return Telegram.WebApp.initData;
+
+    const hash = window.location.hash || "";
+    const params = new URLSearchParams(hash.startsWith("#") ? hash.slice(1) : hash);
+    const tgWebAppData = params.get("tgWebAppData");
+    if (tgWebAppData) return decodeURIComponent(tgWebAppData);
+
+    return "";
+  }
+
+  async function tgAuth(){
+    const init_data = getTelegramInitData();
+    if (!init_data) throw new Error("missing_init_data");
+
+    const r = await fetch("/api/tg/webapp/auth/", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","X-CSRFToken":"{{ csrf_token }}"},
+      body: JSON.stringify({init_data})
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.detail || "auth_failed");
+
+    memberSession = data.session;
+    el("subtitle").innerText = T.authenticated;
+    setPill("ok", T.ready);
+  }
+
+  async function fetchMyGyms(){
+    const r = await fetch("/api/users/me/gyms/", {
+      method:"GET",
+      headers:{ "X-Member-Session": memberSession }
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.detail || "gyms_failed");
+    gyms = data;
+    return gyms;
+  }
+
+  function renderGyms(){
+    const list = el("gymsList");
+    list.innerHTML = "";
+
+    if (!gyms.length){
+      el("emptyHint").style.display = "block";
+      el("linkBox").style.display = "block";
+      el("toggleLink").style.display = "none";
+      setPill("bad", T.notLinked);
+      return;
+    }
+
+    el("emptyHint").style.display = "none";
+    el("toggleLink").style.display = "inline";
+    setPill("ok", T.selectGym);
+
+    gyms.forEach(g => {
+      const b = document.createElement("button");
+      b.className = "btn gym-btn";
+      b.innerHTML = `
+        <span>
+          <span class="gym-btn__name">${escapeHtml(g.gym_name)}</span>
+          <span class="gym-btn__meta">${T.openQR}</span>
+        </span>
+        <span aria-hidden="true">→</span>
+      `;
+      b.onclick = () => selectGym(g.gym_id, g.gym_name);
+      list.appendChild(b);
+    });
+
+    el("linkBox").style.display = "none";
+  }
+
+  function escapeHtml(s){
+    return (s || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  }
+
+  async function selectGym(gymId, gymName){
+    selectedGymId = gymId;
+    selectedGymName = gymName;
+    el("selectedGymName").innerText = gymName;
+    show("screen-qr");
+    setPill("ok", T.qrReady);
+    startTick();
+    await refreshQR();
+    if (qrTimer) clearInterval(qrTimer);
+    qrTimer = setInterval(refreshQR, 30000);
+  }
+
+  function startTick(){
+    tick = 30;
+    el("refreshIn").innerText = tick;
+    if (tickTimer) clearInterval(tickTimer);
+    tickTimer = setInterval(() => {
+      tick = Math.max(0, tick - 1);
+      el("refreshIn").innerText = tick;
+      if (tick === 0) tick = 30;
+    }, 1000);
+  }
+
+  async function refreshQR(){
+    const st = el("qrStatus");
+    st.style.display = "none";
+    tick = 30;
+
+    const r = await fetch("/api/identifiers/member/qr-token/", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "X-CSRFToken":"{{ csrf_token }}",
+        "X-Member-Session": memberSession
+      },
+      body: JSON.stringify({ gym_id: selectedGymId })
+    });
+
+    const data = await r.json();
+
+    if (!r.ok || !data.token){
+      setPill("bad", T.blocked);
+      st.className = "status err";
+      st.innerText = data.detail || T.failedQR;
+      st.style.display = "block";
+      return;
+    }
+
+    setPill("ok", T.qrReady);
+    QRCode.toCanvas(el("qr"), data.token, { width: 300, margin: 1 }, (err) => { if (err) console.error(err); });
+
+    {% if DEBUG %}
+      const tb = document.getElementById("tokenBox");
+      if (tb) tb.value = data.token;
+
+      const cb = document.getElementById("copyBtn");
+      if (cb) cb.onclick = async () => {
+        try { await navigator.clipboard.writeText(tb.value); }
+        catch (e) {}
+      };
+    {% endif %}
+  }
+
+  async function linkPhone(){
+    const phone = el("phoneInput").value.trim();
+    const st = el("linkStatus");
+    st.style.display="block";
+    st.className="status";
+    st.innerText = T.linking;
+
+    if (!phone){
+      st.className="status err";
+      st.innerText = T.enterPhone;
+      return;
+    }
+
+    const r = await fetch("/api/users/me/link-phone/", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "X-CSRFToken":"{{ csrf_token }}",
+        "X-Member-Session": memberSession
+      },
+      body: JSON.stringify({ phone })
+    });
+
+    const data = await r.json();
+
+    if (!r.ok){
+      st.className="status err";
+      st.innerText = data.detail || T.linkFailed;
+      return;
+    }
+
+    if (data.blocked && data.blocked.length){
+      st.className="status err";
+      st.innerText = T.gymsLinkedOther;
+    } else {
+      st.className="status ok";
+      st.innerText = T.linkedSuccess;
+    }
+
+    await fetchMyGyms();
+    renderGyms();
+  }
+
+  function wireUI(){
+    el("backBtn").onclick = () => {
+      selectedGymId = null;
+      if (qrTimer) clearInterval(qrTimer);
+      if (tickTimer) clearInterval(tickTimer);
+      show("screen-gyms");
+      setPill("ok", T.selectGym);
+    };
+
+    el("linkBtn").onclick = linkPhone;
+
+    el("toggleLink").onclick = () => {
+      const box = el("linkBox");
+      box.style.display = (box.style.display === "none") ? "block" : "none";
+    };
+  }
+
+  async function boot(){
+    try{
+      const tg = window.Telegram?.WebApp || null;
+      if (tg) tg.expand();
+
+      wireUI();
+      show("screen-loading");
+      setPill("", T.starting);
+      await tgAuth();
+      await fetchMyGyms();
+      renderGyms();
+      show("screen-gyms");
+    }catch(e){
+      show("screen-loading");
+      setPill("bad", T.error);
+      el("screen-loading").className="status err";
+      el("screen-loading").innerText = T.error + ": " + (e.message || T.unknown);
+    }
+  }
+
+  boot();
+</script>
+</body>
+</html>

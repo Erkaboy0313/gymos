@@ -1,0 +1,1347 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-16 16:07+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\templates\app\base.html:495
+msgid "GymOS dashboard"
+msgstr "Панель GymOS"
+
+#: .\templates\app\base.html:501
+msgid "Primary navigation"
+msgstr "Основная навигация"
+
+#: .\templates\app\base.html:503 .\templates\app\base.html:592
+#: .\templates\app\branches.html:445 .\templates\app\devices.html:433
+#: .\templates\app\gym_overview.html:344 .\templates\app\member_plans.html:267
+#: .\templates\app\member_subscriptions.html:289
+#: .\templates\app\members.html:365 .\templates\app\recent_entries.html:285
+#: .\templates\app\renew_center.html:394 .\templates\app\staff.html:318
+msgid "Overview"
+msgstr "Обзор"
+
+#: .\templates\app\base.html:504 .\templates\app\base.html:593
+#: .\templates\app\gym_overview.html:523 .\templates\app\member_detail.html:493
+#: .\templates\app\members.html:357
+msgid "Members"
+msgstr "Клиенты"
+
+#: .\templates\app\base.html:505 .\templates\app\base.html:594
+msgid "Entries"
+msgstr "Проходы"
+
+#: .\templates\app\base.html:506 .\templates\app\base.html:595
+#: .\templates\app\devices.html:423
+msgid "Devices"
+msgstr "Устройства"
+
+#: .\templates\app\base.html:509 .\templates\app\base.html:598
+#: .\templates\app\branches.html:437 .\templates\app\gym_overview.html:420
+msgid "Branches"
+msgstr "Филиалы"
+
+#: .\templates\app\base.html:510 .\templates\app\base.html:599
+msgid "Plans"
+msgstr "Тарифы"
+
+#: .\templates\app\base.html:511 .\templates\app\base.html:600
+#: .\templates\app\staff.html:310 .\templates\app\staff.html:452
+msgid "Staff"
+msgstr "Сотрудники"
+
+#: .\templates\app\base.html:514 .\templates\app\base.html:603
+msgid "Subscriptions"
+msgstr "Абонементы"
+
+#: .\templates\app\base.html:515 .\templates\app\base.html:604
+#: .\templates\app\member_detail.html:635 .\templates\app\renew_center.html:479
+#: .\templates\app\renew_center.html:520
+msgid "Renew"
+msgstr "Продлить"
+
+#: .\templates\app\base.html:534 .\templates\app\base.html:539
+msgid "Logout"
+msgstr "Выйти"
+
+#: .\templates\app\base.html:554
+msgid "Open navigation"
+msgstr "Открыть меню"
+
+#: .\templates\app\base.html:572
+msgid "Open settings"
+msgstr "Открыть настройки"
+
+#: .\templates\app\base.html:584
+msgid "Menu"
+msgstr "Меню"
+
+#: .\templates\app\base.html:585 .\templates\app\base.html:615
+#: .\templates\app\branches.html:595 .\templates\app\branches.html:637
+#: .\templates\app\devices.html:567 .\templates\app\devices.html:713
+#: .\templates\app\member_plans.html:342 .\templates\app\members.html:512
+#: .\templates\app\members.html:577 .\templates\app\renew_center.html:553
+#: .\templates\app\staff.html:430 .\templates\app\staff.html:496
+msgid "Close"
+msgstr "Закрыть"
+
+#: .\templates\app\base.html:590
+msgid "Navigation"
+msgstr "Навигация"
+
+#: .\templates\app\base.html:591
+msgid "Mobile navigation"
+msgstr "Мобильное меню"
+
+#: .\templates\app\base.html:613
+msgid "Settings"
+msgstr "Настройки"
+
+#: .\templates\app\base.html:624
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: .\templates\app\base.html:628
+msgid "Theme"
+msgstr "Тема"
+
+#: .\templates\app\base.html:629
+msgid "Choose light or dark mode."
+msgstr "Выберите светлую или тёмную тему."
+
+#: .\templates\app\base.html:632
+msgid "Light"
+msgstr "Светлая"
+
+#: .\templates\app\base.html:633
+msgid "Dark"
+msgstr "Тёмная"
+
+#: .\templates\app\base.html:641 .\templates\app\member_detail.html:565
+msgid "Subscription"
+msgstr "Абонемент"
+
+#: .\templates\app\base.html:647 .\templates\app\branches.html:523
+#: .\templates\app\devices.html:484 .\templates\app\gym_overview.html:430
+#: .\templates\app\member_detail.html:477
+#: .\templates\app\member_detail.html:510 .\templates\app\member_plans.html:294
+#: .\templates\app\member_subscriptions.html:305
+#: .\templates\app\member_subscriptions.html:376
+#: .\templates\app\members.html:408 .\templates\app\members.html:449
+#: .\templates\app\renew_center.html:420 .\templates\app\renew_center.html:439
+#: .\templates\app\renew_center.html:504 .\templates\app\staff.html:344
+msgid "Active"
+msgstr "Активен"
+
+#: .\templates\app\base.html:655
+#, python-format
+msgid "Expires at: %(end_at)s"
+msgstr "Истекает: %(end_at)s"
+
+#: .\templates\app\base.html:661
+msgid ""
+"Contact support to renew. Access control will deny entries while expired."
+msgstr ""
+"Свяжитесь с поддержкой для продления. При истечении доступ будет закрыт."
+
+#: .\templates\app\base.html:670
+msgid "Global options"
+msgstr "Общие настройки"
+
+#: .\templates\app\base.html:672
+msgid "Place future cross-page actions here"
+msgstr "Здесь будут общие действия"
+
+#: .\templates\app\base.html:673
+msgid "Example: branch access policy, platform settings, display preferences."
+msgstr "Например: доступ к филиалам, настройки системы, параметры отображения."
+
+#: .\templates\app\branches.html:438
+msgid "Last 200 branches"
+msgstr "Последние 200 филиалов"
+
+#: .\templates\app\branches.html:443 .\templates\app\branches.html:573
+#: .\templates\app\branches.html:592
+msgid "Add branch"
+msgstr "Добавить филиал"
+
+#: .\templates\app\branches.html:450 .\templates\app\devices.html:438
+#: .\templates\app\member_detail.html:498 .\templates\app\member_plans.html:272
+#: .\templates\app\members.html:378 .\templates\app\renew_center.html:399
+#: .\templates\app\staff.html:323
+#, python-format
+msgid "Error: %(err)s"
+msgstr "Ошибка: %(err)s"
+
+#: .\templates\app\branches.html:454 .\templates\app\devices.html:442
+#: .\templates\app\member_detail.html:502 .\templates\app\member_plans.html:276
+#: .\templates\app\members.html:384 .\templates\app\staff.html:326
+msgid "Saved successfully."
+msgstr "Сохранено."
+
+#: .\templates\app\branches.html:462
+msgid "Search branch name"
+msgstr "Поиск филиала"
+
+#: .\templates\app\branches.html:466
+msgid "Searching..."
+msgstr "Поиск..."
+
+#: .\templates\app\branches.html:466
+msgid "Search"
+msgstr "Поиск"
+
+#: .\templates\app\branches.html:474
+msgid "Branch access policy"
+msgstr "Политика доступа"
+
+#: .\templates\app\branches.html:475
+msgid ""
+"Choose whether members can enter all branches or only their registered "
+"branch."
+msgstr "Разрешить вход во все филиалы или только в свой."
+
+#: .\templates\app\branches.html:487
+msgid "Allow entry from all branches"
+msgstr "Разрешить вход во все филиалы"
+
+#: .\templates\app\branches.html:488
+msgid "Members can access any branch in this gym."
+msgstr "Клиенты могут посещать любой филиал."
+
+#: .\templates\app\branches.html:495
+msgid "Allow entry only from registered branch"
+msgstr "Только свой филиал"
+
+#: .\templates\app\branches.html:496
+msgid "Members can enter only their assigned branch."
+msgstr "Клиенты могут входить только в свой филиал."
+
+#: .\templates\app\branches.html:502 .\templates\app\members.html:611
+#: .\templates\app\staff.html:540
+msgid "Saving..."
+msgstr "Сохранение..."
+
+#: .\templates\app\branches.html:502
+msgid "Save policy"
+msgstr "Сохранить"
+
+#: .\templates\app\branches.html:512
+msgid "Branch list"
+msgstr "Список филиалов"
+
+#: .\templates\app\branches.html:513
+msgid "Update names, addresses, and active state."
+msgstr "Изменение названия, адреса и статуса."
+
+#: .\templates\app\branches.html:521 .\templates\app\devices.html:480
+#: .\templates\app\member_plans.html:291
+msgid "Name"
+msgstr "Название"
+
+#: .\templates\app\branches.html:522 .\templates\app\branches.html:610
+#: .\templates\app\branches.html:652 .\templates\app\branches.html:653
+msgid "Address"
+msgstr "Адрес"
+
+#: .\templates\app\branches.html:524 .\templates\app\devices.html:485
+#: .\templates\app\member_detail.html:644 .\templates\app\members.html:432
+#: .\templates\app\staff.html:345
+msgid "Actions"
+msgstr "Действия"
+
+#: .\templates\app\branches.html:540 .\templates\app\devices.html:501
+#: .\templates\app\member_plans.html:307 .\templates\app\staff.html:368
+msgid "ON"
+msgstr "ВКЛ"
+
+#: .\templates\app\branches.html:542 .\templates\app\devices.html:503
+#: .\templates\app\member_plans.html:309 .\templates\app\staff.html:370
+msgid "OFF"
+msgstr "ВЫКЛ"
+
+#: .\templates\app\branches.html:554 .\templates\app\members.html:471
+#: .\templates\app\staff.html:382
+msgid "Edit"
+msgstr "Изменить"
+
+#: .\templates\app\branches.html:560
+msgid "Disable"
+msgstr "Отключить"
+
+#: .\templates\app\branches.html:560
+msgid "Enable"
+msgstr "Включить"
+
+#: .\templates\app\branches.html:570
+msgid "No branches found"
+msgstr "Филиалы не найдены"
+
+#: .\templates\app\branches.html:571
+msgid "Add your first branch."
+msgstr "Добавьте первый филиал."
+
+#: .\templates\app\branches.html:593
+msgid "Create a new branch with an optional address."
+msgstr "Создать филиал (адрес необязателен)."
+
+#: .\templates\app\branches.html:605 .\templates\app\branches.html:647
+msgid "Branch name"
+msgstr "Название филиала"
+
+#: .\templates\app\branches.html:606
+msgid "Main"
+msgstr "Главный"
+
+#: .\templates\app\branches.html:611
+msgid "Address (optional)"
+msgstr "Адрес (необязательно)"
+
+#: .\templates\app\branches.html:617
+msgid "Use a clear name so staff can identify the branch quickly."
+msgstr "Укажите понятное название филиала."
+
+#: .\templates\app\branches.html:618 .\templates\app\branches.html:659
+#: .\templates\app\devices.html:618 .\templates\app\member_plans.html:370
+#: .\templates\app\members.html:557 .\templates\app\members.html:610
+#: .\templates\app\renew_center.html:580 .\templates\app\staff.html:474
+#: .\templates\app\staff.html:539
+msgid "Cancel"
+msgstr "Отмена"
+
+#: .\templates\app\branches.html:619 .\templates\app\devices.html:619
+#: .\templates\app\member_plans.html:371 .\templates\app\members.html:558
+msgid "Creating..."
+msgstr "Создание..."
+
+#: .\templates\app\branches.html:619
+msgid "Create branch"
+msgstr "Создать филиал"
+
+#: .\templates\app\branches.html:634
+msgid "Edit branch"
+msgstr "Редактировать филиал"
+
+#: .\templates\app\branches.html:660 .\templates\app\members.html:611
+#: .\templates\app\staff.html:540
+msgid "Save changes"
+msgstr "Сохранить"
+
+#: .\templates\app\devices.html:424
+msgid "Last 200 devices"
+msgstr "Последние 200 устройств"
+
+#: .\templates\app\devices.html:430 .\templates\app\devices.html:544
+#: .\templates\app\devices.html:564
+msgid "Add device"
+msgstr "Добавить устройство"
+
+#: .\templates\app\devices.html:451
+msgid "Search device name"
+msgstr "Поиск устройства"
+
+#: .\templates\app\devices.html:457 .\templates\app\gym_overview.html:348
+#: .\templates\app\gym_overview.html:365
+#: .\templates\app\member_subscriptions.html:312
+#: .\templates\app\members.html:399 .\templates\app\recent_entries.html:307
+#: .\templates\app\renew_center.html:451
+msgid "All branches"
+msgstr "Все филиалы"
+
+#: .\templates\app\devices.html:463
+#: .\templates\app\member_subscriptions.html:326
+#: .\templates\app\members.html:412 .\templates\app\recent_entries.html:321
+#: .\templates\app\renew_center.html:458
+msgid "Filtering..."
+msgstr "Фильтрация..."
+
+#: .\templates\app\devices.html:463
+#: .\templates\app\member_subscriptions.html:326
+#: .\templates\app\members.html:412 .\templates\app\recent_entries.html:321
+#: .\templates\app\renew_center.html:458
+msgid "Filter"
+msgstr "Фильтр"
+
+#: .\templates\app\devices.html:471
+msgid "Device list"
+msgstr "Список устройств"
+
+#: .\templates\app\devices.html:472
+msgid "Configured access devices across the gym."
+msgstr "Устройства доступа в зале."
+
+#: .\templates\app\devices.html:481 .\templates\app\devices.html:586
+#: .\templates\app\gym_overview.html:429
+#: .\templates\app\member_subscriptions.html:344
+#: .\templates\app\members.html:429 .\templates\app\members.html:533
+#: .\templates\app\members.html:597 .\templates\app\renew_center.html:475
+#: .\templates\app\staff.html:343 .\templates\app\staff.html:460
+#: .\templates\app\staff.html:520
+msgid "Branch"
+msgstr "Филиал"
+
+#: .\templates\app\devices.html:482 .\templates\app\devices.html:596
+msgid "Mode"
+msgstr "Режим"
+
+#: .\templates\app\devices.html:483
+msgid "Cooldown"
+msgstr "Задержка"
+
+#: .\templates\app\devices.html:497
+#, python-format
+msgid "%(seconds)ss"
+msgstr "%(seconds)sс"
+
+#: .\templates\app\devices.html:511
+msgid "Open"
+msgstr "Открыть"
+
+#: .\templates\app\devices.html:521 .\templates\app\devices.html:530
+msgid "API Docs"
+msgstr "API"
+
+#: .\templates\app\devices.html:541
+msgid "No devices found"
+msgstr "Устройства не найдены"
+
+#: .\templates\app\devices.html:542
+msgid "Add your first device."
+msgstr "Добавьте первое устройство."
+
+#: .\templates\app\devices.html:565
+msgid "Create a new device and assign it to a branch."
+msgstr "Создать устройство и назначить филиал."
+
+#: .\templates\app\devices.html:577
+msgid "Device name"
+msgstr "Название устройства"
+
+#: .\templates\app\devices.html:580
+msgid "Gate 1"
+msgstr "Турникет 1"
+
+#: .\templates\app\devices.html:588
+msgid "Choose branch"
+msgstr "Выберите филиал"
+
+#: .\templates\app\devices.html:605
+msgid "Cooldown (sec)"
+msgstr "Задержка (сек)"
+
+#: .\templates\app\devices.html:617
+msgid "Make sure the branch and mode are correct before saving."
+msgstr "Проверьте филиал и режим перед сохранением."
+
+#: .\templates\app\devices.html:619
+msgid "Create device"
+msgstr "Создать устройство"
+
+#: .\templates\app\devices.html:634
+msgid "API Device Integration"
+msgstr "Интеграция устройства через API"
+
+#: .\templates\app\devices.html:647
+msgid "Device API key"
+msgstr "Ключ API устройства"
+
+#: .\templates\app\devices.html:661 .\templates\identifiers\member_qr.html:423
+msgid "Copy"
+msgstr "Копировать"
+
+#: .\templates\app\devices.html:667
+msgid "Endpoint"
+msgstr "Endpoint"
+
+#: .\templates\app\devices.html:674
+msgid "Example request"
+msgstr "Пример запроса"
+
+#: .\templates\app\devices.html:685
+msgid "Success response"
+msgstr "Ответ при успехе"
+
+#: .\templates\app\devices.html:699
+msgid "Denied response"
+msgstr "Ответ при отказе"
+
+#: .\templates\app\devices.html:711
+msgid ""
+"API key is fixed for this device and should be stored securely in the "
+"hardware integration."
+msgstr "API-ключ закреплён за этим устройством и должен храниться безопасно в оборудовании."
+
+#: .\templates\app\gym_overview.html:353
+msgid "Branch-specific performance and activity."
+msgstr "Статистика по выбранному филиалу."
+
+#: .\templates\app\gym_overview.html:355
+msgid "Combined performance across visible branches."
+msgstr "Общая статистика по всем филиалам."
+
+#: .\templates\app\gym_overview.html:379
+msgid "Income (this month)"
+msgstr "Доход (этот месяц)"
+
+#: .\templates\app\gym_overview.html:381 .\templates\app\gym_overview.html:387
+msgid "UZS"
+msgstr "сум"
+
+#: .\templates\app\gym_overview.html:385
+msgid "Income (last month)"
+msgstr "Доход (прошлый месяц)"
+
+#: .\templates\app\gym_overview.html:391
+msgid "Total active members"
+msgstr "Активные клиенты"
+
+#: .\templates\app\gym_overview.html:393
+#, fuzzy
+#| msgid "Members"
+msgid "members"
+msgstr "клиентов"
+
+#: .\templates\app\gym_overview.html:397
+msgid "Inside now"
+msgstr "Сейчас внутри"
+
+#: .\templates\app\gym_overview.html:399
+msgid "in gym"
+msgstr "в зале"
+
+#: .\templates\app\gym_overview.html:405
+msgid "Expire today"
+msgstr "Истекает сегодня"
+
+#: .\templates\app\gym_overview.html:410
+msgid "Expire in 7 days"
+msgstr "Истекает за 7 дней"
+
+#: .\templates\app\gym_overview.html:421
+msgid "Branch performance snapshot"
+msgstr "Показатели филиалов"
+
+#: .\templates\app\gym_overview.html:431 .\templates\app\member_detail.html:483
+#: .\templates\app\member_detail.html:532 .\templates\app\members.html:457
+msgid "Inside"
+msgstr "Внутри"
+
+#: .\templates\app\gym_overview.html:432
+msgid "Income (month)"
+msgstr "Доход (месяц)"
+
+#: .\templates\app\gym_overview.html:433
+msgid "Expiring (7d)"
+msgstr "Истекает (7д)"
+
+#: .\templates\app\gym_overview.html:457
+msgid "Branch revenue comparison"
+msgstr "Сравнение дохода филиалов"
+
+#: .\templates\app\gym_overview.html:458
+msgid "This month"
+msgstr "Этот месяц"
+
+#: .\templates\app\gym_overview.html:471
+msgid "Branch member comparison"
+msgstr "Сравнение клиентов"
+
+#: .\templates\app\gym_overview.html:472
+msgid "Active members"
+msgstr "Активные клиенты"
+
+#: .\templates\app\gym_overview.html:486
+msgid "Analytics controls"
+msgstr "Параметры аналитики"
+
+#: .\templates\app\gym_overview.html:487
+msgid "Shared controls for income and members charts"
+msgstr "Настройки графиков дохода и клиентов"
+
+#: .\templates\app\gym_overview.html:498 .\templates\app\renew_center.html:408
+msgid "Total"
+msgstr "Всего"
+
+#: .\templates\app\gym_overview.html:499
+msgid "New"
+msgstr "Новые"
+
+#: .\templates\app\gym_overview.html:500
+msgid "Left"
+msgstr "Ушли"
+
+#: .\templates\app\gym_overview.html:509
+msgid "Income by month"
+msgstr "Доход по месяцам"
+
+#: .\templates\app\gym_overview.html:510 .\templates\app\gym_overview.html:524
+#, python-format
+msgid "Last %(months)s months"
+msgstr "Последние %(months)s мес."
+
+#: .\templates\app\member_detail.html:479
+#: .\templates\app\member_detail.html:512 .\templates\app\members.html:409
+#: .\templates\app\members.html:451 .\templates\identifiers\member_qr.html:448
+msgid "Blocked"
+msgstr "Заблокирован"
+
+#: .\templates\app\member_detail.html:485
+#: .\templates\app\member_detail.html:534 .\templates\app\members.html:459
+msgid "Outside"
+msgstr "Снаружи"
+
+#: .\templates\app\member_detail.html:507
+msgid "Account"
+msgstr "Аккаунт"
+
+#: .\templates\app\member_detail.html:518
+msgid "Access now"
+msgstr "Доступ сейчас"
+
+#: .\templates\app\member_detail.html:521
+#: .\templates\app\member_detail.html:709
+#: .\templates\app\recent_entries.html:301
+#: .\templates\app\recent_entries.html:368
+msgid "Allowed"
+msgstr "Разрешено"
+
+#: .\templates\app\member_detail.html:523
+#: .\templates\app\member_detail.html:711
+#: .\templates\app\recent_entries.html:302
+#: .\templates\app\recent_entries.html:370
+msgid "Denied"
+msgstr "Запрещено"
+
+#: .\templates\app\member_detail.html:529 .\templates\app\members.html:431
+msgid "Presence"
+msgstr "Присутствие"
+
+#: .\templates\app\member_detail.html:538
+#, python-format
+msgid "Since %(date)s"
+msgstr "С %(date)s"
+
+#: .\templates\app\member_detail.html:543
+#: .\templates\app\member_detail.html:624
+#: .\templates\app\member_subscriptions.html:345
+#: .\templates\app\members.html:544 .\templates\app\renew_center.html:477
+#: .\templates\app\renew_center.html:563
+msgid "Plan"
+msgstr "Тариф"
+
+#: .\templates\app\member_detail.html:548 .\templates\app\members.html:546
+msgid "No plan"
+msgstr "Без тарифа"
+
+#: .\templates\app\member_detail.html:552
+#, python-format
+msgid "Ends %(date)s"
+msgstr "До %(date)s"
+
+#: .\templates\app\member_detail.html:554
+#: .\templates\app\member_detail.html:594
+msgid "Lifetime"
+msgstr "Бессрочно"
+
+#: .\templates\app\member_detail.html:566
+msgid "Current plan and renewal"
+msgstr "Текущий тариф и продление"
+
+#: .\templates\app\member_detail.html:576
+#: .\templates\app\member_detail.html:600
+msgid "Frozen"
+msgstr "Заморожен"
+
+#: .\templates\app\member_detail.html:578
+msgid "Live"
+msgstr "Активен"
+
+#: .\templates\app\member_detail.html:584
+#: .\templates\app\member_subscriptions.html:346
+msgid "Start"
+msgstr "Начало"
+
+#: .\templates\app\member_detail.html:589
+#: .\templates\app\member_subscriptions.html:347
+msgid "End"
+msgstr "Конец"
+
+#: .\templates\app\member_detail.html:603
+#, python-format
+msgid "Until %(date)s"
+msgstr "До %(date)s"
+
+#: .\templates\app\member_detail.html:605
+msgid "No"
+msgstr "Нет"
+
+#: .\templates\app\member_detail.html:613
+msgid "No subscription"
+msgstr "Нет абонемента"
+
+#: .\templates\app\member_detail.html:626 .\templates\app\renew_center.html:565
+msgid "Select plan"
+msgstr "Выберите тариф"
+
+#: .\templates\app\member_detail.html:628
+msgid "days"
+msgstr "дней"
+
+#: .\templates\app\member_detail.html:635
+msgid "Renewing..."
+msgstr "Продление..."
+
+#: .\templates\app\member_detail.html:645
+msgid "Quick controls"
+msgstr "Быстрые действия"
+
+#: .\templates\app\member_detail.html:652
+msgid "Block member"
+msgstr "Заблокировать"
+
+#: .\templates\app\member_detail.html:652
+msgid "Unblock member"
+msgstr "Разблокировать"
+
+#: .\templates\app\member_detail.html:653
+msgid "Access control"
+msgstr "Контроль доступа"
+
+#: .\templates\app\member_detail.html:658
+#: .\templates\app\member_detail.html:672 .\templates\app\members.html:476
+#: .\templates\app\renew_center.html:581 .\templates\app\staff.html:388
+msgid "Updating..."
+msgstr "Обновление..."
+
+#: .\templates\app\member_detail.html:659 .\templates\app\members.html:477
+msgid "Block"
+msgstr "Блок"
+
+#: .\templates\app\member_detail.html:659 .\templates\app\members.html:477
+msgid "Unblock"
+msgstr "Разблок"
+
+#: .\templates\app\member_detail.html:666
+msgid "Force checkout"
+msgstr "Принудительный выход"
+
+#: .\templates\app\member_detail.html:667
+msgid "Fix inside state"
+msgstr "Исправить статус"
+
+#: .\templates\app\member_detail.html:672
+msgid "Run"
+msgstr "Запустить"
+
+#: .\templates\app\member_detail.html:685
+msgid "Entry history"
+msgstr "История входов"
+
+#: .\templates\app\member_detail.html:686
+msgid "Last 10 access attempts"
+msgstr "Последние 10 попыток"
+
+#: .\templates\app\member_detail.html:694
+#: .\templates\app\recent_entries.html:337
+msgid "Time"
+msgstr "Время"
+
+#: .\templates\app\member_detail.html:695
+#: .\templates\app\recent_entries.html:339
+msgid "Device"
+msgstr "Устройство"
+
+#: .\templates\app\member_detail.html:696
+#: .\templates\app\recent_entries.html:340
+msgid "Event"
+msgstr "Событие"
+
+#: .\templates\app\member_detail.html:697
+#: .\templates\app\recent_entries.html:341
+msgid "Result"
+msgstr "Результат"
+
+#: .\templates\app\member_detail.html:698
+#: .\templates\app\recent_entries.html:317
+#: .\templates\app\recent_entries.html:342
+msgid "Reason"
+msgstr "Причина"
+
+#: .\templates\app\member_detail.html:718
+msgid "No logs."
+msgstr "Нет записей."
+
+#: .\templates\app\member_plans.html:259
+#, fuzzy
+#| msgid "Members"
+msgid "Member Plans"
+msgstr "Тарифы"
+
+#: .\templates\app\member_plans.html:260
+msgid "Create plans staff can sell"
+msgstr "Тарифы для продажи"
+
+#: .\templates\app\member_plans.html:265 .\templates\app\member_plans.html:320
+#: .\templates\app\member_plans.html:339
+msgid "Add plan"
+msgstr "Добавить тариф"
+
+#: .\templates\app\member_plans.html:282
+msgid "Plan list"
+msgstr "Список тарифов"
+
+#: .\templates\app\member_plans.html:283
+msgid "Available membership plans and their pricing."
+msgstr "Доступные тарифы и цены."
+
+#: .\templates\app\member_plans.html:292
+msgid "Duration"
+msgstr "Срок"
+
+#: .\templates\app\member_plans.html:293 .\templates\app\member_plans.html:362
+#: .\templates\app\member_subscriptions.html:348
+msgid "Price"
+msgstr "Цена"
+
+#: .\templates\app\member_plans.html:303
+#, python-format
+msgid "%(days)s days"
+msgstr "%(days)s дн."
+
+#: .\templates\app\member_plans.html:317
+msgid "No plans found"
+msgstr "Тарифы не найдены"
+
+#: .\templates\app\member_plans.html:318
+msgid "Add your first plan."
+msgstr "Добавьте первый тариф."
+
+#: .\templates\app\member_plans.html:340
+msgid "Create a plan staff can sell to members."
+msgstr "Создайте тариф для продажи."
+
+#: .\templates\app\member_plans.html:352
+msgid "Plan name"
+msgstr "Название тарифа"
+
+#: .\templates\app\member_plans.html:353
+msgid "Monthly"
+msgstr "Месячный"
+
+#: .\templates\app\member_plans.html:357
+msgid "Duration (days)"
+msgstr "Срок (дни)"
+
+#: .\templates\app\member_plans.html:363
+msgid "Price (UZS)"
+msgstr "Цена (сум)"
+
+#: .\templates\app\member_plans.html:369
+msgid "Keep names clear and pricing easy for staff to recognize."
+msgstr "Используйте понятные названия и цену."
+
+#: .\templates\app\member_plans.html:371
+msgid "Create plan"
+msgstr "Создать тариф"
+
+#: .\templates\app\member_subscriptions.html:284
+msgid "Member Subscriptions"
+msgstr "Абонементы"
+
+#: .\templates\app\member_subscriptions.html:285
+msgid "Sales and subscription history"
+msgstr "История продаж и абонементов"
+
+#: .\templates\app\member_subscriptions.html:298
+msgid "Search member or phone"
+msgstr "Поиск клиента или телефона"
+
+#: .\templates\app\member_subscriptions.html:304
+#: .\templates\app\members.html:407 .\templates\app\renew_center.html:436
+msgid "All statuses"
+msgstr "Все статусы"
+
+#: .\templates\app\member_subscriptions.html:306
+#: .\templates\app\member_subscriptions.html:378
+#: .\templates\app\renew_center.html:412 .\templates\app\renew_center.html:437
+#: .\templates\app\renew_center.html:497
+msgid "Expired"
+msgstr "Истёк"
+
+#: .\templates\app\member_subscriptions.html:307
+#: .\templates\app\member_subscriptions.html:380
+msgid "Future"
+msgstr "Будущий"
+
+#: .\templates\app\member_subscriptions.html:320
+msgid "All plans"
+msgstr "Все тарифы"
+
+#: .\templates\app\member_subscriptions.html:333
+msgid "Subscription history"
+msgstr "История абонементов"
+
+#: .\templates\app\member_subscriptions.html:334
+msgid "Recent member plan sales and status overview."
+msgstr "Последние продажи и статус абонементов."
+
+#: .\templates\app\member_subscriptions.html:342
+msgid "Sold at"
+msgstr "Продано"
+
+#: .\templates\app\member_subscriptions.html:343
+#: .\templates\app\members.html:428 .\templates\app\recent_entries.html:338
+#: .\templates\app\renew_center.html:474
+#, fuzzy
+#| msgid "Members"
+msgid "Member"
+msgstr "Клиент"
+
+#: .\templates\app\member_subscriptions.html:349
+#: .\templates\app\members.html:430 .\templates\app\renew_center.html:476
+msgid "Status"
+msgstr "Статус"
+
+#: .\templates\app\member_subscriptions.html:388
+msgid "No subscriptions found."
+msgstr "Абонементы не найдены."
+
+#: .\templates\app\members.html:358
+msgid "Find members fast, open profiles, update details, and control access."
+msgstr "Быстрый поиск клиентов и управление доступом."
+
+#: .\templates\app\members.html:363 .\templates\app\members.html:490
+#: .\templates\app\members.html:509
+msgid "Add member"
+msgstr "Добавить клиента"
+
+#: .\templates\app\members.html:372
+msgid "This phone number is already registered in this gym."
+msgstr "Этот номер уже зарегистрирован."
+
+#: .\templates\app\members.html:374
+msgid "Please fill all required fields."
+msgstr "Заполните обязательные поля."
+
+#: .\templates\app\members.html:376
+msgid "Invalid branch selected."
+msgstr "Неверный филиал."
+
+#: .\templates\app\members.html:392
+msgid "Search by member name or phone"
+msgstr "Поиск по имени или телефону"
+
+#: .\templates\app\members.html:419
+#, fuzzy
+#| msgid "Members"
+msgid "Member list"
+msgstr "Список клиентов"
+
+#: .\templates\app\members.html:420
+msgid "Readable overview first. Editing is opened only when needed."
+msgstr "Сначала обзор. Редактирование при необходимости."
+
+#: .\templates\app\members.html:487
+msgid "No members found"
+msgstr "Клиенты не найдены"
+
+#: .\templates\app\members.html:488
+msgid "Try changing filters or add your first member."
+msgstr "Измените фильтр или добавьте клиента."
+
+#: .\templates\app\members.html:510
+msgid "Create a new member and optionally assign branch and plan."
+msgstr "Создать клиента и назначить филиал и тариф."
+
+#: .\templates\app\members.html:522 .\templates\app\members.html:523
+#: .\templates\app\members.html:587
+msgid "Full name"
+msgstr "Полное имя"
+
+#: .\templates\app\members.html:527 .\templates\app\members.html:592
+msgid "Phone"
+msgstr "Телефон"
+
+#: .\templates\app\members.html:535
+msgid "No branch"
+msgstr "Без филиала"
+
+#: .\templates\app\members.html:556
+msgid "Required fields must be filled correctly before saving."
+msgstr "Заполните обязательные поля."
+
+#: .\templates\app\members.html:558
+msgid "Create member"
+msgstr "Создать клиента"
+
+#: .\templates\app\members.html:574
+msgid "Edit member"
+msgstr "Редактировать клиента"
+
+#: .\templates\app\members.html:609
+msgid ""
+"Save changes here. Blocking remains a quick action from the member table "
+"menu."
+msgstr "Сохраните изменения. Блокировка доступна в таблице."
+
+#: .\templates\app\recent_entries.html:280
+msgid "Recent Entries"
+msgstr "Последние проходы"
+
+#: .\templates\app\recent_entries.html:281
+msgid "Last 200 access logs"
+msgstr "Последние 200 записей"
+
+#: .\templates\app\recent_entries.html:294
+msgid "Search member or device"
+msgstr "Поиск клиента или устройства"
+
+#: .\templates\app\recent_entries.html:300
+msgid "All results"
+msgstr "Все результаты"
+
+#: .\templates\app\recent_entries.html:328
+msgid "Entries log"
+msgstr "Журнал проходов"
+
+#: .\templates\app\recent_entries.html:329
+msgid "Recent access activity across members and devices."
+msgstr "Последние попытки доступа."
+
+#: .\templates\app\recent_entries.html:380
+msgid "No logs found"
+msgstr "Записей нет"
+
+#: .\templates\app\renew_center.html:389
+msgid "Renew Center"
+msgstr "Продление"
+
+#: .\templates\app\renew_center.html:390
+msgid "Search subscriptions and renew quickly"
+msgstr "Поиск и быстрое продление"
+
+#: .\templates\app\renew_center.html:403
+msgid "Renewed successfully."
+msgstr "Продлено."
+
+#: .\templates\app\renew_center.html:416 .\templates\app\renew_center.html:438
+#: .\templates\app\renew_center.html:499
+msgid "Expiring"
+msgstr "Истекает"
+
+#: .\templates\app\renew_center.html:430
+msgid "Search name or phone"
+msgstr "Поиск по имени или телефону"
+
+#: .\templates\app\renew_center.html:445
+msgid "Days"
+msgstr "Дни"
+
+#: .\templates\app\renew_center.html:465
+msgid "Renewal queue"
+msgstr "Очередь продления"
+
+#: .\templates\app\renew_center.html:466
+msgid "Review current subscription state and renew from a focused modal."
+msgstr "Проверьте статус абонемента и продлите."
+
+#: .\templates\app\renew_center.html:478
+msgid "End date"
+msgstr "Дата окончания"
+
+#: .\templates\app\renew_center.html:501
+#, python-format
+msgid "%(days_left)s day left"
+msgid_plural "%(days_left)s days left"
+msgstr[0] "Остался %(days_left)s день"
+msgstr[1] "Осталось %(days_left)s дня"
+msgstr[2] "Осталось %(days_left)s дней"
+msgstr[3] "Осталось %(days_left)s дней"
+
+#: .\templates\app\renew_center.html:529
+msgid "No matching members."
+msgstr "Клиенты не найдены."
+
+#: .\templates\app\renew_center.html:550
+msgid "Renew subscription"
+msgstr "Продлить абонемент"
+
+#: .\templates\app\renew_center.html:573
+msgid "Current:"
+msgstr "Текущий:"
+
+#: .\templates\app\renew_center.html:573
+msgid "Ends"
+msgstr "До"
+
+#: .\templates\app\renew_center.html:579
+msgid "The selected plan will be assigned immediately."
+msgstr "Выбранный тариф будет применён сразу."
+
+#: .\templates\app\renew_center.html:581
+msgid "Confirm renewal"
+msgstr "Подтвердить продление"
+
+#: .\templates\app\staff.html:311
+msgid "Manage staff accounts, roles, branches, and access."
+msgstr "Управление сотрудниками и доступом."
+
+#: .\templates\app\staff.html:316 .\templates\app\staff.html:427
+#: .\templates\app\staff.html:475
+msgid "Add staff"
+msgstr "Добавить сотрудника"
+
+#: .\templates\app\staff.html:332
+msgid "Staff list"
+msgstr "Список сотрудников"
+
+#: .\templates\app\staff.html:333
+msgid "Open edit modal to change role, assigned branch, or password."
+msgstr "Измените роль, филиал или пароль."
+
+#: .\templates\app\staff.html:341
+msgid "User"
+msgstr "Пользователь"
+
+#: .\templates\app\staff.html:342 .\templates\app\staff.html:450
+#: .\templates\app\staff.html:511
+msgid "Role"
+msgstr "Роль"
+
+#: .\templates\app\staff.html:389
+msgid "Deactivate"
+msgstr "Отключить"
+
+#: .\templates\app\staff.html:389
+msgid "Activate"
+msgstr "Активировать"
+
+#: .\templates\app\staff.html:396
+msgid "Are you sure you want to remove this staff member?"
+msgstr "Удалить этого сотрудника?"
+
+#: .\templates\app\staff.html:396
+msgid "Removing..."
+msgstr "Удаление..."
+
+#: .\templates\app\staff.html:397
+msgid "Remove"
+msgstr "Удалить"
+
+#: .\templates\app\staff.html:403
+msgid "Owner is protected from being the last removed."
+msgstr "Последнего владельца удалить нельзя."
+
+#: .\templates\app\staff.html:409
+msgid "No staff found."
+msgstr "Сотрудники не найдены."
+
+#: .\templates\app\staff.html:428
+msgid "Create or connect a user account and assign a role."
+msgstr "Создайте пользователя и назначьте роль."
+
+#: .\templates\app\staff.html:440 .\templates\app\staff.html:506
+#: .\templates\registration\login.html:255
+msgid "Username"
+msgstr "Логин"
+
+#: .\templates\app\staff.html:441
+msgid "username"
+msgstr "логин"
+
+#: .\templates\app\staff.html:445 .\templates\registration\login.html:260
+msgid "Password"
+msgstr "Пароль"
+
+#: .\templates\app\staff.html:446
+msgid "password (optional)"
+msgstr "пароль (необязательно)"
+
+#: .\templates\app\staff.html:454
+msgid "Admin"
+msgstr "Администратор"
+
+#: .\templates\app\staff.html:472
+msgid ""
+"If user exists, password is ignored. If password is empty for a new user, "
+"login stays disabled until set later."
+msgstr "Если пользователь существует — пароль игнорируется."
+
+#: .\templates\app\staff.html:475
+msgid "Adding..."
+msgstr "Добавление..."
+
+#: .\templates\app\staff.html:493
+msgid "Edit staff"
+msgstr "Редактировать сотрудника"
+
+#: .\templates\app\staff.html:531
+msgid "New password"
+msgstr "Новый пароль"
+
+#: .\templates\app\staff.html:532
+msgid "Leave empty to keep current password"
+msgstr "Оставьте пустым чтобы сохранить пароль"
+
+#: .\templates\app\staff.html:538
+msgid "Use this form to update role, assigned branch, or reset password."
+msgstr "Измените роль, филиал или пароль."
+
+#: .\templates\identifiers\member_qr.html:372
+#: .\templates\identifiers\member_qr.html:440
+msgid "Loading…"
+msgstr "Загрузка…"
+
+#: .\templates\identifiers\member_qr.html:375
+#: .\templates\identifiers\member_qr.html:441
+msgid "Starting"
+msgstr "Запуск"
+
+#: .\templates\identifiers\member_qr.html:379
+#: .\templates\identifiers\member_qr.html:442
+msgid "Authenticating…"
+msgstr "Авторизация…"
+
+#: .\templates\identifiers\member_qr.html:383
+msgid "Choose your gym"
+msgstr "Выберите зал"
+
+#: .\templates\identifiers\member_qr.html:384
+msgid "+ Link another gym"
+msgstr "+ Подключить другой зал"
+
+#: .\templates\identifiers\member_qr.html:391
+msgid "Link by phone"
+msgstr "Подключить по телефону"
+
+#: .\templates\identifiers\member_qr.html:392
+msgid "Use the phone number registered in the gym."
+msgstr "Используйте номер телефона в зале."
+
+#: .\templates\identifiers\member_qr.html:395
+msgid "Link gym"
+msgstr "Подключить зал"
+
+#: .\templates\identifiers\member_qr.html:401
+msgid "No gyms linked yet. Link your phone to continue."
+msgstr "Залы не подключены."
+
+#: .\templates\identifiers\member_qr.html:409
+msgid "Your QR refreshes automatically"
+msgstr "QR обновляется автоматически"
+
+#: .\templates\identifiers\member_qr.html:411
+msgid "Change"
+msgstr "Сменить"
+
+#: .\templates\identifiers\member_qr.html:420
+msgid "DEV token"
+msgstr "DEV токен"
+
+#: .\templates\identifiers\member_qr.html:429
+msgid "Refresh:"
+msgstr "Обновление:"
+
+#: .\templates\identifiers\member_qr.html:430
+msgid "Keep screen bright"
+msgstr "Держите экран включённым"
+
+#: .\templates\identifiers\member_qr.html:443
+msgid "Authenticated"
+msgstr "Авторизовано"
+
+#: .\templates\identifiers\member_qr.html:444
+msgid "Ready"
+msgstr "Готово"
+
+#: .\templates\identifiers\member_qr.html:445
+msgid "Select gym"
+msgstr "Выберите зал"
+
+#: .\templates\identifiers\member_qr.html:446
+msgid "Not linked"
+msgstr "Не подключено"
+
+#: .\templates\identifiers\member_qr.html:447
+msgid "QR ready"
+msgstr "QR готов"
+
+#: .\templates\identifiers\member_qr.html:449
+msgid "Failed to load QR"
+msgstr "Ошибка загрузки QR"
+
+#: .\templates\identifiers\member_qr.html:450
+msgid "Linking…"
+msgstr "Подключение…"
+
+#: .\templates\identifiers\member_qr.html:451
+msgid "Enter phone number."
+msgstr "Введите номер телефона."
+
+#: .\templates\identifiers\member_qr.html:452
+msgid "Link failed"
+msgstr "Ошибка подключения"
+
+#: .\templates\identifiers\member_qr.html:453
+msgid "Linked successfully."
+msgstr "Успешно подключено."
+
+#: .\templates\identifiers\member_qr.html:454
+msgid "Some gyms are linked to another Telegram. Contact admin."
+msgstr "Некоторые залы привязаны к другому Telegram."
+
+#: .\templates\identifiers\member_qr.html:455
+msgid "Open QR for this gym"
+msgstr "Открыть QR"
+
+#: .\templates\identifiers\member_qr.html:456
+msgid "Error"
+msgstr "Ошибка"
+
+#: .\templates\identifiers\member_qr.html:457
+msgid "unknown"
+msgstr "неизвестно"
+
+#: .\templates\registration\login.html:241
+msgid "GymOS Admin"
+msgstr "GymOS Админ"
+
+#: .\templates\registration\login.html:242
+msgid "Sign in to manage members, subscriptions, and access control."
+msgstr "Войдите для управления клубом."
+
+#: .\templates\registration\login.html:248
+msgid "Invalid username or password."
+msgstr "Неверный логин или пароль."
+
+#: .\templates\registration\login.html:256
+msgid "Enter username"
+msgstr "Введите логин"
+
+#: .\templates\registration\login.html:261
+msgid "Enter password"
+msgstr "Введите пароль"
+
+#: .\templates\registration\login.html:264
+msgid "Login"
+msgstr "Войти"
+
+#: .\templates\registration\login.html:267
+msgid "Secure access for authorized staff only."
+msgstr "Доступ только для сотрудников."

@@ -1,0 +1,729 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Member{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .member-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .member-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .member-header__title-wrap {
+    min-width: 0;
+  }
+
+  .member-header__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .member-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .member-header__meta {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+  }
+
+  .member-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .member-alert {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .member-alert--error {
+    color: var(--danger);
+    background: var(--danger-soft);
+    border-color: var(--danger-border);
+  }
+
+  .member-alert--success {
+    color: var(--success);
+    background: var(--success-soft);
+    border-color: var(--success-border);
+  }
+
+  .member-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .kpi-card,
+  .section-card,
+  .mini-action {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .kpi-card {
+    padding: var(--space-4);
+  }
+
+  .kpi-card__label {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+
+  .kpi-card__value {
+    margin-top: 10px;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .kpi-card__meta {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .member-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .left-stack,
+  .right-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .section-card__body {
+    padding: var(--space-4);
+  }
+
+  .subscription-summary {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .subscription-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .subscription-main__plan {
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .subscription-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .subscription-meta__item {
+    padding: 12px 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .subscription-meta__label {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  .subscription-meta__value {
+    margin-top: 6px;
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .renew-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2);
+    align-items: end;
+  }
+
+  .actions-grid {
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mini-action {
+    padding: var(--space-4);
+  }
+
+  .mini-action__label {
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .mini-action__meta {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .mini-action__footer {
+    margin-top: var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .mini-action__footer form {
+    margin: 0;
+  }
+
+  .mini-action__footer .btn {
+    min-width: 120px;
+  }
+
+  .logs-table-wrap {
+    overflow-x: auto;
+  }
+
+  .logs-table {
+    width: 100%;
+    min-width: 780px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .logs-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .logs-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+
+  .logs-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .logs-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .logs-result {
+    min-width: 74px;
+    justify-content: center;
+  }
+
+  .logs-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+  .member-side {
+  order: 2;
+}
+
+.member-history {
+  order: 1;
+}
+.member-layout,
+.left-stack,
+.right-stack,
+.member-side,
+.member-history,
+.section-card,
+.section-card__body,
+.logs-table-wrap {
+  min-width: 0;
+}
+
+.logs-table-wrap {
+  min-width: 0;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.section-card {
+  overflow: hidden;
+}
+
+.member-page {
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+@media (max-width: 1199.98px) {
+  .member-side {
+    order: 1;
+  }
+
+  .member-history {
+    order: 2;
+  }
+
+  .logs-table {
+    min-width: 680px;
+  }
+
+  .logs-table thead th,
+  .logs-table tbody td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .logs-result {
+    min-width: 64px;
+  }
+}
+
+@media (max-width: 767.98px) {
+    .member-layout,
+    .left-stack,
+    .right-stack,
+    .member-side,
+    .member-history {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .section-card,
+    .kpi-card,
+    .mini-action {
+      width: 100%;
+      max-width: 100%;
+    }
+  .logs-table {
+    min-width: 560px;
+  }
+
+  .logs-table thead th,
+  .logs-table tbody td {
+    padding: 8px 9px;
+    font-size: 12px;
+  }
+
+  .logs-table thead th:nth-child(1),
+  .logs-table tbody td:nth-child(1) {
+    white-space: nowrap;
+  }
+
+  .logs-table thead th:nth-child(5),
+  .logs-table tbody td:nth-child(5) {
+    min-width: 140px;
+  }
+
+  .logs-result {
+    min-width: 58px;
+  }
+}
+  @media (max-width: 1199.98px) {
+    .member-kpis {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .member-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .member-kpis,
+    .actions-grid,
+    .subscription-meta {
+      grid-template-columns: 1fr;
+    }
+
+    .renew-form {
+      grid-template-columns: 1fr;
+    }
+
+    .section-card__header,
+    .section-card__body,
+    .kpi-card,
+    .mini-action {
+      padding: var(--space-3);
+    }
+
+    .member-header {
+      align-items: stretch;
+    }
+
+    .member-header__actions {
+      width: 100%;
+    }
+
+    .mini-action__footer .btn,
+    .mini-action__footer form,
+    .mini-action__footer form .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="member-page">
+  <div class="member-header">
+    <div class="member-header__title-wrap">
+      <div class="member-header__title-row">
+        <h2 class="member-header__title">{{ member.full_name }}</h2>
+
+        {% if member.is_active %}
+          <span class="badge badge-soft-success">{% trans "Active" %}</span>
+        {% else %}
+          <span class="badge badge-soft-danger">{% trans "Blocked" %}</span>
+        {% endif %}
+
+        {% if member.is_inside %}
+          <span class="badge badge-soft-success">{% trans "Inside" %}</span>
+        {% else %}
+          <span class="badge badge-soft-primary">{% trans "Outside" %}</span>
+        {% endif %}
+      </div>
+
+      <div class="member-header__meta">{{ member.phone }}</div>
+    </div>
+
+    <div class="member-header__actions">
+      <a href="/api/users/app/gyms/{{ gym_id }}/members/" class="back-link">← {% trans "Members" %}</a>
+    </div>
+  </div>
+
+  {% if request.GET.err %}
+    <div class="member-alert member-alert--error">{% blocktrans with err=request.GET.err %}Error: {{ err }}{% endblocktrans %}</div>
+  {% endif %}
+
+  {% if request.GET.ok %}
+    <div class="member-alert member-alert--success">{% trans "Saved successfully." %}</div>
+  {% endif %}
+
+  <div class="member-kpis">
+    <div class="kpi-card">
+      <div class="kpi-card__label">{% trans "Account" %}</div>
+      <div class="kpi-card__value">
+        {% if member.is_active %}
+          <span style="color: var(--success);">{% trans "Active" %}</span>
+        {% else %}
+          <span style="color: var(--danger);">{% trans "Blocked" %}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-card__label">{% trans "Access now" %}</div>
+      <div class="kpi-card__value">
+        {% if is_active_now %}
+          <span style="color: var(--success);">{% trans "Allowed" %}</span>
+        {% else %}
+          <span style="color: var(--danger);">{% trans "Denied" %}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-card__label">{% trans "Presence" %}</div>
+      <div class="kpi-card__value">
+        {% if member.is_inside %}
+          <span style="color: var(--success);">{% trans "Inside" %}</span>
+        {% else %}
+          <span>{% trans "Outside" %}</span>
+        {% endif %}
+      </div>
+      {% if member.is_inside %}
+        <div class="kpi-card__meta">{% blocktrans with date=member.inside_since|date:"Y-m-d" %}Since {{ date }}{% endblocktrans %}</div>
+      {% endif %}
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-card__label">{% trans "Plan" %}</div>
+      <div class="kpi-card__value">
+        {% if latest_sub %}
+          {{ latest_sub.plan.name }}
+        {% else %}
+          {% trans "No plan" %}
+        {% endif %}
+      </div>
+      {% if latest_sub and latest_sub.end_at %}
+        <div class="kpi-card__meta">{% blocktrans with date=latest_sub.end_at|date:"Y-m-d" %}Ends {{ date }}{% endblocktrans %}</div>
+      {% elif latest_sub and not latest_sub.end_at %}
+        <div class="kpi-card__meta">{% trans "Lifetime" %}</div>
+      {% endif %}
+    </div>
+  </div>
+
+
+    <div class="member-layout">
+  <div class="right-stack member-side">
+    <div class="section-card">
+      <div class="section-card__header">
+        <div>
+          <h3 class="section-card__title">{% trans "Subscription" %}</h3>
+          <div class="section-card__subtitle">{% trans "Current plan and renewal" %}</div>
+        </div>
+      </div>
+
+      <div class="section-card__body">
+        {% if latest_sub %}
+          <div class="subscription-summary">
+            <div class="subscription-main">
+              <div class="subscription-main__plan">{{ latest_sub.plan.name }}</div>
+              {% if latest_sub.frozen_until and latest_sub.frozen_until > now %}
+                <span class="badge badge-soft-danger">{% trans "Frozen" %}</span>
+              {% else %}
+                <span class="badge badge-soft-success">{% trans "Live" %}</span>
+              {% endif %}
+            </div>
+
+            <div class="subscription-meta">
+              <div class="subscription-meta__item">
+                <div class="subscription-meta__label">{% trans "Start" %}</div>
+                <div class="subscription-meta__value">{{ latest_sub.start_at|date:"Y-m-d" }}</div>
+              </div>
+
+              <div class="subscription-meta__item">
+                <div class="subscription-meta__label">{% trans "End" %}</div>
+                <div class="subscription-meta__value">
+                  {% if latest_sub.end_at %}
+                    {{ latest_sub.end_at|date:"Y-m-d" }}
+                  {% else %}
+                    {% trans "Lifetime" %}
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="subscription-meta__item">
+                <div class="subscription-meta__label">{% trans "Frozen" %}</div>
+                <div class="subscription-meta__value">
+                  {% if latest_sub.frozen_until and latest_sub.frozen_until > now %}
+                    {% blocktrans with date=latest_sub.frozen_until|date:"Y-m-d" %}Until {{ date }}{% endblocktrans %}
+                  {% else %}
+                    {% trans "No" %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div class="subscription-summary">
+            <div class="subscription-main__plan">{% trans "No subscription" %}</div>
+          </div>
+        {% endif %}
+
+        <div style="height: 16px;"></div>
+
+        <form method="post" action="/api/users/app/gyms/{{ gym_id }}/members/{{ member.id }}/action/" class="renew-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="renew">
+
+          <div>
+            <label class="form-label">{% trans "Plan" %}</label>
+            <select name="plan_id" class="form-select">
+              <option value="">{% trans "Select plan" %}</option>
+              {% for p in plans %}
+                <option value="{{ p.id }}">{{ p.name }} ({{ p.duration_days }} {% trans "days" %}) — {{ p.price }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label class="form-label">&nbsp;</label>
+            <button type="submit" class="btn btn-primary w-100" data-loading-text="{% trans 'Renewing...' %}">{% trans "Renew" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-card__header">
+        <div>
+          <h3 class="section-card__title">{% trans "Actions" %}</h3>
+          <div class="section-card__subtitle">{% trans "Quick controls" %}</div>
+        </div>
+      </div>
+
+      <div class="section-card__body">
+        <div class="actions-grid">
+          <div class="mini-action">
+            <div class="mini-action__label">{% if member.is_active %}{% trans "Block member" %}{% else %}{% trans "Unblock member" %}{% endif %}</div>
+            <div class="mini-action__meta">{% trans "Access control" %}</div>
+            <div class="mini-action__footer">
+              <form method="post" action="/api/users/app/gyms/{{ gym_id }}/members/{{ member.id }}/action/">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="toggle_block">
+                <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Updating...' %}">
+                  {% if member.is_active %}{% trans "Block" %}{% else %}{% trans "Unblock" %}{% endif %}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="mini-action">
+            <div class="mini-action__label">{% trans "Force checkout" %}</div>
+            <div class="mini-action__meta">{% trans "Fix inside state" %}</div>
+            <div class="mini-action__footer">
+              <form method="post" action="/api/users/app/gyms/{{ gym_id }}/members/{{ member.id }}/action/">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="force_checkout">
+                <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Updating...' %}">{% trans "Run" %}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="left-stack member-history">
+    <div class="section-card">
+      <div class="section-card__header">
+        <div>
+          <h3 class="section-card__title">{% trans "Entry history" %}</h3>
+          <div class="section-card__subtitle">{% trans "Last 10 access attempts" %}</div>
+        </div>
+      </div>
+
+      <div class="logs-table-wrap">
+        <table class="logs-table">
+          <thead>
+            <tr>
+              <th>{% trans "Time" %}</th>
+              <th>{% trans "Device" %}</th>
+              <th>{% trans "Event" %}</th>
+              <th>{% trans "Result" %}</th>
+              <th>{% trans "Reason" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in logs %}
+              <tr>
+                <td style="white-space: nowrap;">{{ x.created_at|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ x.device.name }} <span class="k">({{ x.branch.name }})</span></td>
+                <td>{{ x.event|default:"—" }}</td>
+                <td>
+                  {% if x.allow %}
+                    <span class="badge badge-soft-success logs-result">{% trans "Allowed" %}</span>
+                  {% else %}
+                    <span class="badge badge-soft-danger logs-result">{% trans "Denied" %}</span>
+                  {% endif %}
+                </td>
+                <td>{{ x.reason }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" class="logs-empty">{% trans "No logs." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}

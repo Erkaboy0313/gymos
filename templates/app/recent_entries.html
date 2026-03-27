@@ -1,0 +1,390 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Recent Entries{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .entries-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .entries-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .entries-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .entries-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .entries-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .toolbar-card,
+  .section-card {
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .toolbar-card {
+    padding: var(--space-3);
+  }
+
+  .filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .filter-form__search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .filter-form .form-control,
+  .filter-form .form-select {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .filter-form .form-select {
+    min-width: 140px;
+  }
+
+  .filter-form__reason {
+    width: 200px;
+    min-width: 180px;
+  }
+
+  .filter-form .btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 16px;
+    white-space: nowrap;
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .entries-table-wrap {
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .entries-table {
+    width: 100%;
+    min-width: 980px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .entries-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .entries-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+
+  .entries-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .entries-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .cell-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .cell-subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .result-badge {
+    min-width: 74px;
+    justify-content: center;
+  }
+
+  .entries-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  @media (max-width: 991.98px) {
+    .entries-header {
+      align-items: stretch;
+    }
+
+    .entries-header__actions {
+      width: 100%;
+    }
+
+    .section-card__header,
+    .toolbar-card {
+      padding: var(--space-3);
+    }
+
+    .filter-form {
+      flex-wrap: wrap;
+    }
+
+    .filter-form__search {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .toolbar-card,
+    .section-card,
+    .entries-table-wrap {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .filter-form {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+
+    .filter-form > * {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .entries-table {
+      min-width: 760px;
+    }
+
+    .entries-table thead th,
+    .entries-table tbody td {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .entries-table thead th:nth-child(1),
+    .entries-table tbody td:nth-child(1) {
+      white-space: nowrap;
+    }
+
+    .entries-table thead th:nth-child(6),
+    .entries-table tbody td:nth-child(6) {
+      min-width: 160px;
+    }
+
+    .result-badge {
+      min-width: 58px;
+    }
+  }
+</style>
+
+<div class="entries-page">
+  <div class="entries-header">
+    <div>
+      <h2 class="entries-header__title">{% trans "Recent Entries" %}</h2>
+      <div class="entries-header__subtitle">{% trans "Last 200 access logs" %}</div>
+    </div>
+
+    <div class="entries-header__actions">
+      <a href="/api/dashboard/app/gyms/{{ gym_id }}/" class="back-link">← {% trans "Overview" %}</a>
+    </div>
+  </div>
+
+  <div class="toolbar-card">
+    <form method="get" class="filter-form">
+      <input
+        name="q"
+        value="{{ q }}"
+        placeholder="{% trans 'Search member or device' %}"
+        class="form-control filter-form__search"
+        autofocus
+      >
+
+      <select name="allow" class="form-select">
+        <option value="" {% if allow == "" %}selected{% endif %}>{% trans "All results" %}</option>
+        <option value="true" {% if allow == "true" %}selected{% endif %}>{% trans "Allowed" %}</option>
+        <option value="false" {% if allow == "false" %}selected{% endif %}>{% trans "Denied" %}</option>
+      </select>
+
+      {% if is_admin_role and has_multiple_branch %}
+        <select name="branch_id" class="form-select">
+          <option value="">{% trans "All branches" %}</option>
+          {% for b in branches %}
+            <option value="{{ b.id }}" {% if branch_id|slugify == b.id|slugify %}selected{% endif %}>{{ b.name }}</option>
+          {% endfor %}
+        </select>
+      {% endif %}
+
+      <input
+        name="reason"
+        value="{{ reason }}"
+        placeholder="{% trans 'Reason' %}"
+        class="form-control filter-form__reason"
+      >
+
+      <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Filtering...' %}">{% trans "Filter" %}</button>
+    </form>
+  </div>
+
+  <div class="section-card">
+    <div class="section-card__header">
+      <div>
+        <h3 class="section-card__title">{% trans "Entries log" %}</h3>
+        <div class="section-card__subtitle">{% trans "Recent access activity across members and devices." %}</div>
+      </div>
+    </div>
+
+    <div class="entries-table-wrap">
+      <table class="entries-table">
+        <thead>
+          <tr>
+            <th>{% trans "Time" %}</th>
+            <th>{% trans "Member" %}</th>
+            <th>{% trans "Device" %}</th>
+            <th>{% trans "Event" %}</th>
+            <th>{% trans "Result" %}</th>
+            <th>{% trans "Reason" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for x in logs %}
+            <tr>
+              <td style="white-space: nowrap;">{{ x.created_at|date:"Y-m-d H:i:s" }}</td>
+
+              <td>
+                {% if x.member %}
+                  <div class="cell-title">{{ x.member.full_name }}</div>
+                  <div class="cell-subtitle">{{ x.member.phone }}</div>
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+
+              <td>
+                <div class="cell-title">{{ x.device.name }}</div>
+                <div class="cell-subtitle">{{ x.branch.name }}</div>
+              </td>
+
+              <td>{{ x.event|default:"—" }}</td>
+
+              <td>
+                {% if x.allow %}
+                  <span class="badge badge-soft-success result-badge">{% trans "Allowed" %}</span>
+                {% else %}
+                  <span class="badge badge-soft-danger result-badge">{% trans "Denied" %}</span>
+                {% endif %}
+              </td>
+
+              <td>{{ x.reason }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6" class="table-empty-state">
+                <div class="empty-state">
+                  <div class="empty-state__title">{% trans "No logs found" %}</div>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

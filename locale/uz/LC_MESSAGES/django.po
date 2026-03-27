@@ -1,0 +1,1346 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-16 16:07+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\templates\app\base.html:495
+msgid "GymOS dashboard"
+msgstr "GymOS paneli"
+
+#: .\templates\app\base.html:501
+msgid "Primary navigation"
+msgstr "Asosiy menyu"
+
+#: .\templates\app\base.html:503 .\templates\app\base.html:592
+#: .\templates\app\branches.html:445 .\templates\app\devices.html:433
+#: .\templates\app\gym_overview.html:344 .\templates\app\member_plans.html:267
+#: .\templates\app\member_subscriptions.html:289
+#: .\templates\app\members.html:365 .\templates\app\recent_entries.html:285
+#: .\templates\app\renew_center.html:394 .\templates\app\staff.html:318
+msgid "Overview"
+msgstr "Umumiy"
+
+#: .\templates\app\base.html:504 .\templates\app\base.html:593
+#: .\templates\app\gym_overview.html:523 .\templates\app\member_detail.html:493
+#: .\templates\app\members.html:357
+msgid "Members"
+msgstr "Mijozlar"
+
+#: .\templates\app\base.html:505 .\templates\app\base.html:594
+msgid "Entries"
+msgstr "Kirishlar"
+
+#: .\templates\app\base.html:506 .\templates\app\base.html:595
+#: .\templates\app\devices.html:423
+msgid "Devices"
+msgstr "Qurilmalar"
+
+#: .\templates\app\base.html:509 .\templates\app\base.html:598
+#: .\templates\app\branches.html:437 .\templates\app\gym_overview.html:420
+msgid "Branches"
+msgstr "Filiallar"
+
+#: .\templates\app\base.html:510 .\templates\app\base.html:599
+msgid "Plans"
+msgstr "Tariflar"
+
+#: .\templates\app\base.html:511 .\templates\app\base.html:600
+#: .\templates\app\staff.html:310 .\templates\app\staff.html:452
+msgid "Staff"
+msgstr "Xodimlar"
+
+#: .\templates\app\base.html:514 .\templates\app\base.html:603
+msgid "Subscriptions"
+msgstr "Abonementlar"
+
+#: .\templates\app\base.html:515 .\templates\app\base.html:604
+#: .\templates\app\member_detail.html:635 .\templates\app\renew_center.html:479
+#: .\templates\app\renew_center.html:520
+msgid "Renew"
+msgstr "Uzaytirish"
+
+#: .\templates\app\base.html:534 .\templates\app\base.html:539
+msgid "Logout"
+msgstr "Chiqish"
+
+#: .\templates\app\base.html:554
+msgid "Open navigation"
+msgstr "Menyuni ochish"
+
+#: .\templates\app\base.html:572
+msgid "Open settings"
+msgstr "Sozlamalarni ochish"
+
+#: .\templates\app\base.html:584
+msgid "Menu"
+msgstr "Menyu"
+
+#: .\templates\app\base.html:585 .\templates\app\base.html:615
+#: .\templates\app\branches.html:595 .\templates\app\branches.html:637
+#: .\templates\app\devices.html:567 .\templates\app\devices.html:713
+#: .\templates\app\member_plans.html:342 .\templates\app\members.html:512
+#: .\templates\app\members.html:577 .\templates\app\renew_center.html:553
+#: .\templates\app\staff.html:430 .\templates\app\staff.html:496
+msgid "Close"
+msgstr "Yopish"
+
+#: .\templates\app\base.html:590
+msgid "Navigation"
+msgstr "Menyu"
+
+#: .\templates\app\base.html:591
+msgid "Mobile navigation"
+msgstr "Mobil menyu"
+
+#: .\templates\app\base.html:613
+msgid "Settings"
+msgstr "Sozlamalar"
+
+#: .\templates\app\base.html:624
+msgid "Appearance"
+msgstr "Ko‘rinish"
+
+#: .\templates\app\base.html:628
+msgid "Theme"
+msgstr "Tema"
+
+#: .\templates\app\base.html:629
+msgid "Choose light or dark mode."
+msgstr "Yorug‘ yoki qorong‘i rejimni tanlang."
+
+#: .\templates\app\base.html:632
+msgid "Light"
+msgstr "Yorug‘"
+
+#: .\templates\app\base.html:633
+msgid "Dark"
+msgstr "Qorong‘i"
+
+#: .\templates\app\base.html:641 .\templates\app\member_detail.html:565
+msgid "Subscription"
+msgstr "Abonement"
+
+#: .\templates\app\base.html:647 .\templates\app\branches.html:523
+#: .\templates\app\devices.html:484 .\templates\app\gym_overview.html:430
+#: .\templates\app\member_detail.html:477
+#: .\templates\app\member_detail.html:510 .\templates\app\member_plans.html:294
+#: .\templates\app\member_subscriptions.html:305
+#: .\templates\app\member_subscriptions.html:376
+#: .\templates\app\members.html:408 .\templates\app\members.html:449
+#: .\templates\app\renew_center.html:420 .\templates\app\renew_center.html:439
+#: .\templates\app\renew_center.html:504 .\templates\app\staff.html:344
+msgid "Active"
+msgstr "Faol"
+
+#: .\templates\app\base.html:655
+#, python-format
+msgid "Expires at: %(end_at)s"
+msgstr "Tugash vaqti: %(end_at)s"
+
+#: .\templates\app\base.html:661
+msgid ""
+"Contact support to renew. Access control will deny entries while expired."
+msgstr ""
+"Uzaytirish uchun yordamga murojaat qiling. Muddati tugasa kirish yopiladi."
+
+#: .\templates\app\base.html:670
+msgid "Global options"
+msgstr "Umumiy sozlamalar"
+
+#: .\templates\app\base.html:672
+msgid "Place future cross-page actions here"
+msgstr "Kelajakdagi umumiy amallar shu yerda bo‘ladi"
+
+#: .\templates\app\base.html:673
+msgid "Example: branch access policy, platform settings, display preferences."
+msgstr ""
+"Masalan: filial kirish qoidasi, platforma sozlamalari, ko‘rinish sozlamalari."
+
+#: .\templates\app\branches.html:438
+msgid "Last 200 branches"
+msgstr "Oxirgi 200 filial"
+
+#: .\templates\app\branches.html:443 .\templates\app\branches.html:573
+#: .\templates\app\branches.html:592
+msgid "Add branch"
+msgstr "Filial qo‘shish"
+
+#: .\templates\app\branches.html:450 .\templates\app\devices.html:438
+#: .\templates\app\member_detail.html:498 .\templates\app\member_plans.html:272
+#: .\templates\app\members.html:378 .\templates\app\renew_center.html:399
+#: .\templates\app\staff.html:323
+#, python-format
+msgid "Error: %(err)s"
+msgstr "Xato: %(err)s"
+
+#: .\templates\app\branches.html:454 .\templates\app\devices.html:442
+#: .\templates\app\member_detail.html:502 .\templates\app\member_plans.html:276
+#: .\templates\app\members.html:384 .\templates\app\staff.html:326
+msgid "Saved successfully."
+msgstr "Muvaffaqiyatli saqlandi."
+
+#: .\templates\app\branches.html:462
+msgid "Search branch name"
+msgstr "Filial nomi bo‘yicha qidirish"
+
+#: .\templates\app\branches.html:466
+msgid "Searching..."
+msgstr "Qidirilmoqda..."
+
+#: .\templates\app\branches.html:466
+msgid "Search"
+msgstr "Qidirish"
+
+#: .\templates\app\branches.html:474
+msgid "Branch access policy"
+msgstr "Filialga kirish qoidasi"
+
+#: .\templates\app\branches.html:475
+msgid ""
+"Choose whether members can enter all branches or only their registered "
+"branch."
+msgstr ""
+"Mijozlar barcha filialga kira oladimi yoki faqat o‘z filialigami — tanlang."
+
+#: .\templates\app\branches.html:487
+msgid "Allow entry from all branches"
+msgstr "Barcha filiallarga kirishga ruxsat"
+
+#: .\templates\app\branches.html:488
+msgid "Members can access any branch in this gym."
+msgstr "Mijozlar istalgan filialga kira oladi."
+
+#: .\templates\app\branches.html:495
+msgid "Allow entry only from registered branch"
+msgstr "Faqat o‘z filialiga kirish"
+
+#: .\templates\app\branches.html:496
+msgid "Members can enter only their assigned branch."
+msgstr "Mijozlar faqat biriktirilgan filialga kira oladi."
+
+#: .\templates\app\branches.html:502 .\templates\app\members.html:611
+#: .\templates\app\staff.html:540
+msgid "Saving..."
+msgstr "Saqlanmoqda..."
+
+#: .\templates\app\branches.html:502
+msgid "Save policy"
+msgstr "Qoidani saqlash"
+
+#: .\templates\app\branches.html:512
+msgid "Branch list"
+msgstr "Filiallar ro‘yxati"
+
+#: .\templates\app\branches.html:513
+msgid "Update names, addresses, and active state."
+msgstr "Filial nomi, manzili va holatini o‘zgartirish."
+
+#: .\templates\app\branches.html:521 .\templates\app\devices.html:480
+#: .\templates\app\member_plans.html:291
+msgid "Name"
+msgstr "Nomi"
+
+#: .\templates\app\branches.html:522 .\templates\app\branches.html:610
+#: .\templates\app\branches.html:652 .\templates\app\branches.html:653
+msgid "Address"
+msgstr "Manzil"
+
+#: .\templates\app\branches.html:524 .\templates\app\devices.html:485
+#: .\templates\app\member_detail.html:644 .\templates\app\members.html:432
+#: .\templates\app\staff.html:345
+msgid "Actions"
+msgstr "Amallar"
+
+#: .\templates\app\branches.html:540 .\templates\app\devices.html:501
+#: .\templates\app\member_plans.html:307 .\templates\app\staff.html:368
+msgid "ON"
+msgstr "YOQILGAN"
+
+#: .\templates\app\branches.html:542 .\templates\app\devices.html:503
+#: .\templates\app\member_plans.html:309 .\templates\app\staff.html:370
+msgid "OFF"
+msgstr "O‘CHIRILGAN"
+
+#: .\templates\app\branches.html:554 .\templates\app\members.html:471
+#: .\templates\app\staff.html:382
+msgid "Edit"
+msgstr "Tahrirlash"
+
+#: .\templates\app\branches.html:560
+msgid "Disable"
+msgstr "O‘chirish"
+
+#: .\templates\app\branches.html:560
+msgid "Enable"
+msgstr "Yoqish"
+
+#: .\templates\app\branches.html:570
+msgid "No branches found"
+msgstr "Filial topilmadi"
+
+#: .\templates\app\branches.html:571
+msgid "Add your first branch."
+msgstr "Birinchi filialni qo‘shing."
+
+#: .\templates\app\branches.html:593
+msgid "Create a new branch with an optional address."
+msgstr "Yangi filial yarating (manzil ixtiyoriy)."
+
+#: .\templates\app\branches.html:605 .\templates\app\branches.html:647
+msgid "Branch name"
+msgstr "Filial nomi"
+
+#: .\templates\app\branches.html:606
+msgid "Main"
+msgstr "Asosiy"
+
+#: .\templates\app\branches.html:611
+msgid "Address (optional)"
+msgstr "Manzil (ixtiyoriy)"
+
+#: .\templates\app\branches.html:617
+msgid "Use a clear name so staff can identify the branch quickly."
+msgstr "Xodimlar tez tanishi uchun aniq nom yozing."
+
+#: .\templates\app\branches.html:618 .\templates\app\branches.html:659
+#: .\templates\app\devices.html:618 .\templates\app\member_plans.html:370
+#: .\templates\app\members.html:557 .\templates\app\members.html:610
+#: .\templates\app\renew_center.html:580 .\templates\app\staff.html:474
+#: .\templates\app\staff.html:539
+msgid "Cancel"
+msgstr "Bekor qilish"
+
+#: .\templates\app\branches.html:619 .\templates\app\devices.html:619
+#: .\templates\app\member_plans.html:371 .\templates\app\members.html:558
+msgid "Creating..."
+msgstr "Yaratilmoqda..."
+
+#: .\templates\app\branches.html:619
+msgid "Create branch"
+msgstr "Filial yaratish"
+
+#: .\templates\app\branches.html:634
+msgid "Edit branch"
+msgstr "Filialni tahrirlash"
+
+#: .\templates\app\branches.html:660 .\templates\app\members.html:611
+#: .\templates\app\staff.html:540
+msgid "Save changes"
+msgstr "O‘zgarishni saqlash"
+
+#: .\templates\app\devices.html:424
+msgid "Last 200 devices"
+msgstr "Oxirgi 200 ta qurilma"
+
+#: .\templates\app\devices.html:430 .\templates\app\devices.html:544
+#: .\templates\app\devices.html:564
+msgid "Add device"
+msgstr "Qurilma qo‘shish"
+
+#: .\templates\app\devices.html:451
+msgid "Search device name"
+msgstr "Qurilma nomini qidirish"
+
+#: .\templates\app\devices.html:457 .\templates\app\gym_overview.html:348
+#: .\templates\app\gym_overview.html:365
+#: .\templates\app\member_subscriptions.html:312
+#: .\templates\app\members.html:399 .\templates\app\recent_entries.html:307
+#: .\templates\app\renew_center.html:451
+msgid "All branches"
+msgstr "Barcha filiallar"
+
+#: .\templates\app\devices.html:463
+#: .\templates\app\member_subscriptions.html:326
+#: .\templates\app\members.html:412 .\templates\app\recent_entries.html:321
+#: .\templates\app\renew_center.html:458
+msgid "Filtering..."
+msgstr "Filtrlash..."
+
+#: .\templates\app\devices.html:463
+#: .\templates\app\member_subscriptions.html:326
+#: .\templates\app\members.html:412 .\templates\app\recent_entries.html:321
+#: .\templates\app\renew_center.html:458
+msgid "Filter"
+msgstr "Filtr"
+
+#: .\templates\app\devices.html:471
+msgid "Device list"
+msgstr "Qurilmalar ro‘yxati"
+
+#: .\templates\app\devices.html:472
+msgid "Configured access devices across the gym."
+msgstr "Sport zalidagi kirish qurilmalari."
+
+#: .\templates\app\devices.html:481 .\templates\app\devices.html:586
+#: .\templates\app\gym_overview.html:429
+#: .\templates\app\member_subscriptions.html:344
+#: .\templates\app\members.html:429 .\templates\app\members.html:533
+#: .\templates\app\members.html:597 .\templates\app\renew_center.html:475
+#: .\templates\app\staff.html:343 .\templates\app\staff.html:460
+#: .\templates\app\staff.html:520
+msgid "Branch"
+msgstr "Filial"
+
+#: .\templates\app\devices.html:482 .\templates\app\devices.html:596
+msgid "Mode"
+msgstr "Rejim"
+
+#: .\templates\app\devices.html:483
+msgid "Cooldown"
+msgstr "Kutish vaqti"
+
+#: .\templates\app\devices.html:497
+#, python-format
+msgid "%(seconds)ss"
+msgstr "%(seconds)ss"
+
+#: .\templates\app\devices.html:511
+msgid "Open"
+msgstr "Ochish"
+
+#: .\templates\app\devices.html:521 .\templates\app\devices.html:530
+msgid "API Docs"
+msgstr "API"
+
+#: .\templates\app\devices.html:541
+msgid "No devices found"
+msgstr "Qurilmalar topilmadi"
+
+#: .\templates\app\devices.html:542
+msgid "Add your first device."
+msgstr "Birinchi qurilmani qo‘shing."
+
+#: .\templates\app\devices.html:565
+msgid "Create a new device and assign it to a branch."
+msgstr "Yangi qurilma yarating va filialga biriktiring."
+
+#: .\templates\app\devices.html:577
+msgid "Device name"
+msgstr "Qurilma nomi"
+
+#: .\templates\app\devices.html:580
+msgid "Gate 1"
+msgstr "Turniket 1"
+
+#: .\templates\app\devices.html:588
+msgid "Choose branch"
+msgstr "Filialni tanlang"
+
+#: .\templates\app\devices.html:605
+msgid "Cooldown (sec)"
+msgstr "Kutish vaqti (sek)"
+
+#: .\templates\app\devices.html:617
+msgid "Make sure the branch and mode are correct before saving."
+msgstr "Saqlashdan oldin filial va rejim to‘g‘ri ekanini tekshiring."
+
+#: .\templates\app\devices.html:619
+msgid "Create device"
+msgstr "Qurilma yaratish"
+
+#: .\templates\app\devices.html:634
+msgid "API Device Integration"
+msgstr "API orqali qurilma integratsiyasi"
+
+#: .\templates\app\devices.html:647
+msgid "Device API key"
+msgstr "Qurilma API kaliti"
+
+#: .\templates\app\devices.html:661 .\templates\identifiers\member_qr.html:423
+msgid "Copy"
+msgstr "Nusxalash"
+
+#: .\templates\app\devices.html:667
+msgid "Endpoint"
+msgstr "Endpoint"
+
+#: .\templates\app\devices.html:674
+msgid "Example request"
+msgstr "So‘rov namunasi"
+
+#: .\templates\app\devices.html:685
+msgid "Success response"
+msgstr "Muvaffaqiyatli javob"
+
+#: .\templates\app\devices.html:699
+msgid "Denied response"
+msgstr "Rad etilgan javob"
+
+#: .\templates\app\devices.html:711
+msgid ""
+"API key is fixed for this device and should be stored securely in the "
+"hardware integration."
+msgstr "API kaliti ushbu qurilmaga biriktirilgan va qurilma integratsiyasida xavfsiz saqlanishi kerak."
+
+#: .\templates\app\gym_overview.html:353
+msgid "Branch-specific performance and activity."
+msgstr "Filial bo‘yicha faoliyat ko‘rsatkichlari."
+
+#: .\templates\app\gym_overview.html:355
+msgid "Combined performance across visible branches."
+msgstr "Ko‘rinayotgan filiallar bo‘yicha umumiy ko‘rsatkichlar."
+
+#: .\templates\app\gym_overview.html:379
+msgid "Income (this month)"
+msgstr "Daromad (shu oy)"
+
+#: .\templates\app\gym_overview.html:381 .\templates\app\gym_overview.html:387
+msgid "UZS"
+msgstr "so‘m"
+
+#: .\templates\app\gym_overview.html:385
+msgid "Income (last month)"
+msgstr "Daromad (o‘tgan oy)"
+
+#: .\templates\app\gym_overview.html:391
+msgid "Total active members"
+msgstr "Jami faol mijozlar"
+
+#: .\templates\app\gym_overview.html:393
+#, fuzzy
+#| msgid "Members"
+msgid "members"
+msgstr "mijoz"
+
+#: .\templates\app\gym_overview.html:397
+msgid "Inside now"
+msgstr "Hozir ichkarida"
+
+#: .\templates\app\gym_overview.html:399
+msgid "in gym"
+msgstr "zalda"
+
+#: .\templates\app\gym_overview.html:405
+msgid "Expire today"
+msgstr "Bugun tugaydi"
+
+#: .\templates\app\gym_overview.html:410
+msgid "Expire in 7 days"
+msgstr "7 kun ichida tugaydi"
+
+#: .\templates\app\gym_overview.html:421
+msgid "Branch performance snapshot"
+msgstr "Filial ko‘rsatkichlari"
+
+#: .\templates\app\gym_overview.html:431 .\templates\app\member_detail.html:483
+#: .\templates\app\member_detail.html:532 .\templates\app\members.html:457
+msgid "Inside"
+msgstr "Ichkarida"
+
+#: .\templates\app\gym_overview.html:432
+msgid "Income (month)"
+msgstr "Daromad (oy)"
+
+#: .\templates\app\gym_overview.html:433
+msgid "Expiring (7d)"
+msgstr "Tugayotgan (7 kun)"
+
+#: .\templates\app\gym_overview.html:457
+msgid "Branch revenue comparison"
+msgstr "Filial daromadi taqqoslash"
+
+#: .\templates\app\gym_overview.html:458
+msgid "This month"
+msgstr "Shu oy"
+
+#: .\templates\app\gym_overview.html:471
+msgid "Branch member comparison"
+msgstr "Filial mijozlari taqqoslash"
+
+#: .\templates\app\gym_overview.html:472
+msgid "Active members"
+msgstr "Faol mijozlar"
+
+#: .\templates\app\gym_overview.html:486
+msgid "Analytics controls"
+msgstr "Analitika sozlamalari"
+
+#: .\templates\app\gym_overview.html:487
+msgid "Shared controls for income and members charts"
+msgstr "Daromad va mijozlar grafiklari uchun umumiy sozlamalar"
+
+#: .\templates\app\gym_overview.html:498 .\templates\app\renew_center.html:408
+msgid "Total"
+msgstr "Jami"
+
+#: .\templates\app\gym_overview.html:499
+msgid "New"
+msgstr "Yangi"
+
+#: .\templates\app\gym_overview.html:500
+msgid "Left"
+msgstr "Ketgan"
+
+#: .\templates\app\gym_overview.html:509
+msgid "Income by month"
+msgstr "Oy bo‘yicha daromad"
+
+#: .\templates\app\gym_overview.html:510 .\templates\app\gym_overview.html:524
+#, python-format
+msgid "Last %(months)s months"
+msgstr "Oxirgi %(months)s oy"
+
+#: .\templates\app\member_detail.html:479
+#: .\templates\app\member_detail.html:512 .\templates\app\members.html:409
+#: .\templates\app\members.html:451 .\templates\identifiers\member_qr.html:448
+msgid "Blocked"
+msgstr "Bloklangan"
+
+#: .\templates\app\member_detail.html:485
+#: .\templates\app\member_detail.html:534 .\templates\app\members.html:459
+msgid "Outside"
+msgstr "Tashqarida"
+
+#: .\templates\app\member_detail.html:507
+msgid "Account"
+msgstr "Profil"
+
+#: .\templates\app\member_detail.html:518
+msgid "Access now"
+msgstr "Hozir kirish"
+
+#: .\templates\app\member_detail.html:521
+#: .\templates\app\member_detail.html:709
+#: .\templates\app\recent_entries.html:301
+#: .\templates\app\recent_entries.html:368
+msgid "Allowed"
+msgstr "Ruxsat"
+
+#: .\templates\app\member_detail.html:523
+#: .\templates\app\member_detail.html:711
+#: .\templates\app\recent_entries.html:302
+#: .\templates\app\recent_entries.html:370
+msgid "Denied"
+msgstr "Rad etildi"
+
+#: .\templates\app\member_detail.html:529 .\templates\app\members.html:431
+msgid "Presence"
+msgstr "Holati"
+
+#: .\templates\app\member_detail.html:538
+#, python-format
+msgid "Since %(date)s"
+msgstr "%(date)s dan beri"
+
+#: .\templates\app\member_detail.html:543
+#: .\templates\app\member_detail.html:624
+#: .\templates\app\member_subscriptions.html:345
+#: .\templates\app\members.html:544 .\templates\app\renew_center.html:477
+#: .\templates\app\renew_center.html:563
+msgid "Plan"
+msgstr "Tarif"
+
+#: .\templates\app\member_detail.html:548 .\templates\app\members.html:546
+msgid "No plan"
+msgstr "Tarif yo‘q"
+
+#: .\templates\app\member_detail.html:552
+#, python-format
+msgid "Ends %(date)s"
+msgstr "%(date)s da tugaydi"
+
+#: .\templates\app\member_detail.html:554
+#: .\templates\app\member_detail.html:594
+msgid "Lifetime"
+msgstr "Umrbod"
+
+#: .\templates\app\member_detail.html:566
+msgid "Current plan and renewal"
+msgstr "Joriy tarif va uzaytirish"
+
+#: .\templates\app\member_detail.html:576
+#: .\templates\app\member_detail.html:600
+msgid "Frozen"
+msgstr "Muzlatilgan"
+
+#: .\templates\app\member_detail.html:578
+msgid "Live"
+msgstr "Faol"
+
+#: .\templates\app\member_detail.html:584
+#: .\templates\app\member_subscriptions.html:346
+msgid "Start"
+msgstr "Boshlanishi"
+
+#: .\templates\app\member_detail.html:589
+#: .\templates\app\member_subscriptions.html:347
+msgid "End"
+msgstr "Tugashi"
+
+#: .\templates\app\member_detail.html:603
+#, python-format
+msgid "Until %(date)s"
+msgstr "%(date)s gacha"
+
+#: .\templates\app\member_detail.html:605
+msgid "No"
+msgstr "Yo‘q"
+
+#: .\templates\app\member_detail.html:613
+msgid "No subscription"
+msgstr "Abonement yo‘q"
+
+#: .\templates\app\member_detail.html:626 .\templates\app\renew_center.html:565
+msgid "Select plan"
+msgstr "Tarifni tanlang"
+
+#: .\templates\app\member_detail.html:628
+msgid "days"
+msgstr "kun"
+
+#: .\templates\app\member_detail.html:635
+msgid "Renewing..."
+msgstr "Uzaytirilmoqda..."
+
+#: .\templates\app\member_detail.html:645
+msgid "Quick controls"
+msgstr "Tezkor boshqaruv"
+
+#: .\templates\app\member_detail.html:652
+msgid "Block member"
+msgstr "Mijozni bloklash"
+
+#: .\templates\app\member_detail.html:652
+msgid "Unblock member"
+msgstr "Blokdan chiqarish"
+
+#: .\templates\app\member_detail.html:653
+msgid "Access control"
+msgstr "Kirish nazorati"
+
+#: .\templates\app\member_detail.html:658
+#: .\templates\app\member_detail.html:672 .\templates\app\members.html:476
+#: .\templates\app\renew_center.html:581 .\templates\app\staff.html:388
+msgid "Updating..."
+msgstr "Yangilanmoqda..."
+
+#: .\templates\app\member_detail.html:659 .\templates\app\members.html:477
+msgid "Block"
+msgstr "Bloklash"
+
+#: .\templates\app\member_detail.html:659 .\templates\app\members.html:477
+msgid "Unblock"
+msgstr "Blokdan chiqarish"
+
+#: .\templates\app\member_detail.html:666
+msgid "Force checkout"
+msgstr "Majburiy chiqish"
+
+#: .\templates\app\member_detail.html:667
+msgid "Fix inside state"
+msgstr "Ichkarida holatini tuzatish"
+
+#: .\templates\app\member_detail.html:672
+msgid "Run"
+msgstr "Ishga tushirish"
+
+#: .\templates\app\member_detail.html:685
+msgid "Entry history"
+msgstr "Kirish tarixi"
+
+#: .\templates\app\member_detail.html:686
+msgid "Last 10 access attempts"
+msgstr "Oxirgi 10 kirish urinishlari"
+
+#: .\templates\app\member_detail.html:694
+#: .\templates\app\recent_entries.html:337
+msgid "Time"
+msgstr "Vaqt"
+
+#: .\templates\app\member_detail.html:695
+#: .\templates\app\recent_entries.html:339
+msgid "Device"
+msgstr "Qurilma"
+
+#: .\templates\app\member_detail.html:696
+#: .\templates\app\recent_entries.html:340
+msgid "Event"
+msgstr "Hodisa"
+
+#: .\templates\app\member_detail.html:697
+#: .\templates\app\recent_entries.html:341
+msgid "Result"
+msgstr "Natija"
+
+#: .\templates\app\member_detail.html:698
+#: .\templates\app\recent_entries.html:317
+#: .\templates\app\recent_entries.html:342
+msgid "Reason"
+msgstr "Sabab"
+
+#: .\templates\app\member_detail.html:718
+msgid "No logs."
+msgstr "Loglar yo‘q."
+
+#: .\templates\app\member_plans.html:259
+#, fuzzy
+#| msgid "Members"
+msgid "Member Plans"
+msgstr "Tariflar"
+
+#: .\templates\app\member_plans.html:260
+msgid "Create plans staff can sell"
+msgstr "Xodimlar sotishi mumkin bo‘lgan tariflarni yarating"
+
+#: .\templates\app\member_plans.html:265 .\templates\app\member_plans.html:320
+#: .\templates\app\member_plans.html:339
+msgid "Add plan"
+msgstr "Tarif qo‘shish"
+
+#: .\templates\app\member_plans.html:282
+msgid "Plan list"
+msgstr "Tariflar ro‘yxati"
+
+#: .\templates\app\member_plans.html:283
+msgid "Available membership plans and their pricing."
+msgstr "Mavjud abonement tariflari va ularning narxlari."
+
+#: .\templates\app\member_plans.html:292
+msgid "Duration"
+msgstr "Davomiyligi"
+
+#: .\templates\app\member_plans.html:293 .\templates\app\member_plans.html:362
+#: .\templates\app\member_subscriptions.html:348
+msgid "Price"
+msgstr "Narx"
+
+#: .\templates\app\member_plans.html:303
+#, python-format
+msgid "%(days)s days"
+msgstr "%(days)s kun"
+
+#: .\templates\app\member_plans.html:317
+msgid "No plans found"
+msgstr "Tarif topilmadi"
+
+#: .\templates\app\member_plans.html:318
+msgid "Add your first plan."
+msgstr "Birinchi tarifni qo‘shing."
+
+#: .\templates\app\member_plans.html:340
+msgid "Create a plan staff can sell to members."
+msgstr "Xodimlar mijozlarga sotishi uchun tarif yarating."
+
+#: .\templates\app\member_plans.html:352
+msgid "Plan name"
+msgstr "Tarif nomi"
+
+#: .\templates\app\member_plans.html:353
+msgid "Monthly"
+msgstr "Oylik"
+
+#: .\templates\app\member_plans.html:357
+msgid "Duration (days)"
+msgstr "Davomiyligi (kun)"
+
+#: .\templates\app\member_plans.html:363
+msgid "Price (UZS)"
+msgstr "Narx (so‘m)"
+
+#: .\templates\app\member_plans.html:369
+msgid "Keep names clear and pricing easy for staff to recognize."
+msgstr "Nomlarni aniq va narxlarni xodimlar uchun tushunarli yozing."
+
+#: .\templates\app\member_plans.html:371
+msgid "Create plan"
+msgstr "Tarif yaratish"
+
+#: .\templates\app\member_subscriptions.html:284
+msgid "Member Subscriptions"
+msgstr "Mijoz abonementlari"
+
+#: .\templates\app\member_subscriptions.html:285
+msgid "Sales and subscription history"
+msgstr "Sotuv va abonement tarixi"
+
+#: .\templates\app\member_subscriptions.html:298
+msgid "Search member or phone"
+msgstr "Mijoz yoki telefonni qidirish"
+
+#: .\templates\app\member_subscriptions.html:304
+#: .\templates\app\members.html:407 .\templates\app\renew_center.html:436
+msgid "All statuses"
+msgstr "Barcha holatlar"
+
+#: .\templates\app\member_subscriptions.html:306
+#: .\templates\app\member_subscriptions.html:378
+#: .\templates\app\renew_center.html:412 .\templates\app\renew_center.html:437
+#: .\templates\app\renew_center.html:497
+msgid "Expired"
+msgstr "Tugagan"
+
+#: .\templates\app\member_subscriptions.html:307
+#: .\templates\app\member_subscriptions.html:380
+msgid "Future"
+msgstr "Kelajak"
+
+#: .\templates\app\member_subscriptions.html:320
+msgid "All plans"
+msgstr "Barcha tariflar"
+
+#: .\templates\app\member_subscriptions.html:333
+msgid "Subscription history"
+msgstr "Abonement tarixi"
+
+#: .\templates\app\member_subscriptions.html:334
+msgid "Recent member plan sales and status overview."
+msgstr "So‘nggi abonement sotuvlari va holati."
+
+#: .\templates\app\member_subscriptions.html:342
+msgid "Sold at"
+msgstr "Sotilgan vaqt"
+
+#: .\templates\app\member_subscriptions.html:343
+#: .\templates\app\members.html:428 .\templates\app\recent_entries.html:338
+#: .\templates\app\renew_center.html:474
+#, fuzzy
+#| msgid "Members"
+msgid "Member"
+msgstr "Mijoz"
+
+#: .\templates\app\member_subscriptions.html:349
+#: .\templates\app\members.html:430 .\templates\app\renew_center.html:476
+msgid "Status"
+msgstr "Holat"
+
+#: .\templates\app\member_subscriptions.html:388
+msgid "No subscriptions found."
+msgstr "Abonement topilmadi."
+
+#: .\templates\app\members.html:358
+msgid "Find members fast, open profiles, update details, and control access."
+msgstr "Mijozlarni tez topish, profilni ochish va kirishni boshqarish."
+
+#: .\templates\app\members.html:363 .\templates\app\members.html:490
+#: .\templates\app\members.html:509
+msgid "Add member"
+msgstr "Mijoz qo‘shish"
+
+#: .\templates\app\members.html:372
+msgid "This phone number is already registered in this gym."
+msgstr "Bu telefon raqami allaqachon ro‘yxatdan o‘tgan."
+
+#: .\templates\app\members.html:374
+msgid "Please fill all required fields."
+msgstr "Barcha majburiy maydonlarni to‘ldiring."
+
+#: .\templates\app\members.html:376
+msgid "Invalid branch selected."
+msgstr "Noto‘g‘ri filial tanlandi."
+
+#: .\templates\app\members.html:392
+msgid "Search by member name or phone"
+msgstr "Mijoz nomi yoki telefon bo‘yicha qidirish"
+
+#: .\templates\app\members.html:419
+#, fuzzy
+#| msgid "Members"
+msgid "Member list"
+msgstr "Mijozlar ro‘yxati"
+
+#: .\templates\app\members.html:420
+msgid "Readable overview first. Editing is opened only when needed."
+msgstr "Avval umumiy ko‘rinish. Tahrirlash faqat kerak bo‘lganda."
+
+#: .\templates\app\members.html:487
+msgid "No members found"
+msgstr "Mijoz topilmadi"
+
+#: .\templates\app\members.html:488
+msgid "Try changing filters or add your first member."
+msgstr "Filtrni o‘zgartiring yoki birinchi mijozni qo‘shing."
+
+#: .\templates\app\members.html:510
+msgid "Create a new member and optionally assign branch and plan."
+msgstr ""
+"Yangi mijoz yarating va ixtiyoriy ravishda filial hamda tarif belgilang."
+
+#: .\templates\app\members.html:522 .\templates\app\members.html:523
+#: .\templates\app\members.html:587
+msgid "Full name"
+msgstr "To‘liq ism"
+
+#: .\templates\app\members.html:527 .\templates\app\members.html:592
+msgid "Phone"
+msgstr "Telefon"
+
+#: .\templates\app\members.html:535
+msgid "No branch"
+msgstr "Filial yo‘q"
+
+#: .\templates\app\members.html:556
+msgid "Required fields must be filled correctly before saving."
+msgstr "Saqlashdan oldin majburiy maydonlarni to‘g‘ri to‘ldiring."
+
+#: .\templates\app\members.html:558
+msgid "Create member"
+msgstr "Mijoz yaratish"
+
+#: .\templates\app\members.html:574
+msgid "Edit member"
+msgstr "Mijozni tahrirlash"
+
+#: .\templates\app\members.html:609
+msgid ""
+"Save changes here. Blocking remains a quick action from the member table "
+"menu."
+msgstr "O‘zgarishlarni shu yerda saqlang. Bloklash jadval menyusida."
+
+#: .\templates\app\recent_entries.html:280
+msgid "Recent Entries"
+msgstr "So‘nggi kirishlar"
+
+#: .\templates\app\recent_entries.html:281
+msgid "Last 200 access logs"
+msgstr "Oxirgi 200 kirish loglari"
+
+#: .\templates\app\recent_entries.html:294
+msgid "Search member or device"
+msgstr "Mijoz yoki qurilmani qidirish"
+
+#: .\templates\app\recent_entries.html:300
+msgid "All results"
+msgstr "Barcha natijalar"
+
+#: .\templates\app\recent_entries.html:328
+msgid "Entries log"
+msgstr "Kirish loglari"
+
+#: .\templates\app\recent_entries.html:329
+msgid "Recent access activity across members and devices."
+msgstr "Mijozlar va qurilmalar bo‘yicha so‘nggi kirishlar."
+
+#: .\templates\app\recent_entries.html:380
+msgid "No logs found"
+msgstr "Log topilmadi"
+
+#: .\templates\app\renew_center.html:389
+msgid "Renew Center"
+msgstr "Uzaytirish markazi"
+
+#: .\templates\app\renew_center.html:390
+msgid "Search subscriptions and renew quickly"
+msgstr "Abonementni toping va tez uzaytiring"
+
+#: .\templates\app\renew_center.html:403
+msgid "Renewed successfully."
+msgstr "Muvaffaqiyatli uzaytirildi."
+
+#: .\templates\app\renew_center.html:416 .\templates\app\renew_center.html:438
+#: .\templates\app\renew_center.html:499
+msgid "Expiring"
+msgstr "Tugayotgan"
+
+#: .\templates\app\renew_center.html:430
+msgid "Search name or phone"
+msgstr "Ism yoki telefonni qidirish"
+
+#: .\templates\app\renew_center.html:445
+msgid "Days"
+msgstr "Kun"
+
+#: .\templates\app\renew_center.html:465
+msgid "Renewal queue"
+msgstr "Uzaytirish ro‘yxati"
+
+#: .\templates\app\renew_center.html:466
+msgid "Review current subscription state and renew from a focused modal."
+msgstr "Joriy abonement holatini ko‘rib chiqib shu yerdan uzaytiring."
+
+#: .\templates\app\renew_center.html:478
+msgid "End date"
+msgstr "Tugash sanasi"
+
+#: .\templates\app\renew_center.html:501
+#, python-format
+msgid "%(days_left)s day left"
+msgid_plural "%(days_left)s days left"
+msgstr[0] "%(days_left)s kun qoldi"
+
+#: .\templates\app\renew_center.html:529
+msgid "No matching members."
+msgstr "Mos mijoz topilmadi."
+
+#: .\templates\app\renew_center.html:550
+msgid "Renew subscription"
+msgstr "Abonementni uzaytirish"
+
+#: .\templates\app\renew_center.html:573
+msgid "Current:"
+msgstr "Joriy:"
+
+#: .\templates\app\renew_center.html:573
+msgid "Ends"
+msgstr "Tugaydi"
+
+#: .\templates\app\renew_center.html:579
+msgid "The selected plan will be assigned immediately."
+msgstr "Tanlangan tarif darhol qo‘llanadi."
+
+#: .\templates\app\renew_center.html:581
+msgid "Confirm renewal"
+msgstr "Uzaytirishni tasdiqlash"
+
+#: .\templates\app\staff.html:311
+msgid "Manage staff accounts, roles, branches, and access."
+msgstr "Xodimlar akkaunti, roli, filiali va kirishini boshqarish."
+
+#: .\templates\app\staff.html:316 .\templates\app\staff.html:427
+#: .\templates\app\staff.html:475
+msgid "Add staff"
+msgstr "Xodim qo‘shish"
+
+#: .\templates\app\staff.html:332
+msgid "Staff list"
+msgstr "Xodimlar ro‘yxati"
+
+#: .\templates\app\staff.html:333
+msgid "Open edit modal to change role, assigned branch, or password."
+msgstr ""
+"Rol, filial yoki parolni o‘zgartirish uchun tahrirlash oynasini oching."
+
+#: .\templates\app\staff.html:341
+msgid "User"
+msgstr "Foydalanuvchi"
+
+#: .\templates\app\staff.html:342 .\templates\app\staff.html:450
+#: .\templates\app\staff.html:511
+msgid "Role"
+msgstr "Rol"
+
+#: .\templates\app\staff.html:389
+msgid "Deactivate"
+msgstr "Bloklash"
+
+#: .\templates\app\staff.html:389
+msgid "Activate"
+msgstr "Faollashtirish"
+
+#: .\templates\app\staff.html:396
+msgid "Are you sure you want to remove this staff member?"
+msgstr "Haqiqatan ham bu xodimni o‘chirmoqchimisiz?"
+
+#: .\templates\app\staff.html:396
+msgid "Removing..."
+msgstr "O‘chirilmoqda..."
+
+#: .\templates\app\staff.html:397
+msgid "Remove"
+msgstr "O‘chirish"
+
+#: .\templates\app\staff.html:403
+msgid "Owner is protected from being the last removed."
+msgstr "Oxirgi owner o‘chirilishdan himoyalangan."
+
+#: .\templates\app\staff.html:409
+msgid "No staff found."
+msgstr "Xodim topilmadi."
+
+#: .\templates\app\staff.html:428
+msgid "Create or connect a user account and assign a role."
+msgstr "Foydalanuvchi yarating yoki ulang va rol bering."
+
+#: .\templates\app\staff.html:440 .\templates\app\staff.html:506
+#: .\templates\registration\login.html:255
+msgid "Username"
+msgstr "Login"
+
+#: .\templates\app\staff.html:441
+msgid "username"
+msgstr "login"
+
+#: .\templates\app\staff.html:445 .\templates\registration\login.html:260
+msgid "Password"
+msgstr "Parol"
+
+#: .\templates\app\staff.html:446
+msgid "password (optional)"
+msgstr "parol (ixtiyoriy)"
+
+#: .\templates\app\staff.html:454
+msgid "Admin"
+msgstr "Admin"
+
+#: .\templates\app\staff.html:472
+msgid ""
+"If user exists, password is ignored. If password is empty for a new user, "
+"login stays disabled until set later."
+msgstr "Foydalanuvchi mavjud bo‘lsa parol e’tiborga olinmaydi."
+
+#: .\templates\app\staff.html:475
+msgid "Adding..."
+msgstr "Qo‘shilmoqda..."
+
+#: .\templates\app\staff.html:493
+msgid "Edit staff"
+msgstr "Xodimni tahrirlash"
+
+#: .\templates\app\staff.html:531
+msgid "New password"
+msgstr "Yangi parol"
+
+#: .\templates\app\staff.html:532
+msgid "Leave empty to keep current password"
+msgstr "Hozirgi parolni saqlash uchun bo‘sh qoldiring"
+
+#: .\templates\app\staff.html:538
+msgid "Use this form to update role, assigned branch, or reset password."
+msgstr "Rolni, filialni o‘zgartirish yoki parolni tiklash."
+
+#: .\templates\identifiers\member_qr.html:372
+#: .\templates\identifiers\member_qr.html:440
+msgid "Loading…"
+msgstr "Yuklanmoqda…"
+
+#: .\templates\identifiers\member_qr.html:375
+#: .\templates\identifiers\member_qr.html:441
+msgid "Starting"
+msgstr "Boshlanmoqda"
+
+#: .\templates\identifiers\member_qr.html:379
+#: .\templates\identifiers\member_qr.html:442
+msgid "Authenticating…"
+msgstr "Tekshirilmoqda…"
+
+#: .\templates\identifiers\member_qr.html:383
+msgid "Choose your gym"
+msgstr "Zalingizni tanlang"
+
+#: .\templates\identifiers\member_qr.html:384
+msgid "+ Link another gym"
+msgstr "+ Yana zal ulash"
+
+#: .\templates\identifiers\member_qr.html:391
+msgid "Link by phone"
+msgstr "Telefon orqali ulash"
+
+#: .\templates\identifiers\member_qr.html:392
+msgid "Use the phone number registered in the gym."
+msgstr "Zalda ro‘yxatdan o‘tgan telefonni kiriting."
+
+#: .\templates\identifiers\member_qr.html:395
+msgid "Link gym"
+msgstr "Zalni ulash"
+
+#: .\templates\identifiers\member_qr.html:401
+msgid "No gyms linked yet. Link your phone to continue."
+msgstr "Hali zal ulanmagan. Davom etish uchun telefonni kiriting."
+
+#: .\templates\identifiers\member_qr.html:409
+msgid "Your QR refreshes automatically"
+msgstr "QR kod avtomatik yangilanadi"
+
+#: .\templates\identifiers\member_qr.html:411
+msgid "Change"
+msgstr "O‘zgartirish"
+
+#: .\templates\identifiers\member_qr.html:420
+msgid "DEV token"
+msgstr "DEV token"
+
+#: .\templates\identifiers\member_qr.html:429
+msgid "Refresh:"
+msgstr "Yangilanish:"
+
+#: .\templates\identifiers\member_qr.html:430
+msgid "Keep screen bright"
+msgstr "Ekranni o‘chiq qoldirmang"
+
+#: .\templates\identifiers\member_qr.html:443
+msgid "Authenticated"
+msgstr "Tasdiqlandi"
+
+#: .\templates\identifiers\member_qr.html:444
+msgid "Ready"
+msgstr "Tayyor"
+
+#: .\templates\identifiers\member_qr.html:445
+msgid "Select gym"
+msgstr "Zalni tanlang"
+
+#: .\templates\identifiers\member_qr.html:446
+msgid "Not linked"
+msgstr "Ulanmagan"
+
+#: .\templates\identifiers\member_qr.html:447
+msgid "QR ready"
+msgstr "QR tayyor"
+
+#: .\templates\identifiers\member_qr.html:449
+msgid "Failed to load QR"
+msgstr "QR yuklanmadi"
+
+#: .\templates\identifiers\member_qr.html:450
+msgid "Linking…"
+msgstr "Ulanmoqda…"
+
+#: .\templates\identifiers\member_qr.html:451
+msgid "Enter phone number."
+msgstr "Telefon raqamini kiriting."
+
+#: .\templates\identifiers\member_qr.html:452
+msgid "Link failed"
+msgstr "Ulash muvaffaqiyatsiz"
+
+#: .\templates\identifiers\member_qr.html:453
+msgid "Linked successfully."
+msgstr "Muvaffaqiyatli ulandi."
+
+#: .\templates\identifiers\member_qr.html:454
+msgid "Some gyms are linked to another Telegram. Contact admin."
+msgstr "Ba'zi zallar boshqa Telegramga ulangan."
+
+#: .\templates\identifiers\member_qr.html:455
+msgid "Open QR for this gym"
+msgstr "Shu zal uchun QR ochish"
+
+#: .\templates\identifiers\member_qr.html:456
+msgid "Error"
+msgstr "Xato"
+
+#: .\templates\identifiers\member_qr.html:457
+msgid "unknown"
+msgstr "noma'lum"
+
+#: .\templates\registration\login.html:241
+msgid "GymOS Admin"
+msgstr "GymOS Admin"
+
+#: .\templates\registration\login.html:242
+msgid "Sign in to manage members, subscriptions, and access control."
+msgstr "Mijozlar va abonementlarni boshqarish uchun tizimga kiring."
+
+#: .\templates\registration\login.html:248
+msgid "Invalid username or password."
+msgstr "Login yoki parol noto‘g‘ri."
+
+#: .\templates\registration\login.html:256
+msgid "Enter username"
+msgstr "Login kiriting"
+
+#: .\templates\registration\login.html:261
+msgid "Enter password"
+msgstr "Parol kiriting"
+
+#: .\templates\registration\login.html:264
+msgid "Login"
+msgstr "Kirish"
+
+#: .\templates\registration\login.html:267
+msgid "Secure access for authorized staff only."
+msgstr "Faqat ruxsat berilgan xodimlar uchun."

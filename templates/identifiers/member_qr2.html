@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>GymOS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    }
+
+    h1 {
+      font-size: 18px;
+      margin: 0 0 10px;
+    }
+
+    .muted {
+      opacity: .75;
+      font-size: 13px;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, .2);
+      background: rgba(2, 6, 23, .6);
+      color: #e5e7eb;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .btn:hover {
+      border-color: rgba(148, 163, 184, .45);
+    }
+
+    .btn.primary {
+      background: #0b1220;
+      border-color: rgba(34, 197, 94, .35);
+    }
+
+    .qrwrap {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, .2);
+      background: rgba(2, 6, 23, .45);
+      font-size: 14px;
+      opacity: .9;
+    }
+
+    .err {
+      border-color: rgba(239, 68, 68, .35);
+    }
+
+    .ok {
+      border-color: rgba(34, 197, 94, .35);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>GymOS</h1>
+    <div id="subtitle" class="muted">Loading…</div>
+
+    <div id="screen-loading" class="status">Authenticating…</div>
+
+    <div id="screen-gyms" style="display:none;">
+      <div class="status">Select your gym</div>
+      <div id="gymsList" class="row"></div>
+
+      <div class="status" style="margin-top:14px;">
+        Not linked? Enter phone to link.
+      </div>
+      <div class="row">
+        <input id="phoneInput" placeholder="+998901234567" />
+        <button id="linkBtn" class="btn">🔗 Link my phone</button>
+      </div>
+      <div id="linkStatus" class="status" style="display:none;"></div>
+    </div>
+
+    <div id="screen-qr" style="display:none;">
+      <button id="backBtn" class="btn">← Change gym</button>
+      <div id="selectedGym" class="status ok"></div>
+      <div class="qrwrap center">
+        <canvas id="qr"></canvas>
+      </div>
+      {% if DEBUG %}
+      <div class="status" style="margin-top:12px;">
+        <div class="muted" style="margin-bottom:6px;">DEV token (copy/paste into kiosk):</div>
+        <div style="display:flex; gap:8px;">
+          <input id="tokenBox" readonly style="flex:1; padding:10px; border-radius:10px; border:none;">
+          <button id="copyBtn" class="btn" style="width:auto;">Copy</button>
+        </div>
+      </div>
+      {% endif %}
+      <div class="muted" style="margin-top:10px;">QR refreshes automatically</div>
+      <div id="qrStatus" class="status" style="margin-top:12px; display:none;"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    let memberSession = null;   // tg session
+    let gyms = [];
+    let selectedGymId = null;
+    let qrTimer = null;
+    const tg = window.Telegram?.WebApp || null;
+    // if (tg) tg.expand();
+    // document.getElementById("subtitle").innerText =
+    // "URL: " + location.href + "\nUA: " + navigator.userAgent;
+    // document.body.innerHTML += "<pre>" + JSON.stringify({
+    //   hasTelegram: !!window.Telegram,
+    //   hasWebApp: window.Telegram && !!Telegram.WebApp,
+    //   initDataLength: window.Telegram && Telegram.WebApp ? Telegram.WebApp.initData.length : null
+    // }, null, 2) + "</pre>";
+
+    const el = (id) => document.getElementById(id);
+
+    function getTelegramInitData() {
+      // 1) Best case: Telegram injects WebApp object
+      if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
+        return Telegram.WebApp.initData;
+      }
+
+      // 2) Fallback: Telegram Desktop sometimes passes it in URL hash (#tgWebAppData=...)
+      const hash = window.location.hash || "";
+      const params = new URLSearchParams(hash.startsWith("#") ? hash.slice(1) : hash);
+      const tgWebAppData = params.get("tgWebAppData");
+      if (tgWebAppData) {
+        // tgWebAppData is already URL-encoded query string, so decode it once
+        return decodeURIComponent(tgWebAppData);
+      }
+
+      return "";
+    }
+
+    function show(id) {
+      ["screen-loading", "screen-gyms", "screen-qr"].forEach(x => el(x).style.display = "none");
+      el(id).style.display = "block";
+    }
+
+    async function tgAuth() {
+      const init_data = getTelegramInitData();
+      if (!init_data) throw new Error("missing_init_data");
+
+      const r = await fetch("/api/tg/webapp/auth/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
+        body: JSON.stringify({ init_data })
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || "auth_failed");
+
+      memberSession = data.session;
+      el("subtitle").innerText = "Authenticated";
+    }
+
+    async function fetchMyGyms() {
+      const r = await fetch("/api/users/me/gyms/", {
+        method: "GET",
+        headers: { "X-Member-Session": memberSession }
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.detail || "gyms_failed");
+      gyms = data;
+      return gyms;
+    }
+
+    function renderGyms() {
+      const list = el("gymsList");
+      list.innerHTML = "";
+
+      if (!gyms.length) {
+        list.innerHTML = `<div class="status err">No gyms linked yet.</div>`;
+        return;
+      }
+
+      gyms.forEach(g => {
+        const b = document.createElement("button");
+        b.className = "btn primary";
+        b.innerText = "🏋️ " + g.gym_name;
+        b.onclick = () => selectGym(g.gym_id, g.gym_name);
+        list.appendChild(b);
+      });
+    }
+
+    async function selectGym(gymId, gymName) {
+      selectedGymId = gymId;
+      el("selectedGym").innerText = "Selected: " + gymName;
+      show("screen-qr");
+      await refreshQR();
+      if (qrTimer) clearInterval(qrTimer);
+      qrTimer = setInterval(refreshQR, 30000);
+    }
+
+    async function refreshQR() {
+      const status = el("qrStatus");
+      status.style.display = "none";
+
+      const r = await fetch("/api/identifiers/member/qr-token/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+          "X-Member-Session": memberSession
+        },
+        body: JSON.stringify({ gym_id: selectedGymId })
+      });
+
+      const data = await r.json();
+      if (!r.ok || !data.token) {
+        status.className = "status err";
+        status.innerText = data.detail || "Failed to load QR";
+        status.style.display = "block";
+        return;
+      }
+
+      QRCode.toCanvas(el("qr"), data.token, { width: 280 }, (err) => { if (err) console.error(err); });
+      {% if DEBUG %}
+        const tb = document.getElementById("tokenBox");
+        if (tb) tb.value = data.token;
+
+        const cb = document.getElementById("copyBtn");
+        if (cb) cb.onclick = async () => {
+          try { await navigator.clipboard.writeText(tb.value); }
+          catch (e) { /* ignore */ }
+        };
+      {% endif %}
+    }
+
+    async function linkPhone() {
+      const phone = el("phoneInput").value.trim();
+      const st = el("linkStatus");
+
+      st.style.display = "block";
+      st.className = "status";
+      st.innerText = "Linking…";
+
+      if (!phone) {
+        st.className = "status err";
+        st.innerText = "Enter your phone number.";
+        return;
+      }
+
+      const r = await fetch("/api/users/me/link-phone/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+          "X-Member-Session": memberSession
+        },
+        body: JSON.stringify({ phone })
+      });
+
+      const data = await r.json();
+
+      if (!r.ok) {
+        st.className = "status err";
+        st.innerText = data.detail || "Linking failed";
+        return;
+      }
+
+      if (data.blocked && data.blocked.length) {
+        st.className = "status err";
+        st.innerText = "Some gyms are already linked to another Telegram. Contact admin.";
+        // still refresh gyms: maybe others linked fine
+      } else {
+        st.className = "status ok";
+        st.innerText = "Linked ✅";
+      }
+
+      // Refresh gym list
+      gyms = await fetchMyGyms();
+      renderGyms();
+    }
+
+    function wireUI() {
+      el("backBtn").onclick = () => {
+        selectedGymId = null;
+        if (qrTimer) clearInterval(qrTimer);
+        show("screen-gyms");
+      };
+      el("linkBtn").onclick = linkPhone;
+    }
+
+    async function boot() {
+      try {
+        if (tg) tg.expand();
+        wireUI();
+        show("screen-loading");
+        await tgAuth();
+        await fetchMyGyms();
+        renderGyms();
+        show("screen-gyms");
+      } catch (e) {
+        show("screen-loading");
+        el("screen-loading").className = "status err";
+        el("screen-loading").innerText = "Error: " + (e.message || "unknown");
+      }
+    }
+
+    boot();
+  </script>
+</body>
+
+</html>

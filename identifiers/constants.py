@@ -1,0 +1,1 @@
+QR_TTL_SECONDS = 60

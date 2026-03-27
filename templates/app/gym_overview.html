@@ -1,0 +1,586 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Dashboard{% endblock %}
+{% load i18n %}
+
+{% block content %}
+<style>
+  .dashboard-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .overview-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .overview-header__main {
+    min-width: 0;
+  }
+
+  .overview-header__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .overview-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .overview-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .overview-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .toolbar-card {
+    padding: var(--space-3);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .toolbar-form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .toolbar-form .form-select {
+    min-width: 220px;
+  }
+
+  .segment-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  .segment-control .btn {
+    min-height: 34px;
+    padding: 8px 12px;
+    border-radius: 999px;
+  }
+
+  .stats-grid {
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stats-grid--compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .overview-stat {
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-4);
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .overview-stat::after {
+    content: "";
+    position: absolute;
+    right: -28px;
+    bottom: -28px;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: rgba(79, 70, 229, 0.05);
+    pointer-events: none;
+  }
+
+  .overview-stat__label {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .overview-stat__value {
+    margin-top: 10px;
+    color: var(--text-primary);
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .overview-stat__meta {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+  }
+
+  .overview-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+
+  .overview-section__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .overview-section__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .overview-section__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .overview-section__body {
+    padding: var(--space-4);
+  }
+
+  .table-shell {
+    overflow-x: auto;
+  }
+
+  .overview-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .overview-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .overview-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+  .overview-branch-badge {
+    min-height: 34px;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+  .overview-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .overview-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .overview-table__strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .analytics-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .analytics-toolbar__title {
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+  }
+
+  .analytics-toolbar__meta {
+    margin-top: 3px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+  }
+
+  .analytics-toolbar__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .chart-area {
+    position: relative;
+    min-height: 280px;
+  }
+
+  @media (max-width: 1199.98px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .overview-header {
+      align-items: stretch;
+    }
+
+    .overview-header__actions {
+      width: 100%;
+    }
+
+    .charts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .analytics-toolbar {
+      align-items: stretch;
+    }
+
+    .analytics-toolbar__controls {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .stats-grid,
+    .stats-grid--compact {
+      grid-template-columns: 1fr;
+    }
+
+    .toolbar-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .toolbar-form .form-select,
+    .toolbar-form .btn,
+    .overview-header__actions > * {
+      width: 100%;
+    }
+
+    .segment-control {
+      width: 100%;
+      justify-content: stretch;
+      border-radius: var(--radius-md);
+    }
+
+    .segment-control .btn {
+      flex: 1 1 0;
+    }
+
+    .overview-section__header,
+    .overview-section__body,
+    .analytics-toolbar {
+      padding: var(--space-3);
+    }
+
+    .chart-area {
+      min-height: 240px;
+    }
+  }
+</style>
+
+<div class="dashboard-page">
+  <div class="overview-header">
+    <div class="overview-header__main">
+      <div class="overview-header__title-row">
+        <h2 class="overview-header__title">{% trans "Overview" %}</h2>
+        {% if selected_branch %}
+          <span class="badge badge-soft-primary overview-branch-badge">{{ selected_branch.name }}</span>
+        {% elif is_admin_role and has_multiple_branch %}
+          <span class="badge badge-soft-primary overview-branch-badge">{% trans "All branches" %}</span>
+        {% endif %}
+      </div>
+
+      {% if selected_branch %}
+        <div class="overview-header__subtitle">{% trans "Branch-specific performance and activity." %}</div>
+      {% else %}
+        <div class="overview-header__subtitle">{% trans "Combined performance across visible branches." %}</div>
+      {% endif %}
+    </div>
+
+    <div class="overview-header__actions">
+      <form method="get" class="toolbar-card toolbar-form">
+        <input type="hidden" name="period" value="{{ months }}">
+        <input type="hidden" name="members" value="{{ members_mode }}">
+        {% if is_admin_role and has_multiple_branch %}
+          <select name="branch" onchange="this.form.submit()" class="form-select">
+            <option value="">{% trans "All branches" %}</option>
+            {% for b in branches %}
+              <option value="{{ b.id }}" {% if branch_id == b.id %}selected{% endif %}>
+                {{ b.name }}
+              </option>
+            {% endfor %}
+          </select>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <section class="stats-grid">
+    <div class="overview-stat">
+      <div class="overview-stat__label">{% trans "Income (this month)" %}</div>
+      <div class="overview-stat__value">{{ income_this_month }}</div>
+      <div class="overview-stat__meta">{% trans "UZS" %}</div>
+    </div>
+
+    <div class="overview-stat">
+      <div class="overview-stat__label">{% trans "Income (last month)" %}</div>
+      <div class="overview-stat__value">{{ income_last_month }}</div>
+      <div class="overview-stat__meta">{% trans "UZS" %}</div>
+    </div>
+
+    <div class="overview-stat">
+      <div class="overview-stat__label">{% trans "Total active members" %}</div>
+      <div class="overview-stat__value">{{ active_members }}</div>
+      <div class="overview-stat__meta">{% trans "members" %}</div>
+    </div>
+
+    <div class="overview-stat">
+      <div class="overview-stat__label">{% trans "Inside now" %}</div>
+      <div class="overview-stat__value">{{ inside_now }}</div>
+      <div class="overview-stat__meta">{% trans "in gym" %}</div>
+    </div>
+  </section>
+
+  <section class="stats-grid stats-grid--compact">
+    <div class="overview-stat">
+      <div class="overview-stat__label">{% trans "Expire today" %}</div>
+      <div class="overview-stat__value">{{ exp_today }}</div>
+    </div>
+
+    <div class="overview-stat">
+      <div class="overview-stat__label">{% trans "Expire in 7 days" %}</div>
+      <div class="overview-stat__value">{{ exp_7 }}</div>
+    </div>
+  </section>
+
+  {% if is_admin_role %}
+    {% if branch_rows and has_multiple_branch %}
+      <section class="overview-section">
+        <div class="overview-section__header">
+          <div>
+            <h3 class="overview-section__title">{% trans "Branches" %}</h3>
+            <div class="overview-section__subtitle">{% trans "Branch performance snapshot" %}</div>
+          </div>
+        </div>
+
+        <div class="table-shell">
+          <table class="overview-table">
+            <thead>
+              <tr>
+                <th>{% trans "Branch" %}</th>
+                <th>{% trans "Active" %}</th>
+                <th>{% trans "Inside" %}</th>
+                <th>{% trans "Income (month)" %}</th>
+                <th>{% trans "Expiring (7d)" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in branch_rows %}
+                <tr>
+                  <td class="overview-table__strong">{{ r.branch_name }}</td>
+                  <td>{{ r.active_members }}</td>
+                  <td>{{ r.inside_now }}</td>
+                  <td>{{ r.income_month }}</td>
+                  <td>{{ r.expiring_7 }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if not branch_id and branch_compare_income_labels and has_multiple_branch %}
+      <div class="charts-grid">
+        <section class="overview-section">
+          <div class="overview-section__header">
+            <div>
+              <h3 class="overview-section__title">{% trans "Branch revenue comparison" %}</h3>
+              <div class="overview-section__subtitle">{% trans "This month" %}</div>
+            </div>
+          </div>
+          <div class="overview-section__body">
+            <div class="chart-area">
+              <canvas id="branchIncomeChart" height="120"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="overview-section">
+          <div class="overview-section__header">
+            <div>
+              <h3 class="overview-section__title">{% trans "Branch member comparison" %}</h3>
+              <div class="overview-section__subtitle">{% trans "Active members" %}</div>
+            </div>
+          </div>
+          <div class="overview-section__body">
+            <div class="chart-area">
+              <canvas id="branchMembersChart" height="120"></canvas>
+            </div>
+          </div>
+        </section>
+      </div>
+    {% endif %}
+
+    <div class="analytics-toolbar">
+      <div>
+        <div class="analytics-toolbar__title">{% trans "Analytics controls" %}</div>
+        <div class="analytics-toolbar__meta">{% trans "Shared controls for income and members charts" %}</div>
+      </div>
+
+      <div class="analytics-toolbar__controls">
+        <div class="segment-control">
+          <a class="btn btn-outline-secondary btn-sm" href="?period=3&members={{ members_mode }}&branch={{ branch_id }}">3m</a>
+          <a class="btn btn-outline-secondary btn-sm" href="?period=6&members={{ members_mode }}&branch={{ branch_id }}">6m</a>
+          <a class="btn btn-outline-secondary btn-sm" href="?period=12&members={{ members_mode }}&branch={{ branch_id }}">12m</a>
+        </div>
+
+        <div class="segment-control">
+          <a class="btn btn-outline-secondary btn-sm" href="?period={{ months }}&members=total&branch={{ branch_id }}">{% trans "Total" %}</a>
+          <a class="btn btn-outline-secondary btn-sm" href="?period={{ months }}&members=new&branch={{ branch_id }}">{% trans "New" %}</a>
+          <a class="btn btn-outline-secondary btn-sm" href="?period={{ months }}&members=left&branch={{ branch_id }}">{% trans "Left" %}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <section class="overview-section">
+        <div class="overview-section__header">
+          <div>
+            <h3 class="overview-section__title">{% trans "Income by month" %}</h3>
+            <div class="overview-section__subtitle">{% blocktrans with months=months %}Last {{ months }} months{% endblocktrans %}</div>
+          </div>
+        </div>
+        <div class="overview-section__body">
+          <div class="chart-area">
+            <canvas id="incomeChart" height="120"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section class="overview-section">
+        <div class="overview-section__header">
+          <div>
+            <h3 class="overview-section__title">{% trans "Members" %}</h3>
+            <div class="overview-section__subtitle">{% blocktrans with months=months %}Last {{ months }} months{% endblocktrans %}</div>
+          </div>
+        </div>
+        <div class="overview-section__body">
+          <div class="chart-area">
+            <canvas id="membersChart" height="120"></canvas>
+          </div>
+        </div>
+      </section>
+    </div>
+  {% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const incomeLabels = {{ income_labels|safe }};
+  const incomeValues = {{ income_values|safe }};
+  const memberLabels = {{ member_labels|safe }};
+  const memberValues = {{ member_values|safe }};
+
+  new Chart(document.getElementById("incomeChart"), {
+    type: "line",
+    data: {
+      labels: incomeLabels,
+      datasets: [{ label: "Income (UZS)", data: incomeValues, tension: 0.3 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: true } } }
+  });
+
+  new Chart(document.getElementById("membersChart"), {
+    type: "line",
+    data: {
+      labels: memberLabels,
+      datasets: [{ label: "Members", data: memberValues, tension: 0.3 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: true } } }
+  });
+
+  {% if not branch_id and branch_compare_income_labels %}
+    const branchIncomeLabels = {{ branch_compare_income_labels|safe }};
+    const branchIncomeValues = {{ branch_compare_income_values|safe }};
+    const branchMembersLabels = {{ branch_compare_members_labels|safe }};
+    const branchMembersValues = {{ branch_compare_members_values|safe }};
+
+    new Chart(document.getElementById("branchIncomeChart"), {
+      type: "bar",
+      data: {
+        labels: branchIncomeLabels,
+        datasets: [{ label: "Income (month)", data: branchIncomeValues }]
+      },
+      options: { responsive: true, plugins: { legend: { display: true } } }
+    });
+
+    new Chart(document.getElementById("branchMembersChart"), {
+      type: "bar",
+      data: {
+        labels: branchMembersLabels,
+        datasets: [{ label: "Active members", data: branchMembersValues }]
+      },
+      options: { responsive: true, plugins: { legend: { display: true } } }
+    });
+  {% endif %}
+</script>
+{% endblock %}

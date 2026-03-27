@@ -1,0 +1,668 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Branches{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .branches-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .branches-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .branches-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .branches-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .branches-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .branches-alert {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .branches-alert--error {
+    color: var(--danger);
+    background: var(--danger-soft);
+    border-color: var(--danger-border);
+  }
+
+  .branches-alert--success {
+    color: var(--success);
+    background: var(--success-soft);
+    border-color: var(--success-border);
+  }
+
+  .toolbar-card,
+  .section-card {
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .toolbar-card {
+    padding: var(--space-3);
+  }
+
+  .filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .filter-form__search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .filter-form .form-control,
+  .filter-form .form-select {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .filter-form .btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 16px;
+    white-space: nowrap;
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .section-card__body {
+    padding: var(--space-4);
+  }
+
+  .policy-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-4);
+    align-items: end;
+  }
+
+  .policy-options {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .policy-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .policy-option input[type="radio"] {
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .policy-option__title {
+    display: block;
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .policy-option__meta {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .policy-layout__actions .btn {
+    min-width: 120px;
+  }
+
+  .branches-table-wrap {
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .branches-table {
+    width: 100%;
+    min-width: 980px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .branches-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .branches-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+
+  .branches-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .branches-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .branch-name {
+    color: var(--text-primary);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .branch-address {
+    color: var(--text-secondary);
+  }
+
+  .status-badge {
+    min-width: 64px;
+    justify-content: center;
+  }
+
+  .table-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .table-actions form {
+    margin: 0;
+  }
+
+  .table-actions .btn {
+    min-width: 88px;
+    height: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .branches-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .branches-modal .modal-header,
+  .branches-modal .modal-footer {
+    border-color: var(--border-subtle);
+    padding: var(--space-4);
+  }
+
+  .branches-modal .modal-body {
+    padding: var(--space-4);
+  }
+
+  .modal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .modal-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .branches-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .branches-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .branches-modal .modal-header,
+  .branches-modal .modal-footer {
+    border-color: var(--border-subtle);
+    padding: var(--space-4);
+  }
+
+  .branches-modal .modal-body {
+    padding: var(--space-4);
+  }
+
+  .modal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .modal-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .modal-note {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.45;
+  }
+
+  @media (max-width: 991.98px) {
+    .branches-header {
+      align-items: stretch;
+    }
+
+    .branches-header__actions {
+      width: 100%;
+    }
+
+    .section-card__header,
+    .section-card__body,
+    .toolbar-card {
+      padding: var(--space-3);
+    }
+
+    .filter-form {
+      flex-wrap: wrap;
+    }
+
+    .filter-form__search {
+      flex: 1 1 100%;
+    }
+
+    .policy-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .toolbar-card,
+    .section-card,
+    .branches-table-wrap {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .filter-form {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+
+    .filter-form > * {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .branches-table {
+      min-width: 760px;
+    }
+
+    .branches-table thead th,
+    .branches-table tbody td {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+      .table-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .table-actions form,
+      .table-actions .btn {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .modal-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+    .status-badge {
+      min-width: 54px;
+    }
+
+    .modal-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="branches-page">
+  <div class="branches-header">
+    <div>
+      <h2 class="branches-header__title">{% trans "Branches" %}</h2>
+      <div class="branches-header__subtitle">{% trans "Last 200 branches" %}</div>
+    </div>
+
+    <div class="branches-header__actions">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBranchModal">
+        {% trans "Add branch" %}
+      </button>
+      <a href="/api/dashboard/app/gyms/{{ gym_id }}/" class="back-link">← {% trans "Overview" %}</a>
+    </div>
+  </div>
+
+  {% if request.GET.err %}
+    <div class="branches-alert branches-alert--error">{% blocktrans with err=request.GET.err %}Error: {{ err }}{% endblocktrans %}</div>
+  {% endif %}
+
+  {% if request.GET.ok %}
+    <div class="branches-alert branches-alert--success">{% trans "Saved successfully." %}</div>
+  {% endif %}
+
+  <div class="toolbar-card">
+    <form method="get" class="filter-form">
+      <input
+        name="q"
+        value="{{ q }}"
+        placeholder="{% trans 'Search branch name' %}"
+        class="form-control filter-form__search"
+        autofocus
+      >
+      <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Searching...' %}">{% trans "Search" %}</button>
+    </form>
+  </div>
+
+  {% if has_multiple_branch %}
+    <div class="section-card">
+      <div class="section-card__header">
+        <div>
+          <h3 class="section-card__title">{% trans "Branch access policy" %}</h3>
+          <div class="section-card__subtitle">{% trans "Choose whether members can enter all branches or only their registered branch." %}</div>
+        </div>
+      </div>
+
+      <div class="section-card__body">
+        <form method="post" action="/api/dashboard/app/gyms/{{ gym_id }}/settings/branch-access/" class="policy-layout">
+          {% csrf_token %}
+
+          <div class="policy-options">
+            <label class="policy-option">
+              <input type="radio" name="mode" value="all" {% if gym.branch_access_mode == "all" %}checked{% endif %}>
+              <span>
+                <span class="policy-option__title">{% trans "Allow entry from all branches" %}</span>
+                <span class="policy-option__meta">{% trans "Members can access any branch in this gym." %}</span>
+              </span>
+            </label>
+
+            <label class="policy-option">
+              <input type="radio" name="mode" value="registered_only" {% if gym.branch_access_mode == "registered_only" %}checked{% endif %}>
+              <span>
+                <span class="policy-option__title">{% trans "Allow entry only from registered branch" %}</span>
+                <span class="policy-option__meta">{% trans "Members can enter only their assigned branch." %}</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="policy-layout__actions">
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Saving...' %}">{% trans "Save policy" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="section-card">
+    <div class="section-card__header">
+      <div>
+        <h3 class="section-card__title">{% trans "Branch list" %}</h3>
+        <div class="section-card__subtitle">{% trans "Update names, addresses, and active state." %}</div>
+      </div>
+    </div>
+
+    <div class="branches-table-wrap">
+      <table class="branches-table">
+        <thead>
+          <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Address" %}</th>
+            <th>{% trans "Active" %}</th>
+            <th>{% trans "Actions" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in branches %}
+            <tr>
+              <td>
+                <div class="branch-name">{{ b.name }}</div>
+              </td>
+
+              <td>
+                <div class="branch-address">{{ b.address|default:"—" }}</div>
+              </td>
+
+              <td>
+                {% if b.is_active %}
+                  <span class="badge badge-soft-success status-badge">{% trans "ON" %}</span>
+                {% else %}
+                  <span class="badge badge-soft-danger status-badge">{% trans "OFF" %}</span>
+                {% endif %}
+              </td>
+
+              <td>
+                  <div class="table-actions">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editBranchModal{{ b.id }}"
+                    >
+                      {% trans "Edit" %}
+                    </button>
+
+                    <form method="post" action="/api/branches/app/gyms/{{ gym_id }}/branches/{{ b.id }}/update/">
+                      {% csrf_token %}
+                      <button type="submit" name="action" value="toggle" class="btn btn-outline-secondary btn-sm">
+                        {% if b.is_active %}{% trans "Disable" %}{% else %}{% trans "Enable" %}{% endif %}
+                      </button>
+                    </form>
+                  </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="table-empty-state">
+                <div class="empty-state">
+                  <div class="empty-state__title">{% trans "No branches found" %}</div>
+                  <div class="empty-state__text">{% trans "Add your first branch." %}</div>
+                  <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#addBranchModal">
+                    {% trans "Add branch" %}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade branches-modal" id="addBranchModal" tabindex="-1" aria-labelledby="addBranchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form method="post" action="/api/branches/app/gyms/{{ gym_id }}/branches/create/">
+        {% csrf_token %}
+        <div class="modal-header d-flex justify-content-between">
+          <div>
+            <h3 class="section-card__title" id="addBranchModalLabel">{% trans "Add branch" %}</h3>
+            <div class="section-card__subtitle">{% trans "Create a new branch with an optional address." %}</div>
+          </div>
+          <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-form-grid">
+            <div>
+              <label class="form-label">{% trans "Branch name" %}</label>
+              <input name="name" placeholder="{% trans 'Main' %}" class="form-control">
+            </div>
+
+            <div>
+              <label class="form-label">{% trans "Address" %}</label>
+              <input name="address" placeholder="{% trans 'Address (optional)' %}" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="modal-note me-auto">{% trans "Use a clear name so staff can identify the branch quickly." %}</div>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+          <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Creating...' %}">{% trans "Create branch" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% for b in branches %}
+  <div class="modal fade branches-modal" id="editBranchModal{{ b.id }}" tabindex="-1" aria-labelledby="editBranchModalLabel{{ b.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="/api/branches/app/gyms/{{ gym_id }}/branches/{{ b.id }}/update/">
+          {% csrf_token %}
+          <div class="modal-header">
+            <div>
+              <h3 class="section-card__title" id="editBranchModalLabel{{ b.id }}">{% trans "Edit branch" %}</h3>
+              <div class="section-card__subtitle">{{ b.name }}</div>
+            </div>
+            <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-form-grid">
+              <div>
+                <label class="form-label">{% trans "Branch name" %}</label>
+                <input name="name" value="{{ b.name }}" class="form-control">
+              </div>
+
+              <div>
+                <label class="form-label">{% trans "Address" %}</label>
+                <input name="address" value="{{ b.address }}" placeholder="{% trans 'Address' %}" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+            <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}

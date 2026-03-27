@@ -1,0 +1,376 @@
+GYMOS UI/UX POLISH HANDOVER
+Purpose of this Handover
+
+The backend system is fully implemented and functionally stable (v1).
+What is needed now is professional UI/UX polishing.
+
+Your task is NOT to redesign system behavior, but to:
+
+• Improve visual design
+• Improve usability
+• Improve layout hierarchy
+• Improve mobile responsiveness
+• Improve clarity of actions
+
+All existing Django logic must remain functional.
+The system is already in production-ready state functionally.
+Product Overview
+Product Name
+
+GYMOS
+
+What It Is
+
+A gym automation system that controls:
+
+• Gym member access
+• Membership subscriptions
+• Branch management
+• Staff operations
+• Entry logs
+• Revenue analytics
+
+The system also integrates with Telegram WebApp and QR-based gate access.
+Core System Concept
+A gym installs a kiosk device at the entrance.
+Members open the Telegram WebApp, which shows a rotating QR code.
+The QR code is scanned at the kiosk.
+
+Backend validates:
+
+• Member status
+• Subscription validity
+• Gym SaaS subscription
+• Cooldown rules
+• Branch access policy
+
+If valid → gate opens.
+
+System Users
+1. Gym Owner
+
+Full control over gym.
+
+Can manage:
+
+• branches
+• staff
+• members
+• plans
+• subscriptions
+• devices
+• analytics
+
+2. Gym Admin
+
+Almost same permissions as owner.
+Operational management.
+
+3. Staff (Branch Staff)
+
+Limited scope.
+
+Can:
+
+• manage members
+• renew subscriptions
+• view entries
+• use kiosk
+
+Cannot:
+
+• manage staff
+• manage plans
+• manage branches
+• change system configuration
+
+Staff can only see their assigned branch data.
+
+4. Gym Members
+
+They interact only through Telegram WebApp.
+
+They:
+
+• view their gyms
+• open QR code
+• receive expiry notifications
+
+Core Functional Areas
+Dashboard
+
+Overview of gym operations.
+
+Shows:
+
+• active members
+• revenue this month
+• members inside gym
+• expiring memberships
+• charts (income / users)
+• branch analytics
+• SaaS subscription status
+
+Owners/Admins see all branches.
+Staff see only their branch.
+
+Members Page
+Main operational page.
+Allows:
+
+• create member
+• search member
+• edit member
+• block/unblock
+• renew subscription
+• force checkout
+• view profile
+
+Members must always have a subscription when created.
+Phone numbers must be unique per gym.
+Renew Center
+Operational page used daily.
+Allows staff to quickly:
+
+• see expired members
+• see expiring members
+• renew memberships
+
+Features:
+
+• search by phone/name
+• branch filtering
+• status filtering
+• renew action inline
+
+Renew center always uses latest subscription only.
+Entry Logs
+Shows entry/exit events.
+Data includes:
+
+• member
+• branch
+• device
+• event (IN/OUT)
+• timestamp
+• access result
+• reason
+
+Staff only see their branch logs.
+Devices Page
+Shows access control devices.
+Device type currently:
+
+• kiosk (QR scanning)
+
+Staff can see devices but read-only.
+Admins can configure devices.
+Each device has a kiosk page link.
+Member Subscriptions (Sales Ledger)
+Read-only history of all sold subscriptions.
+
+Shows:
+
+• sold date
+• member
+• branch
+• plan
+• start
+• end
+• price
+• status
+
+Purpose:
+
+• sales tracking
+• revenue analysis
+
+No editing allowed.
+Branch Management
+Admins can:
+
+• create branches
+• assign staff
+• manage branch devices
+
+Members belong to a branch.
+Branch policy can control branch entry restrictions.
+Staff Management
+Admins manage staff accounts.
+
+Staff roles:
+
+• owner
+• admin
+• staff
+
+Staff can optionally be restricted to a branch.
+SaaS Subscription Layer
+GYMOS itself is a SaaS product.
+Each gym has a SaaS subscription.
+If expired:
+
+• kiosk denies entries
+• dashboard shows warning
+
+UI should clearly display:
+
+• plan name
+• status
+• expiry date
+
+Access Control Logic
+
+When QR is scanned:
+
+System checks:
+Token validity
+Gym SaaS active
+Member exists
+Member active
+Member subscription active
+Branch access rule
+Cooldown rule
+Security rate limit
+
+Then:
+
+• toggles entry IN/OUT
+• logs event
+
+Security Systems
+
+Implemented protections:
+
+• rotating QR tokens
+• cooldown between scans
+• brute-force protection
+• token validation
+• entry logging
+
+UI must not interfere with these mechanisms.
+
+Branch Access Policy
+Gym owner can choose:
+Allow entry from all branches
+OR
+Allow entry only from registered branch
+UI should present this clearly.
+Backend Architecture
+Backend stack:
+
+Django
+Django Templates
+Minimal JavaScript
+Chart.js for charts
+
+Structure is standard Django app architecture.
+Templates use Django template tags.
+Forms use POST submissions.
+JavaScript is very light.
+Important Constraint
+You must keep Django structure intact.
+
+Meaning:
+
+• keep template variables
+• keep form names
+• keep URLs
+• keep JS logic
+• keep CSRF tokens
+• keep backend integration untouched
+
+You may improve:
+
+• layout
+• styling
+• spacing
+• typography
+• interaction design
+• responsiveness
+
+But not break template variables.
+
+Development Method
+I will show you each page one by one.
+For each page you should:
+Study the page
+Understand its functionality
+Propose improved UI/UX
+Return a modified template file
+
+The modified file must:
+
+• preserve all template variables
+• preserve forms
+• preserve URLs
+• preserve JS behavior
+
+I should be able to:
+replace the existing template file with yours
+and everything should still work.
+
+Design Goals
+
+The UI should feel:
+
+• modern
+• calm for long usage
+• operationally efficient
+• readable on large screens
+• usable on tablets
+• usable on phones
+
+This system will be used daily by gym staff.
+
+So focus on:
+
+• clarity
+• fast scanning
+• minimal friction
+
+UX Priorities
+
+Most frequently used operations:
+Renew membership
+Search member
+Check entry logs
+View expiring members
+These actions should be very easy to reach.
+Visual Direction (suggested)
+Clean SaaS dashboard style.
+
+Examples of good references:
+
+• Linear
+• Stripe dashboard
+• Supabase
+• Notion admin panels
+
+Avoid heavy enterprise UI.
+
+Important Performance Note
+
+Some pages may show hundreds of rows.
+
+UI should:
+
+• handle tables cleanly
+• allow scrolling
+• keep filters visible
+
+What You Should Deliver
+
+For each page:
+
+• Improved template file
+• Optional CSS additions
+• Optional minimal JS improvements
+
+But everything must remain compatible with Django rendering.
+
+Final Goal
+After UI polishing, the product should feel like a professional SaaS product ready for paying gyms.
+Functionality is already complete.
+This phase is about making the product feel premium.
+Once you review the system and see the pages, decide the overall visual direction, then we will proceed page by page.

@@ -1,0 +1,588 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Renew Center{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .renew-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .renew-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .renew-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .renew-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .renew-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .renew-alert {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .renew-alert--error {
+    color: var(--danger);
+    background: var(--danger-soft);
+    border-color: var(--danger-border);
+  }
+
+  .renew-alert--success {
+    color: var(--success);
+    background: var(--success-soft);
+    border-color: var(--success-border);
+  }
+
+  .stats-grid {
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stat-card,
+  .toolbar-card,
+  .section-card {
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .stat-card {
+    padding: var(--space-4);
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
+  }
+
+  .stat-card__label {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  .stat-card__value {
+    margin-top: 10px;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .toolbar-card {
+    padding: var(--space-3);
+  }
+
+  .filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .filter-form__search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .filter-form .form-control,
+  .filter-form .form-select {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .filter-form .form-select {
+    min-width: 140px;
+  }
+
+  .filter-form__days {
+    width: 96px;
+    min-width: 96px;
+  }
+
+  .filter-form .btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 16px;
+    white-space: nowrap;
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .renew-table-wrap {
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .renew-table {
+    width: 100%;
+    min-width: 980px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .renew-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .renew-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+
+  .renew-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .renew-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .member-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .member-link:hover {
+    color: var(--primary);
+  }
+
+  .cell-subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .status-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .status-badge {
+    min-width: 78px;
+    justify-content: center;
+  }
+
+  .status-meta {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.3;
+  }
+
+  .table-actions .btn {
+    min-width: 88px;
+    height: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .renew-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .renew-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .renew-modal .modal-header,
+  .renew-modal .modal-footer {
+    border-color: var(--border-subtle);
+    padding: var(--space-4);
+  }
+
+  .renew-modal .modal-body {
+    padding: var(--space-4);
+  }
+
+  .renew-form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
+  .renew-note {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.45;
+  }
+
+  @media (max-width: 991.98px) {
+    .renew-header {
+      align-items: stretch;
+    }
+
+    .renew-header__actions {
+      width: 100%;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .section-card__header,
+    .toolbar-card,
+    .stat-card {
+      padding: var(--space-3);
+    }
+
+    .filter-form {
+      flex-wrap: wrap;
+    }
+
+    .filter-form__search {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .toolbar-card,
+    .section-card,
+    .renew-table-wrap {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .filter-form {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+
+    .filter-form > * {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .renew-table {
+      min-width: 820px;
+    }
+
+    .renew-table thead th,
+    .renew-table tbody td {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .renew-table thead th:nth-child(5),
+    .renew-table tbody td:nth-child(5) {
+      white-space: nowrap;
+    }
+
+    .status-badge {
+      min-width: 62px;
+    }
+  }
+</style>
+
+<div class="renew-page">
+  <div class="renew-header">
+    <div>
+      <h2 class="renew-header__title">{% trans "Renew Center" %}</h2>
+      <div class="renew-header__subtitle">{% trans "Search subscriptions and renew quickly" %}</div>
+    </div>
+
+    <div class="renew-header__actions">
+      <a href="/api/dashboard/app/gyms/{{ gym_id }}/" class="back-link">← {% trans "Overview" %}</a>
+    </div>
+  </div>
+
+  {% if request.GET.err %}
+    <div class="renew-alert renew-alert--error">{% blocktrans with err=request.GET.err %}Error: {{ err }}{% endblocktrans %}</div>
+  {% endif %}
+
+  {% if request.GET.ok %}
+    <div class="renew-alert renew-alert--success">{% trans "Renewed successfully." %}</div>
+  {% endif %}
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card__label">{% trans "Total" %}</div>
+      <div class="stat-card__value">{{ total_count }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">{% trans "Expired" %}</div>
+      <div class="stat-card__value">{{ expired_count }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">{% trans "Expiring" %}</div>
+      <div class="stat-card__value">{{ expiring_count }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">{% trans "Active" %}</div>
+      <div class="stat-card__value">{{ active_count }}</div>
+    </div>
+  </div>
+
+  <div class="toolbar-card">
+    <form method="get" class="filter-form">
+      <input
+        name="q"
+        value="{{ q }}"
+        placeholder="{% trans 'Search name or phone' %}"
+        class="form-control filter-form__search"
+        autofocus
+      >
+
+      <select name="status" class="form-select">
+        <option value="all" {% if status == "all" %}selected{% endif %}>{% trans "All statuses" %}</option>
+        <option value="expired" {% if status == "expired" %}selected{% endif %}>{% trans "Expired" %}</option>
+        <option value="expiring" {% if status == "expiring" %}selected{% endif %}>{% trans "Expiring" %}</option>
+        <option value="active" {% if status == "active" %}selected{% endif %}>{% trans "Active" %}</option>
+      </select>
+
+      <input
+        name="days"
+        value="{{ days }}"
+        placeholder="{% trans 'Days' %}"
+        class="form-control filter-form__days"
+      >
+
+      {% if is_admin_role and has_multiple_branch %}
+        <select name="branch" class="form-select">
+          <option value="">{% trans "All branches" %}</option>
+          {% for b in branches %}
+            <option value="{{ b.id }}" {% if selected_branch_id == b.id %}selected{% endif %}>{{ b.name }}</option>
+          {% endfor %}
+        </select>
+      {% endif %}
+
+      <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Filtering...' %}">{% trans "Filter" %}</button>
+    </form>
+  </div>
+
+  <div class="section-card">
+    <div class="section-card__header">
+      <div>
+        <h3 class="section-card__title">{% trans "Renewal queue" %}</h3>
+        <div class="section-card__subtitle">{% trans "Review current subscription state and renew from a focused modal." %}</div>
+      </div>
+    </div>
+
+    <div class="renew-table-wrap">
+      <table class="renew-table">
+        <thead>
+          <tr>
+            <th>{% trans "Member" %}</th>
+            <th>{% trans "Branch" %}</th>
+            <th>{% trans "Status" %}</th>
+            <th>{% trans "Plan" %}</th>
+            <th>{% trans "End date" %}</th>
+            <th>{% trans "Renew" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+            <tr>
+              <td>
+                <a href="/api/users/app/gyms/{{ gym_id }}/members/{{ r.member.id }}/" class="member-link">
+                  {{ r.member.full_name }}
+                </a>
+                <div class="cell-subtitle">{{ r.member.phone }}</div>
+              </td>
+
+              <td>{{ r.member.branch.name|default:"—" }}</td>
+
+              <td>
+                <div class="status-stack">
+                  {% if r.status == "expired" %}
+                    <span class="badge badge-soft-danger status-badge">{% trans "Expired" %}</span>
+                  {% elif r.status == "expiring" %}
+                    <span class="badge badge-soft-warning status-badge">{% trans "Expiring" %}</span>
+                    <div class="status-meta">
+                      {% blocktrans count days_left=r.days_left %}{{ days_left }} day left{% plural %}{{ days_left }} days left{% endblocktrans %}
+                    </div>
+                  {% else %}
+                    <span class="badge badge-soft-success status-badge">{% trans "Active" %}</span>
+                  {% endif %}
+                </div>
+              </td>
+
+              <td>{{ r.sub.plan.name }}</td>
+              <td>{{ r.sub.end_at }}</td>
+
+              <td>
+                <div class="table-actions">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#renewMemberModal{{ r.member.id }}"
+                  >
+                    {% trans "Renew" %}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6" class="table-empty-state">
+                <div class="empty-state">
+                  <div class="empty-state__title">{% trans "No matching members." %}</div>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% for r in rows %}
+  <div class="modal fade renew-modal" id="renewMemberModal{{ r.member.id }}" tabindex="-1" aria-labelledby="renewMemberModalLabel{{ r.member.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="/api/subscriptions/app/gyms/{{ gym_id }}/renew/action/">
+          {% csrf_token %}
+          <input type="hidden" name="member_id" value="{{ r.member.id }}">
+
+          <div class="modal-header">
+            <div>
+              <h3 class="section-card__title" id="renewMemberModalLabel{{ r.member.id }}">{% trans "Renew subscription" %}</h3>
+              <div class="section-card__subtitle">{{ r.member.full_name }} — {{ r.member.phone }}</div>
+            </div>
+            <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="renew-form-grid">
+              <div>
+                <label class="form-label">{% trans "Plan" %}</label>
+                <select name="plan_id" class="form-select">
+                  <option value="">{% trans "Select plan" %}</option>
+                  {% for p in plans %}
+                    <option value="{{ p.id }}">{{ p.name }} ({{ p.duration_days }}d)</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="renew-note">
+                {% trans "Current:" %} {{ r.sub.plan.name }}{% if r.sub.end_at %} · {% trans "Ends" %} {{ r.sub.end_at }}{% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="renew-note me-auto">{% trans "The selected plan will be assigned immediately." %}</div>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Updating...' %}">{% trans "Confirm renewal" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}

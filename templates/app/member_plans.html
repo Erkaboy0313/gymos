@@ -1,0 +1,377 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Member Plans{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .plans-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .plans-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .plans-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .plans-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .plans-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .plans-alert {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .plans-alert--error {
+    color: var(--danger);
+    background: var(--danger-soft);
+    border-color: var(--danger-border);
+  }
+
+  .plans-alert--success {
+    color: var(--success);
+    background: var(--success-soft);
+    border-color: var(--success-border);
+  }
+
+  .section-card {
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .plans-table-wrap {
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .plans-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .plans-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .plans-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+
+  .plans-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .plans-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .plan-name {
+    color: var(--text-primary);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .status-badge {
+    min-width: 64px;
+    justify-content: center;
+  }
+
+  .plans-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .plans-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .plans-modal .modal-header,
+  .plans-modal .modal-footer {
+    border-color: var(--border-subtle);
+    padding: var(--space-4);
+  }
+
+  .plans-modal .modal-body {
+    padding: var(--space-4);
+  }
+
+  .modal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .modal-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .modal-note {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.45;
+  }
+
+  @media (max-width: 991.98px) {
+    .plans-header {
+      align-items: stretch;
+    }
+
+    .plans-header__actions {
+      width: 100%;
+    }
+
+    .section-card__header {
+      padding: var(--space-3);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .section-card,
+    .plans-table-wrap {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .plans-table {
+      min-width: 620px;
+    }
+
+    .plans-table thead th,
+    .plans-table tbody td {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .status-badge {
+      min-width: 54px;
+    }
+
+    .modal-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="plans-page">
+  <div class="plans-header">
+    <div>
+      <h2 class="plans-header__title">{% trans "Member Plans" %}</h2>
+      <div class="plans-header__subtitle">{% trans "Create plans staff can sell" %}</div>
+    </div>
+
+    <div class="plans-header__actions">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPlanModal">
+        {% trans "Add plan" %}
+      </button>
+      <a href="/api/dashboard/app/gyms/{{ gym_id }}/" class="back-link">← {% trans "Overview" %}</a>
+    </div>
+  </div>
+
+  {% if request.GET.err %}
+    <div class="plans-alert plans-alert--error">{% blocktrans with err=request.GET.err %}Error: {{ err }}{% endblocktrans %}</div>
+  {% endif %}
+
+  {% if request.GET.ok %}
+    <div class="plans-alert plans-alert--success">{% trans "Saved successfully." %}</div>
+  {% endif %}
+
+  <div class="section-card">
+    <div class="section-card__header">
+      <div>
+        <h3 class="section-card__title">{% trans "Plan list" %}</h3>
+        <div class="section-card__subtitle">{% trans "Available membership plans and their pricing." %}</div>
+      </div>
+    </div>
+
+    <div class="plans-table-wrap">
+      <table class="plans-table">
+        <thead>
+          <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Duration" %}</th>
+            <th>{% trans "Price" %}</th>
+            <th>{% trans "Active" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in plans %}
+            <tr>
+              <td>
+                <div class="plan-name">{{ p.name }}</div>
+              </td>
+              <td>{% blocktrans with days=p.duration_days %}{{ days }} days{% endblocktrans %}</td>
+              <td>{{ p.price }}</td>
+              <td>
+                {% if p.is_active %}
+                  <span class="badge badge-soft-success status-badge">{% trans "ON" %}</span>
+                {% else %}
+                  <span class="badge badge-soft-danger status-badge">{% trans "OFF" %}</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="table-empty-state">
+                <div class="empty-state">
+                  <div class="empty-state__title">{% trans "No plans found" %}</div>
+                  <div class="empty-state__text">{% trans "Add your first plan." %}</div>
+                  <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#addBranchModal">
+                    {% trans "Add plan" %}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade plans-modal" id="addPlanModal" tabindex="-1" aria-labelledby="addPlanModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form method="post" action="/api/subscriptions/app/gyms/{{ gym_id }}/plans/create/">
+        {% csrf_token %}
+        <div class="modal-header">
+          <div>
+            <h3 class="section-card__title" id="addPlanModalLabel">{% trans "Add plan" %}</h3>
+            <div class="section-card__subtitle">{% trans "Create a plan staff can sell to members." %}</div>
+          </div>
+          <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-form-grid">
+            <div class="modal-field--full">
+              <label class="form-label">{% trans "Plan name" %}</label>
+              <input name="name" placeholder="{% trans 'Monthly' %}" class="form-control">
+            </div>
+
+            <div>
+              <label class="form-label">{% trans "Duration (days)" %}</label>
+              <input name="duration_days" placeholder="30" class="form-control">
+            </div>
+
+            <div>
+              <label class="form-label">{% trans "Price" %}</label>
+              <input name="price" placeholder="{% trans 'Price (UZS)' %}" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="modal-note me-auto">{% trans "Keep names clear and pricing easy for staff to recognize." %}</div>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+          <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Creating...' %}">{% trans "Create plan" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

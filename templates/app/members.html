@@ -1,0 +1,618 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Members{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .members-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .members-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .members-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .members-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .members-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .members-alert {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .members-alert--error {
+    color: var(--danger);
+    background: var(--danger-soft);
+    border-color: var(--danger-border);
+  }
+
+  .members-alert--success {
+    color: var(--success);
+    background: var(--success-soft);
+    border-color: var(--success-border);
+  }
+
+  .toolbar-card,
+  .section-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .toolbar-card {
+    padding: var(--space-3);
+  }
+
+  .filter-form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .filter-form--compact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  .filter-form--compact .filter-form__search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .filter-form--compact .form-control,
+  .filter-form--compact .form-select {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .filter-form--compact .form-select {
+    min-width: 150px;
+  }
+
+  .filter-form--compact .btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 16px;
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .members-table-wrap {
+    overflow-x: auto;
+  }
+
+  .members-table {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .members-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .members-table tbody td {
+    padding: 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+
+  .members-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .members-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .member-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .member-link:hover {
+    color: var(--primary);
+  }
+
+  .member-phone {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .status-badge {
+    min-width: 78px;
+    justify-content: center;
+  }
+
+  .status-badge--inactive {
+    color: var(--danger);
+    background: var(--danger-soft);
+    border: 1px solid var(--danger-border);
+  }
+
+  .status-badge--inside {
+    color: var(--success);
+    background: var(--success-soft);
+    border: 1px solid var(--success-border);
+  }
+
+  .status-badge--outside {
+    color: var(--text-secondary);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+  }
+
+  .table-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .table-actions .btn,
+  .table-actions form {
+    margin: 0;
+  }
+
+  .table-actions .btn,
+  .table-actions form .btn {
+    width: 88px;
+    min-width: 88px;
+    height: 36px;
+    min-height: 36px;
+    padding: 8px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .members-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .members-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .members-modal .modal-header,
+  .members-modal .modal-footer {
+    border-color: var(--border-subtle);
+    padding: var(--space-4);
+  }
+
+  .members-modal .modal-body {
+    padding: var(--space-4);
+  }
+
+  .modal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .modal-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .modal-note {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.45;
+  }
+
+  @media (max-width: 991.98px) {
+    .members-header {
+      align-items: stretch;
+    }
+
+    .members-header__actions {
+      width: 100%;
+    }
+
+    .section-card__header,
+    .toolbar-card {
+      padding: var(--space-3);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .filter-form,
+    .filter-form--compact {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+
+    .filter-form > *,
+    .filter-form--compact > * {
+      width: 100%;
+    }
+
+    .filter-form--compact .form-select,
+    .filter-form--compact .btn {
+      min-width: 0;
+    }
+
+    .table-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .table-actions .btn,
+    .table-actions form,
+    .table-actions form .btn {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .modal-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="members-page">
+  <div class="members-header">
+    <div>
+      <h2 class="members-header__title">{% trans "Members" %}</h2>
+      <div class="members-header__subtitle">{% trans "Find members fast, open profiles, update details, and control access." %}</div>
+    </div>
+
+    <div class="members-header__actions">
+      <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+        {% trans "Add member" %}
+      </button>
+      <a href="/api/dashboard/app/gyms/{{ gym_id }}/" class="back-link">← {% trans "Overview" %}</a>
+    </div>
+  </div>
+
+  {% if request.GET.err %}
+    <div class="members-alert members-alert--error">
+      {% if request.GET.err == "duplicate_phone" %}
+        {% trans "This phone number is already registered in this gym." %}
+      {% elif request.GET.err == "missing" %}
+        {% trans "Please fill all required fields." %}
+      {% elif request.GET.err == "bad_branch" %}
+        {% trans "Invalid branch selected." %}
+      {% else %}
+        {% blocktrans with err=request.GET.err %}Error: {{ err }}{% endblocktrans %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if request.GET.ok %}
+    <div class="members-alert members-alert--success">{% trans "Saved successfully." %}</div>
+  {% endif %}
+
+  <div class="toolbar-card">
+    <form method="get" class="filter-form filter-form--compact">
+      <input
+        name="q"
+        value="{{ q }}"
+        placeholder="{% trans 'Search by member name or phone' %}"
+        class="form-control filter-form__search"
+        autofocus
+      >
+
+      {% if is_admin_role and has_multiple_branch %}
+        <select name="branch_id" class="form-select">
+          <option value="">{% trans "All branches" %}</option>
+          {% for b in branches %}
+            <option value="{{ b.id }}" {% if branch_id|slugify == b.id|slugify %}selected{% endif %}>{{ b.name }}</option>
+          {% endfor %}
+        </select>
+      {% endif %}
+
+      <select name="active" class="form-select">
+        <option value="" {% if active == "" %}selected{% endif %}>{% trans "All statuses" %}</option>
+        <option value="true" {% if active == "true" %}selected{% endif %}>{% trans "Active" %}</option>
+        <option value="false" {% if active == "false" %}selected{% endif %}>{% trans "Blocked" %}</option>
+      </select>
+
+      <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Filtering...' %}">{% trans "Filter" %}</button>
+    </form>
+  </div>
+
+  <div class="section-card">
+    <div class="section-card__header">
+      <div>
+        <h3 class="section-card__title">{% trans "Member list" %}</h3>
+        <div class="section-card__subtitle">{% trans "Readable overview first. Editing is opened only when needed." %}</div>
+      </div>
+    </div>
+
+    <div class="members-table-wrap">
+      <table class="members-table ">
+        <thead>
+          <tr>
+            <th>{% trans "Member" %}</th>
+            <th>{% trans "Branch" %}</th>
+            <th>{% trans "Status" %}</th>
+            <th>{% trans "Presence" %}</th>
+            <th>{% trans "Actions" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in members %}
+            <tr>
+              <td>
+                <a href="/api/users/app/gyms/{{ gym_id }}/members/{{ m.id }}/" class="member-link">
+                  {{ m.full_name }}
+                </a>
+                <div class="member-phone">{{ m.phone }}</div>
+              </td>
+
+              <td>{{ m.branch.name|default:"—" }}</td>
+
+              <td>
+                {% if m.is_active %}
+                  <span class="badge badge-soft-success status-badge">{% trans "Active" %}</span>
+                {% else %}
+                  <span class="badge status-badge status-badge--inactive">{% trans "Blocked" %}</span>
+                {% endif %}
+              </td>
+
+              <td>
+                {% if m.is_inside %}
+                  <span class="badge status-badge status-badge--inside">{% trans "Inside" %}</span>
+                {% else %}
+                  <span class="badge status-badge status-badge--outside">{% trans "Outside" %}</span>
+                {% endif %}
+              </td>
+
+             <td>
+                <div class="table-actions">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editMemberModal{{ m.id }}"
+                  >
+                    {% trans "Edit" %}
+                  </button>
+
+                  <form method="post" action="/api/users/app/gyms/{{ gym_id }}/members/{{ m.id }}/update/">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="toggle_block" class="btn btn-outline-secondary btn-sm" data-loading-text="{% trans 'Updating...' %}">
+                      {% if m.is_active %}{% trans "Block" %}{% else %}{% trans "Unblock" %}{% endif %}
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" class="table-empty-state">
+                <div class="empty-state">
+                  <div class="empty-state__title">{% trans "No members found" %}</div>
+                  <div class="empty-state__text">{% trans "Try changing filters or add your first member." %}</div>
+                  <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+                    {% trans "Add member" %}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade members-modal" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form method="post" action="/api/users/app/gyms/{{ gym_id }}/members/create/">
+        {% csrf_token %}
+        <div class="modal-header d-flex justify-content-between">
+          <div>
+            <h3 class="section-card__title" id="addMemberModalLabel">{% trans "Add member" %}</h3>
+            <div class="section-card__subtitle">{% trans "Create a new member and optionally assign branch and plan." %}</div>
+          </div>
+          <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-form-grid">
+            <div class="modal-field--full">
+              <label class="form-label">{% trans "Full name" %}</label>
+              <input name="full_name" class="form-control" placeholder="{% trans 'Full name' %}" autofocus>
+            </div>
+
+            <div>
+              <label class="form-label">{% trans "Phone" %}</label>
+              <input name="phone" class="form-control" placeholder="+998901234567">
+            </div>
+
+            {% if is_admin_role %}
+              <div>
+                <label class="form-label">{% trans "Branch" %}</label>
+                <select name="branch_id" class="form-select">
+                  <option value="">{% trans "No branch" %}</option>
+                  {% for b in branches %}
+                    <option value="{{ b.id }}">{{ b.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endif %}
+
+            <div class="{% if not is_admin_role %}modal-field--full{% endif %}">
+              <label class="form-label">{% trans "Plan" %}</label>
+              <select name="plan_id" class="form-select">
+                <option value="">{% trans "No plan" %}</option>
+                {% for p in plans %}
+                  <option value="{{ p.id }}">{{ p.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="modal-note me-auto">{% trans "Required fields must be filled correctly before saving." %}</div>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+          <button type="submit" class="btn btn-primary btn-sm" data-loading-text="{% trans 'Creating...' %}">{% trans "Create member" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% for m in members %}
+  <div class="modal fade members-modal" id="editMemberModal{{ m.id }}" tabindex="-1" aria-labelledby="editMemberModalLabel{{ m.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="/api/users/app/gyms/{{ gym_id }}/members/{{ m.id }}/update/">
+          {% csrf_token %}
+          <div class="modal-header d-flex justify-content-between">
+            <div>
+              <h3 class="section-card__title" id="editMemberModalLabel{{ m.id }}">{% trans "Edit member" %}</h3>
+              <div class="section-card__subtitle">{{ m.full_name }}</div>
+            </div>
+            <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-form-grid">
+              <div class="modal-field--full">
+                <label class="form-label">{% trans "Full name" %}</label>
+                <input name="full_name" value="{{ m.full_name }}" class="form-control" autofocus>
+              </div>
+
+              <div>
+                <label class="form-label">{% trans "Phone" %}</label>
+                <input name="phone" value="{{ m.phone }}" class="form-control">
+              </div>
+
+              <div>
+                <label class="form-label">{% trans "Branch" %}</label>
+                <select name="branch_id" class="form-select">
+                  <option value="">—</option>
+                  {% for b in branches %}
+                    <option value="{{ b.id }}" {% if m.branch_id == b.id %}selected{% endif %}>{{ b.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="modal-note me-auto">{% trans "Save changes here. Blocking remains a quick action from the member table menu." %}</div>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Saving...' %}">{% trans "Save changes" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}

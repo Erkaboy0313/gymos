@@ -1,0 +1,721 @@
+{% extends "app/base.html" %}
+{% block title %}GymOS — Devices{% endblock %}
+{% load i18n %}
+{% block content %}
+<style>
+  .devices-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .devices-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .devices-header__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(24px, 2.8vw, 30px);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .devices-header__subtitle {
+    margin-top: 6px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .devices-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+    background: var(--bg-elevated);
+  }
+
+  .devices-alert {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .devices-alert--error {
+    color: var(--danger);
+    background: var(--danger-soft);
+    border-color: var(--danger-border);
+  }
+
+  .devices-alert--success {
+    color: var(--success);
+    background: var(--success-soft);
+    border-color: var(--success-border);
+  }
+
+  .toolbar-card,
+  .section-card {
+    min-width: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .toolbar-card {
+    padding: var(--space-3);
+  }
+
+  .filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+
+  .filter-form__search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .filter-form .form-control,
+  .filter-form .form-select {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .filter-form .form-select {
+    min-width: 170px;
+  }
+
+  .filter-form .btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 16px;
+    white-space: nowrap;
+  }
+
+  .section-card__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-card__title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .section-card__subtitle {
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+  }
+
+  .devices-table-wrap {
+    min-width: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .devices-table {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .devices-table thead th {
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    text-align: left;
+  }
+
+  .devices-table tbody td {
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+
+  .devices-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .devices-table tbody tr:hover {
+    background: var(--table-row-hover);
+  }
+
+  .device-name {
+    color: var(--text-primary);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .status-badge {
+    min-width: 64px;
+    justify-content: center;
+  }
+
+  .table-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .table-actions .btn {
+    min-width: 88px;
+    height: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .devices-empty {
+    padding: 18px 16px;
+    color: var(--text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .devices-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .devices-modal .modal-header,
+  .devices-modal .modal-footer {
+    border-color: var(--border-subtle);
+    padding: var(--space-4);
+  }
+
+  .devices-modal .modal-body {
+    padding: var(--space-4);
+  }
+
+  .modal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .modal-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .modal-note {
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    line-height: 1.45;
+  }
+
+  .devices-modal .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .devices-modal .modal-header,
+  .devices-modal .modal-footer {
+    border-color: var(--border-subtle);
+    padding: var(--space-4);
+  }
+
+  .devices-modal .modal-body {
+    padding: var(--space-4);
+  }
+
+  .api-docs-grid {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .api-doc-card {
+    padding: 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .api-doc-label {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  .api-doc-value {
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .api-key-box {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .api-key-box .form-control {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+  }
+
+  .api-pre {
+    margin: 0;
+    padding: 14px;
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: #0f172a;
+    color: #e5e7eb;
+    font-size: 12px;
+    line-height: 1.55;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  .api-inline-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 767.98px) {
+    .api-key-box {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .devices-header {
+      align-items: stretch;
+    }
+
+    .devices-header__actions {
+      width: 100%;
+    }
+
+    .section-card__header,
+    .toolbar-card {
+      padding: var(--space-3);
+    }
+
+    .filter-form {
+      flex-wrap: wrap;
+    }
+
+    .filter-form__search {
+      flex: 1 1 100%;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .toolbar-card,
+    .section-card,
+    .devices-table-wrap {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .filter-form {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+    }
+
+    .filter-form > * {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .devices-table {
+      min-width: 700px;
+    }
+
+    .devices-table thead th,
+    .devices-table tbody td {
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .table-actions .btn {
+      min-width: 76px;
+      height: 34px;
+      min-height: 34px;
+      font-size: 12px;
+    }
+
+    .status-badge {
+      min-width: 54px;
+    }
+
+    .modal-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="devices-page">
+  <div class="devices-header">
+    <div>
+      <h2 class="devices-header__title">{% trans "Devices" %}</h2>
+      <div class="devices-header__subtitle">{% trans "Last 200 devices" %}</div>
+    </div>
+
+    <div class="devices-header__actions">
+      {% if is_admin_role %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeviceModal">
+          {% trans "Add device" %}
+        </button>
+      {% endif %}
+      <a href="/api/dashboard/app/gyms/{{ gym_id }}/" class="back-link">← {% trans "Overview" %}</a>
+    </div>
+  </div>
+
+  {% if request.GET.err %}
+    <div class="devices-alert devices-alert--error">{% blocktrans with err=request.GET.err %}Error: {{ err }}{% endblocktrans %}</div>
+  {% endif %}
+
+  {% if request.GET.ok %}
+    <div class="devices-alert devices-alert--success">{% trans "Saved successfully." %}</div>
+  {% endif %}
+
+  {% if is_admin_role and has_multiple_branch %}
+    <div class="toolbar-card">
+      <form method="get" class="filter-form">
+        <input
+          name="q"
+          value="{{ q }}"
+          placeholder="{% trans 'Search device name' %}"
+          class="form-control filter-form__search"
+          autofocus
+        >
+
+        <select name="branch_id" class="form-select">
+          <option value="">{% trans "All branches" %}</option>
+          {% for b in branches %}
+            <option value="{{ b.id }}" {% if branch_id|slugify == b.id|slugify %}selected{% endif %}>{{ b.name }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-outline-secondary" data-loading-text="{% trans 'Filtering...' %}">{% trans "Filter" %}</button>
+      </form>
+    </div>
+  {% endif %}
+
+  <div class="section-card">
+    <div class="section-card__header">
+      <div>
+        <h3 class="section-card__title">{% trans "Device list" %}</h3>
+        <div class="section-card__subtitle">{% trans "Configured access devices across the gym." %}</div>
+      </div>
+    </div>
+
+    <div class="devices-table-wrap">
+      <table class="devices-table">
+        <thead>
+          <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Branch" %}</th>
+            <th>{% trans "Mode" %}</th>
+            <th>{% trans "Cooldown" %}</th>
+            <th>{% trans "Active" %}</th>
+            <th>{% trans "Actions" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in devices %}
+            <tr>
+              <td>
+                <div class="device-name">{{ d.name }}</div>
+              </td>
+
+              <td>{{ d.branch.name }}</td>
+              <td>{{ d.get_mode_display }}</td>
+              <td>{% blocktrans with seconds=d.cooldown_seconds %}{{ seconds }}s{% endblocktrans %}</td>
+
+              <td>
+                {% if d.is_active %}
+                  <span class="badge badge-soft-success status-badge">{% trans "ON" %}</span>
+                {% else %}
+                  <span class="badge badge-soft-danger status-badge">{% trans "OFF" %}</span>
+                {% endif %}
+              </td>
+
+              <td>
+                <div class="table-actions">
+                  {% if d.mode == "kiosk" %}
+                    <a href="{% url 'kiosk_page' gym_id d.id %}" class="btn btn-outline-secondary btn-sm">
+                      {% trans "Open" %}
+                    </a>
+                  {% else %}
+                    {% if is_admin_role %}
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#apiDeviceModal{{ d.id }}"
+                      >
+                        {% trans "API Docs" %}
+                      </button>
+                    {% else %}
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary btn-sm"
+                        disabled
+                        title="Only admin or owner can view API integration details"
+                      >
+                        {% trans "API Docs" %}
+                      </button>
+                    {% endif %}
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6" class="table-empty-state">
+                <div class="empty-state">
+                  <div class="empty-state__title">{% trans "No devices found" %}</div>
+                  <div class="empty-state__text">{% trans "Add your first device." %}</div>
+                  <button type="button" class="btn btn-primary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#addDeviceModal">
+                    {% trans "Add device" %}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% if is_admin_role %}
+  <div class="modal fade devices-modal" id="addDeviceModal" tabindex="-1" aria-labelledby="addDeviceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="/api/devices/app/gyms/{{ gym_id }}/devices/create/">
+          {% csrf_token %}
+          <div class="modal-header d-flex justify-content-between">
+            <div>
+              <h3 class="section-card__title" id="addDeviceModalLabel">{% trans "Add device" %}</h3>
+              <div class="section-card__subtitle">{% trans "Create a new device and assign it to a branch." %}</div>
+            </div>
+            <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="{% trans 'Close' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-form-grid">
+              <div class="modal-field--full">
+                <label class="form-label">{% trans "Device name" %}</label>
+                <input
+                  name="name"
+                  placeholder="{% trans 'Gate 1' %}"
+                  class="form-control"
+                >
+              </div>
+
+              <div>
+                <label class="form-label">{% trans "Branch" %}</label>
+                <select name="branch_id" class="form-select">
+                  <option value="">{% trans "Choose branch" %}</option>
+                  {% for b in branches %}
+                    <option value="{{ b.id }}">{{ b.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div>
+                <label class="form-label">{% trans "Mode" %}</label>
+                <select name="mode" class="form-select">
+                  {% for val,label in modes %}
+                    <option value="{{ val }}">{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div>
+                <label class="form-label">{% trans "Cooldown (sec)" %}</label>
+                <input
+                  name="cooldown_seconds"
+                  value="300"
+                  placeholder="300"
+                  class="form-control"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <div class="modal-note me-auto">{% trans "Make sure the branch and mode are correct before saving." %}</div>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+            <button type="submit" class="btn btn-primary" data-loading-text="{% trans 'Creating...' %}">{% trans "Create device" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% if is_admin_role %}
+  {% for d in devices %}
+    {% if d.mode == "api" %}
+      <div class="modal fade devices-modal" id="apiDeviceModal{{ d.id }}" tabindex="-1" aria-labelledby="apiDeviceModalLabel{{ d.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+              <div>
+                <h3 class="section-card__title" id="apiDeviceModalLabel{{ d.id }}">{% trans "API Device Integration" %}</h3>
+                <div class="section-card__subtitle">{{ d.name }} · {{ d.branch.name }}</div>
+              </div>
+              <button type="button" class="drawer-close" data-bs-dismiss="modal" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <div class="api-docs-grid">
+                <div class="api-doc-card">
+                  <div class="api-doc-label">{% trans "Device API key" %}</div>
+                  <div class="api-key-box">
+                    <input
+                      type="text"
+                      class="form-control"
+                      value="{{ d.api_key }}"
+                      readonly
+                      id="apiKey{{ d.id }}"
+                    >
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      onclick="navigator.clipboard.writeText(document.getElementById('apiKey{{ d.id }}').value)"
+                    >
+                      {% trans "Copy" %}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="api-doc-card">
+                  <div class="api-doc-label">{% trans "Endpoint" %}</div>
+                  <div class="api-doc-value">
+                    <span class="api-inline-code">POST /api/access/device/validate/</span>
+                  </div>
+                </div>
+
+                <div class="api-doc-card">
+                  <div class="api-doc-label">{% trans "Example request" %}</div>
+                  <pre class="api-pre">POST /api/access/device/validate/
+Content-Type: application/json
+{
+  "device_id": 12,
+  "api_key": "device-secret-key",
+  "token": "qr-token-from-member"
+}</pre>
+                </div>
+
+                <div class="api-doc-card">
+                  <div class="api-doc-label">{% trans "Success response" %}</div>
+                  <pre class="api-pre">HTTP 200 OK
+{
+  "allow": true,
+  "reason": "ok",
+  "event": "in",
+  "member": {
+    "id": 15,
+    "full_name": "Ali Karimov"
+  }
+}</pre>
+                </div>
+
+                <div class="api-doc-card">
+                  <div class="api-doc-label">{% trans "Denied response" %}</div>
+                  <pre class="api-pre">HTTP 200 OK
+{
+  "allow": false,
+  "reason": "member_inactive_or_expired_or_frozen"
+}</pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div class="modal-note me-auto">
+                {% trans "API key is fixed for this device and should be stored securely in the hardware integration." %}
+              </div>
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endblock %}
