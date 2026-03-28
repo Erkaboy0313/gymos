@@ -4,10 +4,11 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DJANGO_ENV = os.getenv("DJANGO_ENV", "dev").lower()
-env_file = BASE_DIR / (".env.dev" if DJANGO_ENV == "dev" else ".env.prod")
-if env_file.exists():
-    load_dotenv(env_file)
+# DJANGO_ENV = os.getenv("DJANGO_ENV", "dev").lower()
+# env_file = BASE_DIR / (".env.dev" if DJANGO_ENV == "dev" else ".env.prod")
+# if env_file.exists():
+load_dotenv(".env.dev")
+
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
@@ -17,7 +18,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
     "https://b371-144-124-192-132.ngrok-free.app",
-    "https://8481-84-54-76-109.ngrok-free.app",
+    "https://app.gymos.uz",
     
 ]
 
