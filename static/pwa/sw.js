@@ -1,5 +1,5 @@
 const CACHE_NAME = "gymos-v1";
-const OFFLINE_URL = "/static/pwa/offline.html";
+const OFFLINE_URL = "/static_root/pwa/offline.html";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
