@@ -1,17 +1,15 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart
 
 from django.conf import settings
-from telegram_bot.handlers import on_start, on_contact, on_my_qr  # adjust if needed
+from telegram_bot.handlers import on_start
 from .schedulers import setup_scheduler
 
 def setup_routes(dp: Dispatcher):
     dp.message.register(on_start, CommandStart())
-    dp.message.register(on_contact, lambda m: m.contact is not None)
-    dp.message.register(on_my_qr, lambda m: (m.text or "").strip() == "🧾 My QR")
 
 
 async def main():

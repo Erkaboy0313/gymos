@@ -95,19 +95,29 @@ def is_gym_active(gym, at_time=None) -> bool:
     ).exists()
 
 def format_expiry_message(gym_name: str, days_before: int, plan_name: str, end_at):
-    
     end_str = end_at.strftime("%Y-%m-%d")
+
     if days_before == 0:
         return (
-            f"⏰ Your subscription at {gym_name} expires *today*.\n"
-            f"Plan: {plan_name}\n"
-            f"Renew to avoid blocked entry."
+            f"🇷🇺 ⏰ Абонемент в {gym_name} заканчивается *сегодня*\n"
+            f"Тариф: {plan_name}\n"
+            f"Продлите, чтобы не потерять доступ\n\n"
+            
+            f"🇺🇿 ⏰ {gym_name} dagi abonementingiz *bugun tugaydi*\n"
+            f"Tarif: {plan_name}\n"
+            f"Kirish yopilmasligi uchun yangilang"
         )
+
     return (
-        f"📅 Your subscription at {gym_name} expires in {days_before} day(s).\n"
-        f"End date: {end_str}\n"
-        f"Plan: {plan_name}\n"
-        f"Renew in advance to keep access."
+        f"🇷🇺 📅 Абонемент в {gym_name} закончится через {days_before} kun\n"
+        f"Срок: {end_str}\n"
+        f"Тариф: {plan_name}\n"
+        f"Продлите заранее, чтобы сохранить доступ\n\n"
+        
+        f"🇺🇿 📅 {gym_name} dagi abonementingiz {days_before} kun ichida tugaydi\n"
+        f"Tugash sanasi: {end_str}\n"
+        f"Tarif: {plan_name}\n"
+        f"Kirish uzilmasligi uchun oldindan yangilang"
     )
 
 def send_member_expiry_alerts(send_func, days_list=(0, 3, 7)):
@@ -135,27 +145,5 @@ def send_member_expiry_alerts(send_func, days_list=(0, 3, 7)):
 
                 text = format_expiry_message(gym.name, days_before, item["plan_name"], item["end_at"])
                 send_func(m.telegram_user_id, text, log)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

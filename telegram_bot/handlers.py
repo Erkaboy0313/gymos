@@ -12,7 +12,12 @@ def webapp_url() -> str:
 
 async def on_start(message: types.Message):
     await message.answer(
-        "Welcome to GymOS. Open your QR or link your phone number:",
+        "🇷🇺 Привет! 👋\n\n"
+        "Этот бот используется для входа в зал через QR-код\n\n"
+        "Нажмите кнопку «Меню», чтобы открыть свои залы\n\n"
+        "🇺🇿 Salom! 👋\n\n"
+        "Bu bot zalga QR orqali kirish uchun ishlatiladi\n\n"
+        "Zallaringizni ochish uchun «Menu» tugmasini bosing"
     )
 
 
